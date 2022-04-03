@@ -1,3 +1,13 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+
+
+@layer components {
+    [x-cloak] {
+        @apply hidden
+    }
+    .app-btn-primary {
+        @apply rounded p-2 border border-2 border-purple-900 text-gray-200 bg-purple-900 hover:border-white hover:bg-purple-800;
+    }
+}

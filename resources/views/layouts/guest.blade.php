@@ -5,7 +5,7 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="csrf-token" content="{{ csrf_token() }}" />
-        <title>{{ config("app.name", "Laravel") }}</title>
+        <title>{{ config("app.name", "Fitness Tracker") }}</title>
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
         <!-- Styles -->
@@ -13,7 +13,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <body class="bg-purple-400 w-[320px] sm:w-[425px] flex h-screen mx-auto">
+    <body class="bg-gray-500 w-[320px] sm:w-[425px] flex h-screen mx-auto">
         @yield('main-content')
         @yield('script')
     </body>
