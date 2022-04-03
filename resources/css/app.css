@@ -4,10 +4,28 @@
 
 
 @layer components {
+    body {
+        @apply bg-stone-800 text-gray-200 font-Poppins;
+    }
+    h1, h2, h3, h4 {
+        @apply font-bold;
+    }
+    input {
+        @apply text-stone-800;
+    }
     [x-cloak] {
-        @apply hidden
+        @apply hidden;
+    }
+    .app-btn {
+        @apply rounded px-2 py-1 min-w-[100px];
     }
     .app-btn-primary {
-        @apply rounded p-2 border border-2 border-purple-900 text-gray-200 bg-purple-900 hover:border-white hover:bg-purple-800;
+        @apply border border-red-500 bg-red-500 hover:bg-red-600;
+    }
+    .app-btn-secondary {
+        @apply border bg-transparent hover:bg-gray-100 hover:text-stone-900;
+    }
+    .app-sm-modal {
+        @apply w-11/12 sm:w-[650px] md:w-[700px]
     }
 }
