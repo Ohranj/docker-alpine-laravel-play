@@ -8,7 +8,7 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
         <div>
-            <label for="email">Email</label>
+            <label for="email">Email123</label>
             <input id="email" class="block mt-1 w-full" type="email" name="email" required autofocus placeholder="Enter your email..." />
         </div>
 
