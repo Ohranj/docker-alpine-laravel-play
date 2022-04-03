@@ -1,3 +1,10 @@
+#### Docker
+
+```
+docker build -t fitness-tracker .
+docker run -it -p 8000:8000 fitness-tracker
+```
+
 #### Commands
 
 ```
