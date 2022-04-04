@@ -18,9 +18,9 @@
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa est, vitae suscipit similique nam, voluptas illo minus reprehenderit accusamus ad amet repellat odit aut at optio voluptatum commodi quod facilis facere libero aspernatur deleniti recusandae! Rerum, pariatur iure sapiente asperiores labore odio odit aliquam ipsa, non nisi mollitia ex. Earum eaque nemo magnam expedita vel, non maxime nam voluptatem pariatur quisquam amet fugit corrupti provident inventore quae quam laudantium vitae? Tempora accusantium saepe adipisci ipsa.
                 </p>
             </div>
-            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                <button type="button" class="app-btn-primary">I accept</button>
-                <button @click="showModal = false" type="button" class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">
+            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600 bg-slate-700">
+                <button type="button" class="app-btn app-btn-primary">I accept</button>
+                <button @click="showModal = false" type="button" class="app-btn app-btn-secondary">
                     Decline
                 </button>
             </div>

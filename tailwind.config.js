@@ -12,6 +12,9 @@ module.exports = {
             fontFamily: {
                 Poppins: ["Poppins", ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                "accent-blue": "#2563eb",
+            },
         },
     },
 

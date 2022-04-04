@@ -5,13 +5,16 @@
 
 @layer components {
     body {
-        @apply bg-stone-800 text-gray-200 font-Poppins;
+        @apply bg-stone-800 text-slate-100 font-Poppins;
     }
     h1, h2, h3, h4 {
-        @apply font-bold;
+        @apply font-bold tracking-wide;
     }
     input {
         @apply text-stone-800;
+    }
+    a {
+        @apply underline hover:text-slate-500;
     }
     [x-cloak] {
         @apply hidden;
@@ -23,9 +26,12 @@
         @apply border border-red-500 bg-red-500 hover:bg-red-600;
     }
     .app-btn-secondary {
-        @apply border bg-transparent hover:bg-gray-100 hover:text-stone-900;
+        @apply border bg-transparent hover:bg-gray-100 hover:text-accent-blue;
     }
     .app-sm-modal {
         @apply w-11/12 sm:w-[650px] md:w-[700px]
+    }
+    .app-checkbox {
+        @apply rounded border-gray-300 shadow-sm focus:border-slate-700 focus:ring focus:ring-slate-700 focus:ring-opacity-50;
     }
 }
