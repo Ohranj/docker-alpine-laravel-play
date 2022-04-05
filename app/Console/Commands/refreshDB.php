@@ -36,6 +36,8 @@ class refreshDB extends Command
             $this->info('Table data has been wiped from the database');
             $this->call('migrate');
             $this->info('Database migrations have been ran');
+            $this->call('db:seed');
+            $this->info('Database has been seeded');
             User::factory()->count($numRowsToAdd)->create();
             $this->info("{$numRowsToAdd} new users have been populated into the User table");
             $this->info('Command completed successfully');
