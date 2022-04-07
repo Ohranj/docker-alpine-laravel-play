@@ -13,12 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('auth/login');
-});
+Route::get('/', fn () => view('auth/login'));
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/home', fn () => view('dashboard'))->middleware(['auth'])->name('dashboard');
 
 require __DIR__ . '/auth.php';
