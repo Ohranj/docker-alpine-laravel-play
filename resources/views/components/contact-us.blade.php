@@ -1,8 +1,8 @@
 <!-- prettier-ignore -->
-<div x-cloak x-show="showModal" :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full app-sm-modal">
+<div x-cloak x-show="showModal" :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full w-full sm:app-sm-modal">
     <div class="p-4 w-full">
         <div class="bg-white rounded-lg shadow dark:bg-gray-700">
-            <div class="flex justify-between items-start p-5 rounded-t border-b bg-slate-700">
+            <div class="flex justify-between items-center p-5 rounded-t border-b bg-slate-700">
                 <h3 class="text-xl font-semibold lg:text-2xl">Contact Us</h3>
                 <button @click="showModal = false" type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -11,18 +11,39 @@
                 </button>
             </div>
             <div class="p-6 space-y-6">
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                   Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nisi vero ratione minus quidem quod, magni, nulla fuga exercitationem veniam veritatis, quisquam quam omnis atque porro officiis numquam iure recusandae cupiditate beatae. Suscipit harum sapiente, quod dolorem quas recusandae voluptatum odit deserunt eius fuga praesentium iste quos ipsum provident. Eius, placeat!
-                </p>
-                <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa est, vitae suscipit similique nam, voluptas illo minus reprehenderit accusamus ad amet repellat odit aut at optio voluptatum commodi quod facilis facere libero aspernatur deleniti recusandae! Rerum, pariatur iure sapiente asperiores labore odio odit aliquam ipsa, non nisi mollitia ex. Earum eaque nemo magnam expedita vel, non maxime nam voluptatem pariatur quisquam amet fugit corrupti provident inventore quae quam laudantium vitae? Tempora accusantium saepe adipisci ipsa.
-                </p>
+               <form method="post" class="text-slate-700">
+                    <div class="flex gap-x-5">
+                        <div class="flex-1 sm:flex-none">
+                            <label class="block">Name</label>
+                            <input class="w-full border-2 rounded border-slate-700" />
+                        </div>
+                        <div class="flex-1 sm:flex-none">
+                            <label class="block">Surname</label>
+                            <input class="w-full border-2 rounded border-slate-700" />
+                        </div>
+                    </div>
+                    <div class="flex mb-5 mt-2 gap-x-5">
+                        <div class="basis-7/12">
+                            <label class="block">Email</label>
+                            <input class="w-full border-2 rounded border-slate-700" />
+                        </div>
+                        <div class="flex-1 sm:flex-none">
+                            <label class="block">Phone No.</label>
+                            <input class="w-full border-2 rounded border-slate-700" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block">Message</label>
+                        <textarea class="border-2 rounded border-slate-700 w-full"></textarea>
+                    </div>
+               </form>
             </div>
-            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600 bg-slate-700">
-                <button type="button" class="app-btn app-btn-primary">I accept</button>
-                <button @click="showModal = false" type="button" class="app-btn app-btn-secondary">
-                    Decline
+            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 bg-slate-700">
+                <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">
+                    Close
                 </button>
+                <button type="button" class="app-btn app-btn-primary">Submit</button>
+                
             </div>
         </div>
     </div>
