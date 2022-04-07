@@ -15,7 +15,7 @@
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <body class="w-[95%] sm:w-[525px] flex h-screen mx-auto flex-col">
+    <body class="w-[95%] sm:w-[525px] flex h-screen mx-auto flex-col bg-stone-800">
         <div x-data="contactUsForm({ csrfToken: '{{csrf_token()}}' })">
             <button @click="showModal = true" x-bind:disabled="showModal" class="app-btn app-btn-secondary absolute top-5 right-5">Contact Us</button>
             <x-contact-us />

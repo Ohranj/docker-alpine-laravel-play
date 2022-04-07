@@ -43,7 +43,6 @@
                     Close
                 </button>
                 <button type="button" class="app-btn app-btn-primary">Submit</button>
-                
             </div>
         </div>
     </div>

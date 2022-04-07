@@ -5,7 +5,7 @@
 
 @layer components {
     body {
-        @apply bg-stone-800 text-slate-100 font-Poppins;
+        @apply text-slate-100 font-Poppins;
     }
     h1, h2, h3, h4 {
         @apply font-bold tracking-wide;
