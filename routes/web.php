@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContactUsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', fn () => view('auth/login'));
 
+/**
+ * GET ROUTES
+ */
+Route::get('/', fn () => view('auth/login'));
+//Create route group for auth middleware at least
 Route::get('/home', fn () => view('dashboard'))->middleware(['auth'])->name('dashboard');
+
+/**
+ * POST ROUTES
+ */
+Route::post('/contact-us', [ContactUsController::class, 'storeContactUsForm'])->name('storeContactUsForm');
+
+
 
 require __DIR__ . '/auth.php';

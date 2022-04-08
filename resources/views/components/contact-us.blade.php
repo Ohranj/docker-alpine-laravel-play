@@ -11,30 +11,31 @@
                 </button>
             </div>
             <div class="p-6 space-y-6">
-               <form method="post" class="text-slate-700">
+               <form method="post" class="text-slate-700" id="f_contactUsForm">
+                   @csrf
                     <div class="flex gap-x-5">
                         <div class="flex-1 sm:flex-none">
-                            <label class="block">Name</label>
-                            <input class="w-full border-2 rounded border-slate-700" />
+                            <label for="name" class="block">Name</label>
+                            <input name="name" class="w-full border-2 rounded border-slate-700" />
                         </div>
                         <div class="flex-1 sm:flex-none">
-                            <label class="block">Surname</label>
-                            <input class="w-full border-2 rounded border-slate-700" />
+                            <label for="surname" class="block">Surname</label>
+                            <input name="surname" class="w-full border-2 rounded border-slate-700" />
                         </div>
                     </div>
                     <div class="flex mb-5 mt-2 gap-x-5">
                         <div class="basis-7/12">
-                            <label class="block">Email</label>
-                            <input class="w-full border-2 rounded border-slate-700" />
+                            <label for="email" class="block">Email</label>
+                            <input name="email" type="email" class="w-full border-2 rounded border-slate-700" />
                         </div>
                         <div class="flex-1 sm:flex-none">
-                            <label class="block">Phone No.</label>
-                            <input class="w-full border-2 rounded border-slate-700" />
+                            <label for="phone" class="block">Phone No.</label>
+                            <input name="phone" class="w-full border-2 rounded border-slate-700" />
                         </div>
                     </div>
                     <div>
-                        <label class="block">Message</label>
-                        <textarea class="border-2 rounded border-slate-700 w-full"></textarea>
+                        <label for="message" class="block">Message</label>
+                        <textarea name="message" class="border-2 rounded border-slate-700 w-full"></textarea>
                     </div>
                </form>
             </div>
@@ -42,7 +43,7 @@
                 <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">
                     Close
                 </button>
-                <button type="button" class="app-btn app-btn-primary">Submit</button>
+                <button type="button" class="app-btn app-btn-primary" @click.prevent="submitForm">Submit</button>
             </div>
         </div>
     </div>
