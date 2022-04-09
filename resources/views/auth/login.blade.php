@@ -14,7 +14,7 @@
         </p>
         <div>
             <label x-ref="emailLabel" for="email">Email</label>
-            <input x-on:focus="$refs.emailLabel.classList.add('text-red-500')" x-on:focusout="emailInput ? '' : $refs.emailLabel.classList.remove('text-red-500')" class="block mt-1 w-full" type="email" name="email" required placeholder="Enter your email..." x-model="emailInput" />
+            <input x-on:focus="$refs.emailLabel.classList.add('text-red-500')" x-on:focusout="emailInput ? '' : $refs.emailLabel.classList.remove('text-red-500')" class="block mt-1 w-full" type="email" id="email" name="email" required placeholder="Enter your email..." x-model="emailInput" />
         </div>
         <div class="mt-4">
             <label x-ref="passwordLabel" for="password">Password</label>

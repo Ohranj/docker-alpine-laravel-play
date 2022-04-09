@@ -30,6 +30,8 @@ php artisan run:backupDB
  - Create a backup of the database data - stored in Storage/app/backup
 ```
 
+## Tests
+
 ## Docker - TBC
 
 ```
