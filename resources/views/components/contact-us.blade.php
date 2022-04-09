@@ -22,7 +22,7 @@
                     <div class="flex gap-x-5">
                         <div class="flex-1 sm:flex-none">
                             <label for="name" class="block">Name <sup>*</sup></label>
-                            <input name="name" class="w-full border-2 rounded border-slate-700" required />
+                            <input name="name" class="w-full border-2 rounded border-slate-700" />
                         </div>
                         <div class="flex-1 sm:flex-none">
                             <label for="surname" class="block">Surname <sup>*</sup></label>

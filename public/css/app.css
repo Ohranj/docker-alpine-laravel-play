@@ -617,6 +617,9 @@ a:hover {
   color: rgb(100 116 139 / var(--tw-text-opacity));
 }
 sup {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 700;
   --tw-text-opacity: 1;
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }

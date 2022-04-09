@@ -4,7 +4,7 @@ window.contactUsForm = ({ postContactUsFormURL }) => ({
     submitSuccess: false,
     showError: false,
     errorTextArray: [
-        "An error has occured with your submission. Please note the required fields and try again.",
+        "An error has occured with your submission. Please note the required fields (*) and try again.",
         "You have exceeding the number of submissions allowed. Please wait 1 minute before trying again.",
     ],
     errorText: "",
