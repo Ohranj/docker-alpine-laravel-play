@@ -1,11 +1,13 @@
 ## Getting started
 
-#### Key env Variables
+### Key env Variables
 
 ```
 APP_MASTER_EMAIL
 APP_MASTER_PASSWORD
 ```
+
+### Setup
 
 ```
 php artisan run:refreshDB
@@ -13,7 +15,9 @@ php artisan run:refreshDB
 
 The above command will migrate and seed the database with necessary starter data, alongside 10 dummy user accounts. A master account will also be seeded, created from the data associated to the APP_MASTER_EMAIL and APP_MASTER_PASSWORD env keys.
 
-#### Custom Commands
+## Good to knows
+
+### Custom Commands
 
 ```
 php artisan run:refreshDB

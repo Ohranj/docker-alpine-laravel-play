@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ContactUsClientConfirm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ContactUsController extends Controller
 {
@@ -19,7 +21,6 @@ class ContactUsController extends Controller
             'name' => ['required'],
             'surname' => ['required'],
             'email' => ['required', 'email:rfc,dns'],
-            'phone' => ['required'],
             'message' => ['required']
         ]);
 
@@ -34,8 +35,14 @@ class ContactUsController extends Controller
 
         Log::info("Contact us form saved. ID = {$insertID}");
 
-        //Mail to me and log if success
-        //Add throttle to route rather than client side validation
+        $details = [
+            'title' => 'Thank you for contacting us',
+            'firstname' => $request->name,
+            'message' => $request->message
+        ];
+
+        //Event fired to log to DB outcome of email send
+        Mail::to($request->email)->send(new ContactUsClientConfirm($details));
 
         return response()->json([
             'success' => true,
