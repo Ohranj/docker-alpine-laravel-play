@@ -32,6 +32,13 @@ php artisan run:backupDB
 
 ## Tests
 
+Tests are split into the following groups
+
+```
+Login success and Login failure = @group login
+php artisan dusk --group=login
+```
+
 ## Docker - TBC
 
 ```
