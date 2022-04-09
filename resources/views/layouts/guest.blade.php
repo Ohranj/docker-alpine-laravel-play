@@ -7,13 +7,19 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <title>{{ config("app.name", "Fitness Tracker") }}</title>
         <!-- Fonts -->
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
         <!-- Styles -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-    <body class="bg-gray-500 w-[320px] sm:w-[425px] flex h-screen mx-auto">
+    <body class="w-[95%] sm:w-[525px] flex h-screen mx-auto flex-col bg-stone-800">
+        <div x-data="contactUsForm({ postContactUsFormURL: '{{route('storeContactUsForm')}}' })">
+            <button @click="showModal = true" x-bind:disabled="showModal" class="app-btn app-btn-secondary absolute top-5 right-5">Contact Us</button>
+            <x-contact-us />
+        </div>
         @yield('main-content')
         @yield('script')
     </body>
