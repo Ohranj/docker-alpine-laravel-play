@@ -38,7 +38,6 @@ Tests are split into the following groups
     -   Login Success and Login Failuer
 
 ```
-Login success and Login failure
 php artisan dusk --group=login
 ```
 
