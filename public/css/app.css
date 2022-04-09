@@ -1363,14 +1363,14 @@ sup {
     .sm\:hidden {
     display: none;
   }
+    .sm\:w-3\/4 {
+    width: 75%;
+  }
     .sm\:w-2\/3 {
     width: 66.666667%;
   }
     .sm\:w-\[525px\] {
     width: 525px;
-  }
-    .sm\:w-3\/4 {
-    width: 75%;
   }
     .sm\:max-w-md {
     max-width: 28rem;
