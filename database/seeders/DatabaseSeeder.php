@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         User::create([
             'firstname' => 'Master',
             'lastname' => 'Account',
-            'email' => 'ajdorrington@hotmail.co.uk',
+            'email' =>  env('APP_MASTER_EMAIL'),
             'email_verified_at' => Carbon::now()->toDateTimeString(),
-            'password' => Hash::make('Orange18'),
+            'password' =>  Hash::make(env('APP_MASTER_PASSWORD')),
             'state' => 1,
             'agenda' => 3
         ]);

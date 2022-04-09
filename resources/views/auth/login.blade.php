@@ -54,7 +54,7 @@
         emailInput: "",
         passwordInput: "",
         init() {
-            console.log(csrfToken);
+            console.log("Hey");
         },
         async submitForm() {
             const form = document.getElementById("f_login");

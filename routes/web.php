@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ContactUsController;
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,14 +19,26 @@ use Illuminate\Support\Facades\Route;
 /**
  * GET ROUTES
  */
+/**
+ * Guest
+ */
 Route::get('/', fn () => view('auth/login'));
-//Create route group for auth middleware at least
-Route::get('/home', fn () => view('dashboard'))->middleware(['auth'])->name('dashboard');
+
+/**
+ * Authorised
+ */
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', fn () => view('dashboard'))->name('dashboard');
+});
+
+
 
 /**
  * POST ROUTES
  */
-Route::post('/contact-us', [ContactUsController::class, 'storeContactUsForm'])->name('storeContactUsForm');
+Route::middleware(['throttle:form-submit'])->group(function () {
+    Route::post('/contact-us', [ContactUsController::class, 'storeContactUsForm'])->name('storeContactUsForm');
+});
 
 
 

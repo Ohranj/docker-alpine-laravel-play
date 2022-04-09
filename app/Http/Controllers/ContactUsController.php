@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Log;
 
 class ContactUsController extends Controller
 {
@@ -21,19 +23,23 @@ class ContactUsController extends Controller
             'message' => ['required']
         ]);
 
-        //Encrypt the message before saving to DB; https://laravel.com/docs/9.x/encryption
-        //Populate the created at field as well
-        DB::table('contact_us')->insert([
+        $insertID = DB::table('contact_us')->insertGetId([
             'firstname' => $request->name,
             'lastname' => $request->surname,
             'email' => $request->email,
             'phone' => $request->phone,
-            'message' => $request->message
+            'message' => Crypt::encryptString($request->message),
+            'created_at' => date('Y-m-d H:i:s')
         ]);
+
+        Log::info("Contact us form saved. ID = {$insertID}");
+
+        //Mail to me and log if success
+        //Add throttle to route rather than client side validation
 
         return response()->json([
             'success' => true,
-            'message' => 'Contact Us data valid',
+            'message' => 'Contact Us form received',
         ]);
     }
 }

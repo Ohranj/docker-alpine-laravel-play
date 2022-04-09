@@ -16,6 +16,9 @@
     a {
         @apply underline hover:text-slate-500;
     }
+    sup {
+        @apply text-red-500
+    }
     [x-cloak] {
         @apply hidden;
     }
