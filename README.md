@@ -5,6 +5,7 @@
 ```
 APP_MASTER_EMAIL
 APP_MASTER_PASSWORD
+QUEUE_CONNECTION=database
 ```
 
 ### Setup

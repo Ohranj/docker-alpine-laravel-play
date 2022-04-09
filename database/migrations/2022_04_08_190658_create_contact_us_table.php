@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('phone')->nullable();
             $table->text('message');
+            $table->integer('email_sent')->default(0);
             $table->timestamps();
         });
     }

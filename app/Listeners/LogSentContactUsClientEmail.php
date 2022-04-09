@@ -5,6 +5,7 @@ namespace App\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LogSentContactUsClientEmail
@@ -27,6 +28,12 @@ class LogSentContactUsClientEmail
      */
     public function handle(MessageSent $event)
     {
-        Log::info(json_encode($event));
+        $dbRecord = json_encode($event->data['details']['ID']);
+
+        DB::table('contact_us')
+            ->where('id', $dbRecord)
+            ->update(['email_sent' => 1]);
+
+        Log::info("Amended email_sent row {$dbRecord} for contact_us table");
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ContactUsClientMail;
 use App\Mail\ContactUsClientConfirm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -38,11 +39,12 @@ class ContactUsController extends Controller
         $details = [
             'title' => 'Thank you for contacting us',
             'firstname' => $request->name,
-            'message' => $request->message
+            'message' => $request->message,
+            'ID' => $insertID
         ];
 
-        //Event fired to log to DB outcome of email send
-        Mail::to($request->email)->send(new ContactUsClientConfirm($details));
+        //Disptach new job to send email;
+        dispatch(new ContactUsClientMail($details, $request->email));
 
         return response()->json([
             'success' => true,
