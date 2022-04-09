@@ -34,8 +34,11 @@ php artisan run:backupDB
 
 Tests are split into the following groups
 
+-   @group login
+    -   Login Success and Login Failuer
+
 ```
-Login success and Login failure = @group login
+Login success and Login failure
 php artisan dusk --group=login
 ```
 
