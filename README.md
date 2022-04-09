@@ -18,6 +18,8 @@ The above command will migrate and seed the database with necessary starter data
 
 ## Good to knows
 
+-   Contact Us email is dispatched to a queue and so the queue working will need to be ran.
+
 ### Custom Commands
 
 ```
