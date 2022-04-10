@@ -2,7 +2,6 @@
 
 namespace Tests\Browser;
 
-use App\Models\User;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
@@ -15,14 +14,11 @@ class LoginTest extends DuskTestCase
      */
     public function testSuccessLogin()
     {
-
-        $user = User::find(1);
-
-        $this->browse(function (Browser $browser) use ($user) {
+        $this->browse(function (Browser $browser) {
             $browser->visit('/')
                 ->assertSee('Fitness Tracker')
-                ->type('#email', $user->email)
-                ->type('password', 'Orange18')
+                ->type('#email', env('APP_MASTER_EMAIL'))
+                ->type('password', env('APP_MASTER_PASSWORD'))
                 ->press('Log in')
                 ->waitForLocation('/home')
                 ->assertPathIs('/home')
@@ -37,20 +33,16 @@ class LoginTest extends DuskTestCase
      */
     public function testFailLogin()
     {
-        $user = User::find(1);
-
-        $this->browse(function (Browser $browser) use ($user) {
+        $this->browse(function (Browser $browser) {
             $browser->deleteCookie('fitness_tracker_session')
                 ->deleteCookie('XSRF-TOKEN')
                 ->visit('/')
                 ->assertSee('Fitness Tracker')
-                ->type('#email', $user->email)
+                ->type('#email', env('APP_MASTER_EMAIL'))
                 ->type('password', 'FakePassword')
                 ->press('Log in')
                 ->waitForLocation('/')
-                ->with('#f_login', function ($form) {
-                    $form->waitForTextIn('#f_login', 'Invalid credentials');
-                })
+                ->with('#f_login', fn ($form) => $form->waitForTextIn('#f_login', 'Invalid credentials'))
                 ->screenshot('Login-Fail');
         });
     }
