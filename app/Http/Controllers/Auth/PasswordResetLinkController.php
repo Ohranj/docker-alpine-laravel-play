@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Jobs\ResetPasswordMail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 
 class PasswordResetLinkController extends Controller
 {
@@ -33,10 +32,13 @@ class PasswordResetLinkController extends Controller
             'email' => ['required', 'email:rfc,dns'],
         ]);
 
-        $user = User::firstWhere('email', $request->email);
-
-        if (!$user) {
-            //return no user json
+        try {
+            $user = User::where('email', $request->email)->firstOrFail();
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to verify request'
+            ]);
         }
 
         $token = Str::random(60);
@@ -47,9 +49,11 @@ class PasswordResetLinkController extends Controller
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
-        //Prevent sent event firing
         dispatch(new ResetPasswordMail($user->email, $token));
 
-        return back();
+        return response()->json([
+            'success' => true,
+            'message' => 'Forgot password email sent'
+        ]);
     }
 }
