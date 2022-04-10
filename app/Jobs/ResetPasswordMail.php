@@ -2,30 +2,30 @@
 
 namespace App\Jobs;
 
-use App\Mail\ContactUsClientConfirm;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-class ContactUsClientMail implements ShouldQueue
+class ResetPasswordMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $details;
-    public $recipient;
+    public $email;
+    public $token;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($details, string $email)
+    public function __construct($email, $token)
     {
-        $this->details = $details;
-        $this->recipient = $email;
+        $this->email = $email;
+        $this->token = $token;
     }
 
     /**
@@ -35,7 +35,9 @@ class ContactUsClientMail implements ShouldQueue
      */
     public function handle()
     {
-        //Listener applied to email sent
-        Mail::to($this->recipient)->send(new ContactUsClientConfirm($this->details));
+        Mail::send('emails.resetPassword', ['token' => $this->token], function ($message) {
+            $message->to($this->email);
+            $message->subject('Reset Password');
+        });
     }
 }

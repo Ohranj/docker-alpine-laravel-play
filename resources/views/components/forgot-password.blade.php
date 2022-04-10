@@ -1,10 +1,5 @@
 <!--prettier-ignore-->
-<div 
-    x-cloak x-show="showModal" x-data="{ showModal: false, bodyColors: ['bg-stone-800', 'bg-fadedBody'] }" 
-    x-init="$watch('showModal', () => bodyColors.map((color) => document.querySelector('body').classList.toggle(color)))"
-    @close-reset-modal.window="showModal = false"
-    @open-reset-modal.window="showModal = true"
-    :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full w-full sm:app-sm-modal">
+<div x-cloak x-show="showModal" x-data="forgotPassword({ postForgotPasswordURL: '{{ route('send_reset_password_link') }}' })" @close-reset-modal.window="showModal = false" @open-reset-modal.window="showModal = true" :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full w-full sm:app-sm-modal">
     <div class="p-4 w-full">
         <div class="bg-white rounded-lg shadow">
             <div class="flex justify-between items-center p-5 rounded-t border-b bg-slate-700">
@@ -18,15 +13,15 @@
             </div>
             <div class="p-6 text-slate-700">
                 <p class="text-center">Use the input below to provide your password. After clicking to confirm, providing we find a match in our system, a link will be sent to your email address carrying further instructions. From here you can reset your password.</p>
-                <form method="POST" action="{{ route('password.email') }}" class="mt-5">
+                <form method="POST" action="{{ route('send_reset_password_link') }}" class="mt-5" id="f_forgotPassword">
                     @csrf
                     <label for="email">Email<sup>*</sup></label>
-                    <input id="email" class="w-full border-2 rounded border-slate-700" type="email" name="email" required />
+                    <input id="email" class="w-full sm:w-3/4 border-2 rounded border-slate-700" type="email" name="email" required />
                 </form>
             </div>
             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 bg-slate-700">
                 <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">Close</button>
-                <button class="app-btn app-btn-primary">{{ __("Email Reset Link") }}</button>
+                <button @click="submitForm" class="app-btn app-btn-primary">Email Reset Link</button>
             </div>
         </div>
     </div>

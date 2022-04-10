@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ContactUsEmailSent;
 use App\Jobs\ContactUsClientMail;
-use App\Mail\ContactUsClientConfirm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class ContactUsController extends Controller
 {
     /**
-     * Store a new Contact Us row in the database
+     * Store a new Contact Us row in the database. Client email response is issued via job. Event is also triggered to update the DB row to confirm an email has been sent to the client.
+     * @param  \Illuminate\Http\Request  $request
      * @return string JSONString containg result of insert success
      */
-    public static function storeContactUsForm(Request $request): mixed
+    public static function storeContactUsForm(Request $request)
     {
         $request->validateWithBag('contactUs', [
             'name' => ['required'],
@@ -43,8 +43,12 @@ class ContactUsController extends Controller
             'ID' => $insertID
         ];
 
-        //Disptach new job to send email;
         dispatch(new ContactUsClientMail($details, $request->email));
+
+        event(new ContactUsEmailSent([
+            'rowID' => $insertID,
+            'receiver' => $request->email
+        ]));
 
         return response()->json([
             'success' => true,
