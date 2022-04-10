@@ -14,8 +14,8 @@ class ResetPasswordMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $email;
-    public $token;
+    private $email;
+    private $token;
 
     /**
      * Create a new job instance.

@@ -12,16 +12,29 @@
                 </button>
             </div>
             <div class="p-6 text-slate-700">
-                <p class="text-center">Use the input below to provide your password. After clicking to confirm, providing we find a match in our system, a link will be sent to your email address carrying further instructions. From here you can reset your password.</p>
-                <form method="POST" action="{{ route('send_reset_password_link') }}" class="mt-5" id="f_forgotPassword">
+                <div x-cloak x-show="showFormError" class="text-red-500 text-center sm:w-3/4 mx-auto">
+                    <p class="m-0" x-text="errorText"></p>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <p class="text-center" x-show="!submitSuccess">Use the input below to provide your password. After clicking to confirm, providing we find a match in our system, a link will be sent to your email address carrying further instructions. From here you can reset your password.</p>
+                <form method="POST" action="{{ route('send_reset_password_link') }}" class="mt-5" id="f_forgotPassword" x-show="!submitSuccess">
                     @csrf
                     <label for="email">Email<sup>*</sup></label>
                     <input id="email" class="w-full sm:w-3/4 border-2 rounded border-slate-700" type="email" name="email" required />
                 </form>
+                <div x-show="submitSuccess" class="text-slate-700 text-center sm:w-2/3 mx-auto">
+                    <h2>An email has been sent.</h2>
+                    <h3 class="mt-4">Please check your inbox, remembering to check your spam folder.</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 animate-bounce mx-auto mt-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                    </svg>
+                </div>
             </div>
             <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 bg-slate-700">
                 <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">Close</button>
-                <button @click="submitForm" class="app-btn app-btn-primary">Email Reset Link</button>
+                <button @click="submitForm" class="app-btn app-btn-primary" :disabled="submitSuccess">Email Reset Link</button>
             </div>
         </div>
     </div>
