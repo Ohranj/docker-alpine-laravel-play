@@ -17,23 +17,18 @@ class LogSentContactUsClientEmail
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
-     *
-     * @param  \Illuminate\Mail\Events\MessageSent  $event
      * @return void
      */
-    public function handle(MessageSent $event)
+    public function handle($event)
     {
-        $dbRecord = json_encode($event->data['details']['ID']);
-
         DB::table('contact_us')
-            ->where('id', $dbRecord)
+            ->where('id', $event->dbRecord['rowID'])
             ->update(['email_sent' => 1]);
 
-        Log::info("Amended email_sent row {$dbRecord} for contact_us table");
+        Log::info("Amended email_sent row {$event->dbRecord['rowID']} for contact_us table. Email sent to {$event->dbRecord['receiver']}");
     }
 }

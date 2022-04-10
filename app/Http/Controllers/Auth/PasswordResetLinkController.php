@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\ResetPasswordMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 
 class PasswordResetLinkController extends Controller
 {
@@ -45,12 +47,8 @@ class PasswordResetLinkController extends Controller
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
-        //Attach to queue
         //Prevent sent event firing
-        Mail::send('emails.resetPassword', ['token' => $token], function ($message) use ($user) {
-            $message->to($user->email);
-            $message->subject('Reset Password');
-        });
+        dispatch(new ResetPasswordMail($user->email, $token));
 
         return back();
     }
