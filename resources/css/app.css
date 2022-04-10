@@ -37,4 +37,10 @@
     .app-checkbox {
         @apply rounded border-gray-300 shadow-sm focus:border-slate-700 focus:ring focus:ring-slate-700 focus:ring-opacity-50;
     }
+    .active-navItem {
+        @apply text-accent-blue underline underline-offset-4 cursor-pointer
+    }
+    .inactive-navItem {
+        @apply hover:text-accent-blue hover:underline hover:underline-offset-4 cursor-pointer
+    }
 }
