@@ -26,7 +26,7 @@
                 <input @click="rememberMeClicked = !rememberMeClicked" type="checkbox" class="app-checkbox" name="remember" />
                 <span :class="rememberMeClicked ? 'text-red-500' : ''" class="ml-2 text-sm">Remember me</span>
             </div>
-            <a class="text-sm sm:float-right block text-left sm:text-right mt-5 sm:mt-0" href="{{ route('password.request') }}">Forgot your password</a>
+            <a class="text-sm sm:float-right block text-left sm:text-right mt-5 sm:mt-0" href="#" @click.prevent="$dispatch('open-reset-modal')">Forgot your password</a>
         </div>
         <div class="flex items-center justify-end my-4"> 
             <button @click.prevent="submitForm" class="app-btn app-btn-primary">Log in</button>

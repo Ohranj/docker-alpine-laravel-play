@@ -17,10 +17,12 @@
     </head>
     <body class="w-[95%] sm:w-[525px] flex h-screen mx-auto flex-col bg-stone-800">
         <div x-data="contactUsForm({ postContactUsFormURL: '{{route('storeContactUsForm')}}' })">
-            <button @click="showModal = true" x-bind:disabled="showModal" class="app-btn app-btn-secondary absolute top-5 right-5">Contact Us</button>
+            <button @click="showModal = true; $dispatch('close-reset-modal')" x-bind:disabled="showModal" class="app-btn app-btn-secondary absolute top-5 right-5">Contact Us</button>
             <x-contact-us />
         </div>
+        <x-forgot-password />
         @yield('main-content')
+        
         @yield('script')
     </body>
 </html>
