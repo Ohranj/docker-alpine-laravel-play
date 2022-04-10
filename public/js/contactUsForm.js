@@ -5,7 +5,7 @@ window.contactUsForm = ({ postContactUsFormURL }) => ({
     showError: false,
     errorTextArray: [
         "An error has occured with your submission. Please note the required fields (*) and try again.",
-        "You have exceeding the number of submissions allowed. Please wait 1 minute before trying again.",
+        "You have exceeded the number of submissions allowed. Please wait 1 minute before trying again.",
     ],
     errorText: "",
     formEl: null,
@@ -20,11 +20,10 @@ window.contactUsForm = ({ postContactUsFormURL }) => ({
             this.bodyColours.map((color) => this.bodyEl.classList.toggle(color))
         );
         this.$watch("showModal", (val) => {
-            if (!val) {
-                this.submitSuccess = false;
-                this.formEl.reset();
-                this.showError = false;
-            }
+            if (val) return;
+            this.submitSuccess = false;
+            this.formEl.reset();
+            this.showError = false;
         });
     },
     async submitForm() {

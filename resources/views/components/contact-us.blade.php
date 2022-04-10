@@ -56,7 +56,7 @@
                 <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">
                     Close
                 </button>
-                <button type="button" class="app-btn app-btn-primary" @click.prevent="submitForm">Submit</button>
+                <button type="button" class="app-btn app-btn-primary" @click.prevent="submitForm" :disabled="submitSuccess">Submit</button>
             </div>
         </div>
     </div>
