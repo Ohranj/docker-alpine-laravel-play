@@ -28,11 +28,8 @@ class PasswordResetLinkController extends Controller
      */
     public static function send_reset_password_link(Request $request)
     {
-        $request->validate([
-            'email' => ['required', 'email:rfc,dns'],
-        ]);
-
         try {
+            $request->validate(['email' => ['required', 'email:rfc,dns']]);
             $user = User::where('email', $request->email)->firstOrFail();
         } catch (Exception $e) {
             return response()->json([
