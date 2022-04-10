@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PasswordResetLinkController extends Controller
 {
@@ -19,29 +22,36 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Send a password reset link with a produced random string valule to the given email - providing it exists within the system. 
+     * @param \Illuminate\Http\Request  $request
      */
-    public function store(Request $request)
+    public static function send_reset_password_link(Request $request)
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email:rfc,dns'],
         ]);
 
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $user = User::firstWhere('email', $request->email);
 
-        return $status == Password::RESET_LINK_SENT
-                    ? back()->with('status', __($status))
-                    : back()->withInput($request->only('email'))
-                            ->withErrors(['email' => __($status)]);
+        if (!$user) {
+            //return no user json
+        }
+
+        $token = Str::random(60);
+
+        DB::table('password_resets')->insert([
+            'email' => $user->email,
+            'token' => $token,
+            'created_at' => date('Y-m-d H:i:s')
+        ]);
+
+        //Attach to queue
+        //Prevent sent event firing
+        Mail::send('emails.resetPassword', ['token' => $token], function ($message) use ($user) {
+            $message->to($user->email);
+            $message->subject('Reset Password');
+        });
+
+        return back();
     }
 }

@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ContactUsClientMail;
-use App\Mail\ContactUsClientConfirm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class ContactUsController extends Controller
 {
     /**
      * Store a new Contact Us row in the database
+     * @param  \Illuminate\Http\Request  $request
      * @return string JSONString containg result of insert success
      */
-    public static function storeContactUsForm(Request $request): mixed
+    public static function storeContactUsForm(Request $request)
     {
         $request->validateWithBag('contactUs', [
             'name' => ['required'],

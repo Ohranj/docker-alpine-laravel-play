@@ -18,16 +18,19 @@
             </div>
             <div class="p-6 text-slate-700">
                 <p class="text-center">Use the input below to provide your password. After clicking to confirm, providing we find a match in our system, a link will be sent to your email address carrying further instructions. From here you can reset your password.</p>
-                <form method="POST" action="{{ route('password.email') }}" class="mt-5">
+                <form method="POST" action="{{ route('send_reset_password_link') }}" class="mt-5">
                     @csrf
                     <label for="email">Email<sup>*</sup></label>
                     <input id="email" class="w-full border-2 rounded border-slate-700" type="email" name="email" required />
+
+
+                    <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 bg-slate-700">
+                        <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">Close</button>
+                        <button class="app-btn app-btn-primary">Email Reset Link</button>
+                    </div>
                 </form>
             </div>
-            <div class="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 bg-slate-700">
-                <button @click="showModal = false" type="button" class="app-btn app-btn-secondary ml-auto">Close</button>
-                <button class="app-btn app-btn-primary">{{ __("Email Reset Link") }}</button>
-            </div>
+            
         </div>
     </div>
 </div>
