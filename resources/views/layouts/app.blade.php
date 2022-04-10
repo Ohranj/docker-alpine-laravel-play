@@ -16,6 +16,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="bg-stone-800">
-        
+        <x-auth-navBar />
+        @yield('main-content')
     </body>
 </html>
