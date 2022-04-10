@@ -1,5 +1,10 @@
 <!--prettier-ignore-->
-<div x-cloak x-show="showModal" x-data="{ showModal: false }" @close-reset-modal.window="showModal = false" @open-reset-modal.window="showModal = true" :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full w-full sm:app-sm-modal">
+<div 
+    x-cloak x-show="showModal" x-data="{ showModal: false, bodyColors: ['bg-stone-800', 'bg-fadedBody'] }" 
+    x-init="$watch('showModal', () => bodyColors.map((color) => document.querySelector('body').classList.toggle(color)))"
+    @close-reset-modal.window="showModal = false"
+    @open-reset-modal.window="showModal = true"
+    :class="showModal ? 'flex' : ''" class="m-auto items-center fixed inset-0 z-50 h-full w-full sm:app-sm-modal">
     <div class="p-4 w-full">
         <div class="bg-white rounded-lg shadow">
             <div class="flex justify-between items-center p-5 rounded-t border-b bg-slate-700">
