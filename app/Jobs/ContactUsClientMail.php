@@ -14,8 +14,8 @@ class ContactUsClientMail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $details;
-    public $recipient;
+    private $details;
+    private $recipient;
 
     /**
      * Create a new job instance.
@@ -35,7 +35,9 @@ class ContactUsClientMail implements ShouldQueue
      */
     public function handle()
     {
-        //Listener applied to email sent
-        Mail::to($this->recipient)->send(new ContactUsClientConfirm($this->details));
+        Mail::send('emails.contactUsClientConfirm', ['details' => $this->details], function ($message) {
+            $message->to($this->recipient);
+            $message->subject('We\'ve received your message');
+        });
     }
 }

@@ -1051,13 +1051,6 @@ sup {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
-.bg-stone-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(41 37 36 / var(--tw-bg-opacity));
-}
-.bg-fadedBody {
-  background-color: rgba(0, 0, 0, 0.65);
-}
 .bg-slate-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(51 65 85 / var(--tw-bg-opacity));
@@ -1072,6 +1065,13 @@ sup {
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+.bg-stone-800 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(41 37 36 / var(--tw-bg-opacity));
+}
+.bg-fadedBody {
+  background-color: rgba(0, 0, 0, 0.65);
 }
 .fill-current {
   fill: currentColor;
@@ -1410,11 +1410,11 @@ sup {
     .sm\:h-\[65px\] {
     height: 65px;
   }
-    .sm\:w-\[65px\] {
-    width: 65px;
-  }
     .sm\:w-3\/4 {
     width: 75%;
+  }
+    .sm\:w-\[65px\] {
+    width: 65px;
   }
     .sm\:w-2\/3 {
     width: 66.666667%;
