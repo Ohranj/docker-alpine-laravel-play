@@ -740,6 +740,10 @@ sup {
   margin-top: 1rem;
   margin-bottom: 1rem;
 }
+.my-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1163,6 +1167,14 @@ sup {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.text-3xl {
+  font-size: 1.875rem;
+  line-height: 2.25rem;
+}
 .font-medium {
   font-weight: 500;
 }
@@ -1234,6 +1246,10 @@ sup {
 .text-green-600 {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
+}
+.text-accent-blue {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;
@@ -1467,6 +1483,14 @@ sup {
     .sm\:text-5xl {
     font-size: 3rem;
     line-height: 1;
+  }
+    .sm\:text-4xl {
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+  }
+    .sm\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }
 @media (min-width: 768px) {

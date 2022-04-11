@@ -58,5 +58,3 @@ window.forgotPassword = ({ postForgotPasswordURL }) => ({
         }
     },
 });
-
-//Work on the password-reset page (component) - Try and get the email to show already in the input?
