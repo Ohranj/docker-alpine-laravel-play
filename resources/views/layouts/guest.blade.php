@@ -23,6 +23,8 @@
         <x-forgot-password />
         @yield('main-content')
         
+        <script src="/js/contactUsForm.js"></script>
+        <script src="/js/forgotPassword.js"></script>
         @yield('script')
     </body>
 </html>

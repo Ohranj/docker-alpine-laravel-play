@@ -1,6 +1,7 @@
 <!-- prettier-ignore -->
 @extends('layouts.guest')
 
+@section('main-content')
 <form method="POST" action="{{ route('password.update') }}">
     @csrf
 
@@ -16,7 +17,6 @@
             class="block mt-1 w-full"
             type="email"
             name="email"
-            :value="old('email', $request->email)"
             required
             autofocus
         />
@@ -37,10 +37,7 @@
 
     <!-- Confirm Password -->
     <div class="mt-4">
-        <label
-            for="password_confirmation"
-            :value="__('Confirm Password')"
-        ></label>
+        <label for="password_confirmation"></label>
 
         <input
             id="password_confirmation"
@@ -57,3 +54,4 @@
         </button>
     </div>
 </form>
+@endsection

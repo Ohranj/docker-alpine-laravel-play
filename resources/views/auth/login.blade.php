@@ -44,8 +44,6 @@
 
 <!-- prettier-ignore -->
 @section('script')
-<script src="/js/contactUsForm.js"></script>
-<script src="/js/forgotPassword.js"></script>
 <script defer>
     const loginForm = ({ csrfToken, loginURL }) => ({
         csrfToken,
