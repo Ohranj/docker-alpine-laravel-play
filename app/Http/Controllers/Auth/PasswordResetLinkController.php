@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordResetLinkController extends Controller
 {
@@ -42,7 +43,7 @@ class PasswordResetLinkController extends Controller
 
         DB::table('password_resets')->insert([
             'email' => $user->email,
-            'token' => $token,
+            'token' => Hash::make($token),
             'created_at' => date('Y-m-d H:i:s')
         ]);
 
