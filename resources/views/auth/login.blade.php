@@ -5,7 +5,7 @@
 <!-- prettier-ignore -->
 <div x-data="loginForm({ csrfToken: '{{csrf_token()}}', loginURL: '{{ route('login.submit') }}' })" class="m-auto h-1/2 w-full px-1">
     <h1 class="text-center text-4xl sm:text-5xl mb-5 sm:mb-8" :class="submitSuccess ? 'text-red-500' : 'hover:text-red-500'">Fitness Tracker</h1>
-    <form x-show="!submitSuccess" method="POST" action="{{ route('login') }}" class="p-3 shadow-xl shadow-red-300 rounded" id="f_login">
+    <form x-show="!submitSuccess" method="POST" class="p-3 shadow-xl shadow-red-300 rounded" id="f_login">
         @csrf
         <p x-cloak x-show="submitFailed" class="text-red-500 text-center py-4">Invalid credentials. Please check and try again
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
