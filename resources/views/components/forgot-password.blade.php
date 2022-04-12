@@ -21,7 +21,7 @@
                 <p class="text-center" x-show="!submitSuccess">Use the input below to provide your password. After clicking to confirm, providing we find a match in our system, a link will be sent to your email address carrying further instructions. From here you can reset your password.</p>
                 <form method="POST" action="{{ route('send_reset_password_link') }}" class="mt-5" id="f_forgotPassword" x-show="!submitSuccess">
                     @csrf
-                    <label for="email">Email<sup>*</sup></label>
+                    <label for="email" class="block">Email<sup>*</sup></label>
                     <input id="email" class="w-full sm:w-3/4 border-2 rounded border-slate-700" type="email" name="email" required />
                 </form>
                 <div x-show="submitSuccess" class="text-slate-700 text-center sm:w-2/3 mx-auto">
