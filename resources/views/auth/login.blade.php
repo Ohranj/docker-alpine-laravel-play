@@ -31,7 +31,7 @@
         <div class="flex items-center justify-end my-4"> 
             <button @click.prevent="submitForm" class="app-btn app-btn-primary">Log in</button>
         </div>
-        <a class="text-sm inline-block mt-2" href="{{ route('password.request') }}">Register an Account</a>
+        <a class="text-sm inline-block mt-2" href="{{ route('register') }}">Register an Account</a>
     </form>
    <div x-cloak x-show="submitSuccess" class="mt-20 text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 animate-bounce mx-auto" viewBox="0 0 20 20" fill="currentColor">
