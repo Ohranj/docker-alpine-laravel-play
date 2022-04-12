@@ -47,3 +47,9 @@ php artisan dusk --group=login
 docker build -t fitness-tracker .
 docker run -it -p 8000:8000 fitness-tracker
 ```
+
+## Tech used
+
+-   Laravel
+-   AlpineJS
+-   Tailwind
