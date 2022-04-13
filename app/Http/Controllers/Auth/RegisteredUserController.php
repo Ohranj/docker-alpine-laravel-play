@@ -34,21 +34,40 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'firstname' => ['required', 'string', 'max:255'],
+            'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'tagline' => ['required'],
+            'tags' => ['required'],
+            'level' => ['required']
         ]);
+
+        [
+            'firstname' => $firstname, 'surname' => $surname, 'email' => $email, 'password' => $password,
+            'tagline' => $tagline, 'tags' => $tags, 'level' => $level
+        ] = $request;
+
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'firstname' => $firstname,
+            'lastname' => $surname,
+            'email' => $email,
+            'password' => Hash::make($password)
+        ])->profile()->create([
+            'tagline' => $tagline,
+            'tags' => $tags,
+            'level' => $level
         ]);
 
-        event(new Registered($user));
+        // event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        // return redirect(RouteServiceProvider::HOME);
+        return response()->json([
+            'success' => true,
+            'message' => 'user registered'
+        ]);
     }
 }

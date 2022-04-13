@@ -3,7 +3,7 @@
 
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="register" class="m-auto h-2/3 w-full px-1">
+<div x-data="register({registerFormURL: '{{ route('register') }}'})" class="m-auto h-2/3 w-full px-1">
     <h1 class="text-center text-4xl sm:text-5xl mb-5 sm:mb-8">Fitness Tracker</h1>
     <h2 class="text-center text-3xl sm:text-3xl mb-5 sm:mb-8">Register</h2>
     <div class="h-[20px] w-11/12 mx-auto rounded-full ring-2 ring-white">
@@ -13,7 +13,7 @@
     </div>
     <div>
         <p class="text-red-500 mt-5 text-sm text-center" x-text="errorText"></p>
-        <div x-show="stepsCompleted == 0" x-transition class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
+        <div x-cloak x-show="stepsCompleted == 0" x-transition class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
             <p class="mb-2">The information provided throughout the registration will go towards creating your profile card. This a publicly viewable snapshot of yourself.</p>
             <small>You will have chance to see your card prior to confirming your registration.</small>
             <form class="my-6 border-t-2">
@@ -69,24 +69,33 @@
                 <button class="app-btn app-btn-primary" @click.prevent="confirmSecondPressed">Confirm</button>
             </div>
         </div>
-        <div x-cloak x-show="stepsCompleted == 2" x-transition>
-            <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg">
-                <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer" />
-                <div class="mt-2">
-                    <p class="text-center text-xl" x-text="inputData.firstname"></p>
-                    <p class="text-center text-xl" x-text="inputData.surname"></p>
+        <div x-cloak x-show="stepsCompleted == 2" x-transition class="mt-3 p-3">
+            <form method="post" id="f_register">
+                @csrf
+                <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
+                    <div class="w-[105px] h-[150px] relative mx-auto">
+                        <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer" @click="$refs.avatarUpload.click()" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute -right-2 top-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                        <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden />
+                    </div>
+                    <div class="mt-2">
+                        <p class="text-center text-xl" x-text="inputData.firstname"></p>
+                        <p class="text-center text-xl" x-text="inputData.surname"></p>
+                    </div>
+                    <ul class="flex flex-wrap gap-4 text-center justify-center content-center flex-grow">
+                        <template x-for="tag in cardData.tags.split(',')">
+                            <li class="border rounded w-[125px] min-h-[30px] flex justify-center items-center px-2 text-sm" x-text="tag.trim()"></li>
+                        </template>
+                    </ul>   
+                    <div class="border-t mt-auto py-2 text-center text-sm" x-text="cardData.tagline"></div>
                 </div>
-                <ul class="flex flex-wrap gap-4 text-center justify-center content-center flex-grow">
-                    <template x-for="tag in cardData.tags.split(',')">
-                        <li class="border rounded w-[125px] min-h-[30px] flex justify-center items-center px-2 text-sm" x-text="tag.trim()"></li>
-                    </template>
-                </ul>   
-                <div class="border-t mt-auto py-2 text-center text-sm" x-text="cardData.tagline"></div>
-            </div>
-            <div class="flex justify-center gap-x-4">
-                <button class="app-btn app-btn-secondary" @click.prevent="backPressed">Back</button>
-                <button class="app-btn app-btn-primary">Register</button>
-            </div>
+                <div class="flex justify-center gap-x-4">
+                    <button class="app-btn app-btn-secondary" type="button" @click="backPressed">Back</button>
+                    <button class="app-btn app-btn-primary" @click.prevent="registerBtnPressed()">Register</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -96,7 +105,7 @@
 @section('script')
 <!-- prettier-ignore -->
 <script>
-    const register = () => ({
+    const register = ({ registerFormURL }) => ({
         stepsCompleted: 0,
         progressBarText: ["Step 1", "Step 2", "Step 3"],
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
@@ -112,6 +121,10 @@
             tagline: '',
             tags: '',
             level: ''
+        },
+        formEl: null,
+        init() {
+            this.formEl = document.getElementById('f_register');
         },
         confirmFirstPressed() {
             try {
@@ -143,6 +156,36 @@
         },
         backPressed() {
             this.stepsCompleted--;
+        },
+        createFormDataObj() {
+            const formData = new FormData(this.formEl);
+            const {email, password, confirmPassword, firstname, surname} = this.inputData;
+            const {tagline, tags, level} = this.cardData;
+            formData.append('email', email)
+            formData.append('password', password)
+            formData.append('password_confirmation', confirmPassword);
+            formData.append('firstname', firstname);
+            formData.append('surname', surname);
+            formData.append('tagline', tagline);
+            formData.append('tags', tags);
+            formData.append('level', level);
+            return formData;
+        },
+        async registerBtnPressed() {
+            const formData = this.createFormDataObj();
+            try {
+                const response = await fetch(registerFormURL, {
+                    method: 'post',
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                })
+                const json = await response.json();
+                if (response.status == 422) throw Error(json.message)
+            } catch (err) {
+                this.errorText = err.message.split('. ')[0]
+            }
         },
     });
 </script>
