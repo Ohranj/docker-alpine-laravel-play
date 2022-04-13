@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        User::create([
             'firstname' => 'Master',
             'lastname' => 'Account',
             'email' =>  env('APP_MASTER_EMAIL'),
@@ -25,9 +25,7 @@ class DatabaseSeeder extends Seeder
             'password' =>  Hash::make(env('APP_MASTER_PASSWORD')),
             'state' => 1,
             'agenda' => 3
-        ]);
-
-        $user->profile()->create([
+        ])->profile()->create([
             'tagline' => 'This is some sample text',
             'tags' => 'Admin, Account, Card, Text',
             'level' => 1

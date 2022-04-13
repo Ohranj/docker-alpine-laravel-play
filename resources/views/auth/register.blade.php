@@ -106,21 +106,21 @@
 <!-- prettier-ignore -->
 <script>
     const register = ({ registerFormURL }) => ({
-        stepsCompleted: 2,
+        stepsCompleted: 0,
         progressBarText: ["Step 1", "Step 2", "Step 3"],
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
         inputData: {
-            email: "ajdorringt@hotmail.co.uk",
-            password: "Orange18**",
-            confirmPassword: "Orange18**",
-            firstname: "Alex",
-            surname: "Dorrington",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            firstname: "",
+            surname: "",
         },
         cardData: {
-            tagline: '123',
-            tags: '123',
-            level: '1'
+            tagline: '',
+            tags: '',
+            level: ''
         },
         formEl: null,
         init() {
