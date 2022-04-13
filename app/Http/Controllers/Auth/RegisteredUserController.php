@@ -59,6 +59,7 @@ class RegisteredUserController extends Controller
             'tags' => $tags,
             'level' => $level
         ]);
+        
 
         // event(new Registered($user));
 
