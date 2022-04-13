@@ -56,16 +56,36 @@
                 <div class="my-4">
                     <label for="level">Experience Level<sup>*</sup></label>
                     <select name="level" x-model="cardData.level" class="block mt-1 w-full text-black">
-                        <option>Master</option>
-                        <option>I know my way around</option>
-                        <option>Rookie</option>
-                        <option>Where am I?</option>
+                        <option value="" disabled>Select an option...</option>
+                        <option value="4">more than 3 years</option>
+                        <option value="3">1 - 3 years</option>
+                        <option value="2">6 - 12 months</option>
+                        <option value="1"> less than 6 months</option>
                     </select>
                 </div>
             </form>
             <div class="flex justify-center gap-x-4">
                 <button class="app-btn app-btn-secondary" @click.prevent="backPressed">Back</button>
                 <button class="app-btn app-btn-primary" @click.prevent="confirmSecondPressed">Confirm</button>
+            </div>
+        </div>
+        <div x-cloak x-show="stepsCompleted == 2" x-transition>
+            <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg">
+                <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer" />
+                <div class="mt-2">
+                    <p class="text-center text-xl" x-text="inputData.firstname"></p>
+                    <p class="text-center text-xl" x-text="inputData.surname"></p>
+                </div>
+                <ul class="flex flex-wrap gap-4 text-center justify-center content-center flex-grow">
+                    <template x-for="tag in cardData.tags.split(',')">
+                        <li class="border rounded w-[125px] min-h-[30px] flex justify-center items-center px-2 text-sm" x-text="tag.trim()"></li>
+                    </template>
+                </ul>   
+                <div class="border-t mt-auto py-2 text-center text-sm" x-text="cardData.tagline"></div>
+            </div>
+            <div class="flex justify-center gap-x-4">
+                <button class="app-btn app-btn-secondary" @click.prevent="backPressed">Back</button>
+                <button class="app-btn app-btn-primary">Register</button>
             </div>
         </div>
     </div>
@@ -77,7 +97,7 @@
 <!-- prettier-ignore -->
 <script>
     const register = () => ({
-        stepsCompleted: 1,
+        stepsCompleted: 0,
         progressBarText: ["Step 1", "Step 2", "Step 3"],
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
@@ -111,7 +131,15 @@
             }
         },
         confirmSecondPressed() {
-            this.stepsCompleted++;
+            try {
+                const allInputsFilled = Object.values(this.cardData).every((x) => x);
+                if (!allInputsFilled) throw Error(0);
+                this.stepsCompleted++;
+                this.errorText = null
+            } catch (errCode) {
+                const val = errCode.message;
+                this.errorText = this.errorTextArray[val]
+            }
         },
         backPressed() {
             this.stepsCompleted--;
