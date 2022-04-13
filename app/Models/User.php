@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Profile;
+use Laravel\Sanctum\HasApiTokens;
+use Database\Factories\UserFactory;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'firtname', 'lastname', 'email', 'password', 'state', 'agenda'
+        'firstname', 'lastname', 'email', 'password', 'state', 'agenda'
     ];
 
     /**
@@ -43,5 +44,14 @@ class User extends Authenticatable
     public function getFullName()
     {
         return 'Fullname';
+    }
+
+    /**
+     * Defines the relationships on the model
+     * 
+     * 
+     */
+    public function profile() {
+        return $this->hasOne(Profile::class, 'user_id');
     }
 }

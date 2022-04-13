@@ -111,16 +111,16 @@
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
         inputData: {
-            email: "",
-            password: "",
-            confirmPassword: "",
-            firstname: "",
-            surname: "",
+            email: "ajdorringt@hotmail.co.uk",
+            password: "Orange18**",
+            confirmPassword: "Orange18**",
+            firstname: "Alex",
+            surname: "Dorrington",
         },
         cardData: {
-            tagline: '',
-            tags: '',
-            level: ''
+            tagline: '123',
+            tags: '123',
+            level: '1'
         },
         formEl: null,
         init() {
@@ -163,7 +163,7 @@
             const {tagline, tags, level} = this.cardData;
             formData.append('email', email)
             formData.append('password', password)
-            formData.append('confirmPassword', confirmPassword);
+            formData.append('password_confirmation', confirmPassword);
             formData.append('firstname', firstname);
             formData.append('surname', surname);
             formData.append('tagline', tagline);
@@ -181,12 +181,10 @@
                         "X-Requested-With": "XMLHttpRequest",
                     },
                 })
-                const p = await response.json();
-                console.log(p)
-                if (response.status == 422) throw Error(0)
-            } catch (errCode) {
-                const val = errCode.message;
-                this.errorText = this.errorTextArray[val]
+                const json = await response.json();
+                if (response.status == 422) throw Error(json.message)
+            } catch (err) {
+                this.errorText = err.message.split('. ')[0]
             }
         },
     });
