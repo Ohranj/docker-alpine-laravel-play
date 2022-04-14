@@ -20,6 +20,9 @@
             <button @click="showModal = true; $dispatch('close-reset-modal')" x-bind:disabled="showModal" class="app-btn app-btn-secondary absolute top-5 right-5">Contact Us</button>
             <x-contact-us />
         </div>
+        @if (Route::current()->getName() == 'register')
+            <a href="{{route('login')}}" class="app-btn app-btn-secondary absolute top-5 left-5 no-underline">Back to Login</a>
+        @endif
         <x-forgot-password />
         @yield('main-content')
         

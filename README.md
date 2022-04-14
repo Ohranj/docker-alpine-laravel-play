@@ -14,7 +14,7 @@ QUEUE_CONNECTION=database
 php artisan run:refreshDB
 ```
 
-The above command will migrate and seed the database with necessary starter data, alongside 10 dummy user accounts and their related profiles. A master account is included in the seed, created from the data associated to the APP_MASTER_EMAIL and APP_MASTER_PASSWORD env keys.
+The above command will migrate and seed the database with necessary starter data, alongside 10 dummy accounts. A master account is included in the seed, created from the data associated to the APP_MASTER_EMAIL and APP_MASTER_PASSWORD env keys.
 
 ## Good to knows
 
