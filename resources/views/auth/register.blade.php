@@ -73,7 +73,7 @@
             <form method="post" id="f_register">
                 @csrf
                 <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
-                    <div class="w-[105px] h-[150px] relative mx-auto">
+                    <div class="w-[105px] h-[105px] relative mx-auto">
                         <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer" @click="$refs.avatarUpload.click()" />
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute -right-2 top-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
