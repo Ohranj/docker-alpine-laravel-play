@@ -57,7 +57,11 @@ class RegisteredUserController extends Controller
         ])->profile()->create([
             'tagline' => $tagline,
             'tags' => $tags,
-            'level' => $level
+            'level' => $level,
+            'avatar' => [
+                'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
+                'customPath' => 'testing'
+            ]
         ]);
         
 

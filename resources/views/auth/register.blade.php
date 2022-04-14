@@ -80,7 +80,7 @@
                         </svg>
                         <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden />
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-7">
                         <p class="text-center text-xl" x-text="inputData.firstname"></p>
                         <p class="text-center text-xl" x-text="inputData.surname"></p>
                     </div>
@@ -114,13 +114,13 @@
             email: "",
             password: "",
             confirmPassword: "",
-            firstname: "",
-            surname: "",
+            firstname: "Alex",
+            surname: "Dorrington",
         },
         cardData: {
-            tagline: '',
-            tags: '',
-            level: ''
+            tagline: 'sample text to show a sample',
+            tags: 'some,tags,to,show,some',
+            level: '1'
         },
         formEl: null,
         init() {
