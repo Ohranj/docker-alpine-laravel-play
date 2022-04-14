@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
+        $user = User::create([
             'firstname' => 'Master',
             'lastname' => 'Account',
             'email' =>  env('APP_MASTER_EMAIL'),
