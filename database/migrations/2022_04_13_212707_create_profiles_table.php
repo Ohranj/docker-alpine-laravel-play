@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tagline');
             $table->string('tags');
             $table->enum('level', [1, 2, 3, 4]);
+            $table->json('avatar');
             $table->timestamps();
         });
     }

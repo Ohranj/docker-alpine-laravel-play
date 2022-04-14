@@ -11,7 +11,16 @@ class Profile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tagline', 'tags', 'level'
+        'tagline', 'tags', 'level', 'avatar'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'avatar' => 'array',
     ];
 
     /**

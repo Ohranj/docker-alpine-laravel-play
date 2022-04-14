@@ -28,7 +28,11 @@ class DatabaseSeeder extends Seeder
         ])->profile()->create([
             'tagline' => 'This is some sample text',
             'tags' => 'Admin, Account, Card, Text',
-            'level' => 1
+            'level' => 1,
+            'avatar' => [
+                'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
+                'customPath' => 'testing'
+            ]
         ]);
     }
 }

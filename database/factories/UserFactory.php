@@ -61,7 +61,11 @@ class UserFactory extends Factory
             $user->profile()->create([
                 'tagline' => $this->faker->realText(50),
                 'tags' => str_replace(' ', ',', $this->faker->catchPhrase()),
-                'level' => rand(1, 4)
+                'level' => rand(1, 4),
+                'avatar' => [
+                    'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
+                    'customPath' => 'testing'
+                ]
             ]);
         });
     }
