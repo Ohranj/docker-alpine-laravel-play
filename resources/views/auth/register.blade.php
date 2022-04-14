@@ -4,8 +4,8 @@
 @section('main-content')
 <!-- prettier-ignore -->
 <div x-data="register({registerFormURL: '{{ route('register') }}'})" class="m-auto h-2/3 w-full px-1">
-    <h1 class="text-center text-4xl sm:text-5xl mb-5 sm:mb-8">Fitness Tracker</h1>
-    <h2 class="text-center text-3xl sm:text-3xl mb-5 sm:mb-8">Register</h2>
+    <h1 class="text-center text-4xl sm:text-5xl mb-5 sm:mb-8" :class="registeredSuccess ? 'text-red-500' : ''">Fitness Tracker</h1>
+    <h2 class="text-center text-3xl sm:text-3xl mb-5 sm:mb-8" :class="registeredSuccess ? 'text-red-500' : ''" x-text="registeredSuccess ? 'Registered' : 'Register'"></h2>
     <div class="h-[20px] w-11/12 mx-auto rounded-full ring-2 ring-white">
         <div :class="stepsCompleted == 0 ? 'w-1/3' : stepsCompleted == 1 ? 'w-2/3' : 'w-full'" class="bg-blue-600 h-full rounded-full flex content-center justify-center text-sm">
             <span x-cloak x-text="progressBarText[stepsCompleted]"></span>
@@ -13,7 +13,18 @@
     </div>
     <div>
         <p class="text-red-500 mt-5 text-sm text-center" x-text="errorText"></p>
-        <div x-cloak x-show="stepsCompleted == 0" x-transition class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
+        <div x-cloak x-show="registeredSuccess" x-transition.opacity class="text-slate-700 text-center mx-auto bg-slate-100 rounded mt-5 px-6 py-8">
+            <h2>Thank You.</h2>
+            <h3 class="my-4">You have successfully registered.</h3>
+            <p>You will need to confirm your email address prior to logging in for the first time. An email has been sent to the address you used to register with. Please make sure to check your spam folder.</p>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 animate-bounce mx-auto mt-4" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+            </svg>
+            <small>
+                <a href="{{route('login')}}">You may click here to redirect to the login page.</a>
+            </small>
+        </div>
+        <div x-cloak x-show="stepsCompleted == 0 && !registeredSuccess" class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
             <p class="mb-2">The information provided throughout the registration will go towards creating your profile card. This a publicly viewable snapshot of yourself.</p>
             <small>You will have chance to see your card prior to confirming your registration.</small>
             <form class="my-6 border-t-2">
@@ -42,7 +53,7 @@
                 <button class="app-btn app-btn-primary block mx-auto" @click.prevent="confirmFirstPressed">Confirm</button>
             </form>
         </div>
-        <div x-cloak x-show="stepsCompleted == 1" x-transition class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
+        <div x-cloak x-show="stepsCompleted == 1 && !registeredSuccess" class="mt-5 p-3 shadow-xl shadow-red-300 rounded">
             <p class="mb-2">Here you have the opportunity to share a little more about yourself. A tag line, a recent achievement or what you're looking forward to. Amongst some key tags you resonate with.</p>
             <form class="my-6 border-t-2">
                 <div class="my-4">
@@ -69,7 +80,7 @@
                 <button class="app-btn app-btn-primary" @click.prevent="confirmSecondPressed">Confirm</button>
             </div>
         </div>
-        <div x-cloak x-show="stepsCompleted == 2" x-transition class="mt-3 p-3">
+        <div x-cloak x-show="stepsCompleted == 2 && !registeredSuccess" x-transition.opacity class="mt-3 p-3">
             <form method="post" id="f_register">
                 @csrf
                 <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
@@ -114,15 +125,16 @@
             email: "",
             password: "",
             confirmPassword: "",
-            firstname: "Alex",
-            surname: "Dorrington",
+            firstname: "",
+            surname: "",
         },
         cardData: {
-            tagline: 'sample text to show a sample',
-            tags: 'some,tags,to,show,some',
-            level: '1'
+            tagline: '',
+            tags: '',
+            level: '0'
         },
         formEl: null,
+        registeredSuccess: false,
         init() {
             this.formEl = document.getElementById('f_register');
         },
@@ -183,6 +195,7 @@
                 })
                 const json = await response.json();
                 if (response.status == 422) throw Error(json.message)
+                this.registeredSuccess = true;
             } catch (err) {
                 this.errorText = err.message.split('. ')[0]
             }
@@ -190,3 +203,7 @@
     });
 </script>
 @endsection
+<!--
+Handle sending mustverifyemail // Handle image
+upload
+-->
