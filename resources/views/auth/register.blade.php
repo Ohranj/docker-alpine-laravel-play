@@ -203,7 +203,3 @@
     });
 </script>
 @endsection
-<!--
-Handle sending mustverifyemail // Handle image
-upload
--->

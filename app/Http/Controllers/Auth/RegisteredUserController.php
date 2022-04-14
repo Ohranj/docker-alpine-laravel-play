@@ -48,13 +48,14 @@ class RegisteredUserController extends Controller
             'tagline' => $tagline, 'tags' => $tags, 'level' => $level
         ] = $request;
 
-
         $user = User::create([
             'firstname' => $firstname,
             'lastname' => $surname,
             'email' => $email,
             'password' => Hash::make($password)
-        ])->profile()->create([
+        ]);
+        
+        $user->profile()->create([
             'tagline' => $tagline,
             'tags' => $tags,
             'level' => $level,
@@ -63,9 +64,8 @@ class RegisteredUserController extends Controller
                 'customPath' => 'testing'
             ]
         ]);
-        
 
-        //event(new Registered($user));
+        event(new Registered($user));
 
         // Auth::login($user);
 
@@ -76,3 +76,5 @@ class RegisteredUserController extends Controller
         ]);
     }
 }
+
+//Handle sending mustverifyemail // Handle image upload

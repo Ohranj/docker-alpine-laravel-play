@@ -24,6 +24,7 @@
             <a href="{{route('login')}}" class="app-btn app-btn-secondary absolute top-5 left-5 no-underline">Back to Login</a>
         @endif
         <x-forgot-password />
+
         @yield('main-content')
         
         <script src="/js/contactUsForm.js"></script>
