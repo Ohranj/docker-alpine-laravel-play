@@ -30,11 +30,5 @@ class DatabaseSeeder extends Seeder
             'tags' => 'Admin, Account, Card, Text',
             'level' => 1
         ]);
-
-        $user->profile()->create([
-            'tagline' => 'This is some sample text',
-            'tags' => 'Admin, Account, Card, Text',
-            'level' => 1
-        ]);
     }
 }
