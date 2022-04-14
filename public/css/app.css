@@ -714,23 +714,14 @@ sup {
 .right-0 {
   right: 0px;
 }
+.-right-2 {
+  right: -0.5rem;
+}
 .top-5 {
   top: 1.25rem;
 }
 .right-5 {
   right: 1.25rem;
-}
-.top-10 {
-  top: 2.5rem;
-}
-.-right-5 {
-  right: -1.25rem;
-}
-.-right-4 {
-  right: -1rem;
-}
-.-right-2 {
-  right: -0.5rem;
 }
 .z-0 {
   z-index: 0;
@@ -880,6 +871,9 @@ sup {
 .h-\[400px\] {
   height: 400px;
 }
+.h-\[150px\] {
+  height: 150px;
+}
 .h-\[105px\] {
   height: 105px;
 }
@@ -888,9 +882,6 @@ sup {
 }
 .h-20 {
   height: 5rem;
-}
-.h-\[150px\] {
-  height: 150px;
 }
 .min-h-screen {
   min-height: 100vh;

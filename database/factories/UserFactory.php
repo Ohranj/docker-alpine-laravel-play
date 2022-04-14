@@ -51,4 +51,18 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    /**
+     * Defines the creation of the profile relationship on user factory creation
+     * @return void
+     */
+    public function configure() {
+        return $this->afterCreating(function(User $user) {
+            $user->profile()->create([
+                'tagline' => $this->faker->realText(50),
+                'tags' => str_replace(' ', ',', $this->faker->catchPhrase()),
+                'level' => rand(1, 4)
+            ]);
+        });
+    }
 }
