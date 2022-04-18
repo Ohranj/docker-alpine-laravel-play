@@ -84,12 +84,12 @@
             <form method="post" id="f_register">
                 @csrf
                 <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
-                    <div class="w-[105px] h-[105px] relative mx-auto">
-                        <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer border border-dashed" @click="$refs.avatarUpload.click()" />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 absolute top-14 right-9 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$refs.avatarUpload.click()" >
+                    <div class="w-[105px] h-[105px] relative mx-auto mt-5">
+                        <img x-ref="imageEl" src="/img/gravatars/iv219dqg2ef71.jpg" class="w-full h-full rounded-full border-2 mx-auto cursor-pointer object-cover block max-w-full hover:scale-105" @click="$refs.avatarUpload.click()" />
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="showUploadIcon ? '' : 'hidden'" class="h-8 w-8 absolute top-10 right-9 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$refs.avatarUpload.click()" >
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
-                        <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden />
+                        <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden @change="handleFileSelect" />
                     </div>
                     <div class="mt-7">
                         <p class="text-center text-xl" x-text="inputData.firstname"></p>
@@ -134,6 +134,7 @@
             level: '0'
         },
         formEl: null,
+        showUploadIcon: true,
         registeredSuccess: false,
         init() {
             this.formEl = document.getElementById('f_register');
@@ -200,6 +201,25 @@
                 this.errorText = err.message.split('. ')[0]
             }
         },
+        handleFileSelect(e) {
+            this.showUploadIcon = false;
+            const file = e.target.files[0];
+            const imgElement = this.$refs.imageEl;
+            imgElement.src =URL.createObjectURL(file)
+            const cropper = new Cropper(imgElement, {
+                viewMode: 0,
+                initialAspectRatio: 1,
+                aspectRatio: 1/1,
+                dragMode: 'move',
+                guides: false,
+                highlight: false,
+                cropBoxMovable: false,
+                minContainerWidth: 105,
+                minCropBoxWidth: 105,
+                minCropBoxHeight: 105,
+                center: false
+            })
+        }
     });
 </script>
 @endsection
