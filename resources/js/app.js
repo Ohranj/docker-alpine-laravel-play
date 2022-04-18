@@ -1,7 +1,9 @@
-require('./bootstrap');
+require("./bootstrap");
 
-import Alpine from 'alpinejs';
+import Cropper from "cropperjs";
+import Alpine from "alpinejs";
 
+window.Cropper = Cropper;
 window.Alpine = Alpine;
 
 Alpine.start();
