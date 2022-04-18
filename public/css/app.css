@@ -714,8 +714,11 @@ sup {
 .right-0 {
   right: 0px;
 }
-.-right-2 {
-  right: -0.5rem;
+.top-14 {
+  top: 3.5rem;
+}
+.right-9 {
+  right: 2.25rem;
 }
 .top-5 {
   top: 1.25rem;
@@ -822,9 +825,6 @@ sup {
 }
 .mb-4 {
   margin-bottom: 1rem;
-}
-.mb-8 {
-  margin-bottom: 2rem;
 }
 .block {
   display: block;
@@ -1120,6 +1120,9 @@ sup {
 }
 .border-t-2 {
   border-top-width: 2px;
+}
+.border-dashed {
+  border-style: dashed;
 }
 .border-gray-300 {
   --tw-border-opacity: 1;

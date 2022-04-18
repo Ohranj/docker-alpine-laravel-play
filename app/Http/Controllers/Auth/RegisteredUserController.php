@@ -73,5 +73,3 @@ class RegisteredUserController extends Controller
         ]);
     }
 }
-
-//Handle image upload

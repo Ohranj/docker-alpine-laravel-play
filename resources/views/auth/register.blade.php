@@ -85,9 +85,9 @@
                 @csrf
                 <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
                     <div class="w-[105px] h-[105px] relative mx-auto">
-                        <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer" @click="$refs.avatarUpload.click()" />
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute -right-2 top-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        <img src="/img/gravatars/iv219dqg2ef71.jpg" class="w-[105px] h-[105px] rounded-full mx-auto mt-5 cursor-pointer border border-dashed" @click="$refs.avatarUpload.click()" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 absolute top-14 right-9 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$refs.avatarUpload.click()" >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
                         <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden />
                     </div>
@@ -117,7 +117,7 @@
 <!-- prettier-ignore -->
 <script>
     const register = ({ registerFormURL }) => ({
-        stepsCompleted: 0,
+        stepsCompleted: 2,
         progressBarText: ["Step 1", "Step 2", "Step 3"],
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
