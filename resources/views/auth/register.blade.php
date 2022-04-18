@@ -122,20 +122,21 @@
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
         inputData: {
-            email: "",
-            password: "",
-            confirmPassword: "",
-            firstname: "",
-            surname: "",
+            email: "ajdorrington@hotmail.com",
+            password: "Football18**",
+            confirmPassword: "Football18**",
+            firstname: "Alex",
+            surname: "Surname",
         },
         cardData: {
-            tagline: '',
-            tags: '',
+            tagline: 'dfgr',
+            tags: 'gfrgre',
             level: '0'
         },
         formEl: null,
         showUploadIcon: true,
         registeredSuccess: false,
+        cropperObj: null,
         init() {
             this.formEl = document.getElementById('f_register');
         },
@@ -170,6 +171,27 @@
         backPressed() {
             this.stepsCompleted--;
         },
+        handleFileSelect(e) {
+            this.showUploadIcon = false;
+            const file = e.target.files[0];
+            const imgElement = this.$refs.imageEl;
+            imgElement.src =URL.createObjectURL(file)
+            const crop = new Cropper(imgElement, {
+                viewMode: 0,
+                initialAspectRatio: 1,
+                aspectRatio: 1/1,
+                dragMode: 'move',
+                guides: false,
+                highlight: false,
+                cropBoxMovable: false,
+                minContainerWidth: 105,
+                minCropBoxWidth: 105,
+                minCropBoxHeight: 105,
+                center: false,
+            });
+            imgElement.addEventListener('cropend', () => this.cropperObj = crop.getCroppedCanvas())
+            imgElement.addEventListener('zoom', () => this.cropperObj = crop.getCroppedCanvas())
+        },
         createFormDataObj() {
             const formData = new FormData(this.formEl);
             const {email, password, confirmPassword, firstname, surname} = this.inputData;
@@ -186,6 +208,11 @@
         },
         async registerBtnPressed() {
             const formData = this.createFormDataObj();
+            
+            const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
+            const avatarBlob = await getAvatarBlob();
+            formData.append('avatarBlob', avatarBlob);
+
             try {
                 const response = await fetch(registerFormURL, {
                     method: 'post',
@@ -201,25 +228,6 @@
                 this.errorText = err.message.split('. ')[0]
             }
         },
-        handleFileSelect(e) {
-            this.showUploadIcon = false;
-            const file = e.target.files[0];
-            const imgElement = this.$refs.imageEl;
-            imgElement.src =URL.createObjectURL(file)
-            const cropper = new Cropper(imgElement, {
-                viewMode: 0,
-                initialAspectRatio: 1,
-                aspectRatio: 1/1,
-                dragMode: 'move',
-                guides: false,
-                highlight: false,
-                cropBoxMovable: false,
-                minContainerWidth: 105,
-                minCropBoxWidth: 105,
-                minCropBoxHeight: 105,
-                center: false
-            })
-        }
     });
 </script>
 @endsection
