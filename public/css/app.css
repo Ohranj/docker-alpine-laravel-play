@@ -823,8 +823,8 @@ sup {
 .mb-4 {
   margin-bottom: 1rem;
 }
-.mr-auto {
-  margin-right: auto;
+.mb-8 {
+  margin-bottom: 2rem;
 }
 .block {
   display: block;
@@ -1053,6 +1053,9 @@ sup {
   -moz-column-gap: 1.25rem;
        column-gap: 1.25rem;
 }
+.gap-y-4 {
+  row-gap: 1rem;
+}
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1160,20 +1163,16 @@ sup {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
 .bg-stone-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(41 37 36 / var(--tw-bg-opacity));
 }
 .bg-fadedBody {
   background-color: rgba(0, 0, 0, 0.65);
-}
-.bg-slate-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1201,9 +1200,6 @@ sup {
 }
 .p-2 {
   padding: 0.5rem;
-}
-.p-8 {
-  padding: 2rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -1354,6 +1350,10 @@ sup {
 .text-green-600 {
   --tw-text-opacity: 1;
   color: rgb(22 163 74 / var(--tw-text-opacity));
+}
+.text-accent-blue {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
 }
 .underline {
   -webkit-text-decoration-line: underline;
