@@ -122,15 +122,15 @@
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
         inputData: {
-            email: "ajdorrington@hotmail.com",
-            password: "Football18**",
-            confirmPassword: "Football18**",
-            firstname: "Alex",
-            surname: "Surname",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            firstname: "",
+            surname: "",
         },
         cardData: {
-            tagline: 'dfgr',
-            tags: 'gfrgre',
+            tagline: '',
+            tags: '',
             level: '0'
         },
         formEl: null,
@@ -212,6 +212,7 @@
             const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
             const avatarBlob = await getAvatarBlob();
             formData.append('avatarBlob', avatarBlob);
+            return;
 
             try {
                 const response = await fetch(registerFormURL, {
