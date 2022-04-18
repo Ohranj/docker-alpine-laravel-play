@@ -27,7 +27,7 @@ Route::get('/', fn () => view('auth/login'));
 /**
  * Authorised
  */
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     Route::get('/home', fn () => view('dashboard'))->name('dashboard');
 });
 

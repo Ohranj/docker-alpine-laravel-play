@@ -67,9 +67,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Auth::login($user);
-
-        // return redirect(RouteServiceProvider::HOME);
         return response()->json([
             'success' => true,
             'message' => 'user registered'
@@ -77,4 +74,4 @@ class RegisteredUserController extends Controller
     }
 }
 
-//Handle sending mustverifyemail // Handle image upload
+//Handle image upload

@@ -823,9 +823,6 @@ sup {
 .mb-4 {
   margin-bottom: 1rem;
 }
-.mr-auto {
-  margin-right: auto;
-}
 .block {
   display: block;
 }
@@ -1160,20 +1157,16 @@ sup {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
+.bg-slate-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
 .bg-stone-800 {
   --tw-bg-opacity: 1;
   background-color: rgb(41 37 36 / var(--tw-bg-opacity));
 }
 .bg-fadedBody {
   background-color: rgba(0, 0, 0, 0.65);
-}
-.bg-slate-100 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
-}
-.bg-slate-200 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity));
 }
 .fill-current {
   fill: currentColor;
@@ -1201,9 +1194,6 @@ sup {
 }
 .p-2 {
   padding: 0.5rem;
-}
-.p-8 {
-  padding: 2rem;
 }
 .px-4 {
   padding-left: 1rem;
