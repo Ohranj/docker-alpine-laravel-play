@@ -58,7 +58,7 @@
             <form class="my-6 border-t-2">
                 <div class="my-4">
                     <label for="tagline">Tagline<sup>*</sup></label>
-                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="35" x-model="cardData.tagline" />
+                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="38" x-model="cardData.tagline" />
                 </div>
                 <div class="my-4">
                     <label for="tags">Tags<sup>*</sup><small class="ml-4">Tags should be comma seperated.</small></label>
@@ -80,7 +80,7 @@
                 <button class="app-btn app-btn-primary" @click.prevent="confirmSecondPressed">Confirm</button>
             </div>
         </div>
-        <div x-cloak x-show="stepsCompleted == 2 && !registeredSuccess" x-transition.opacity class="mt-3 p-3">
+        <div :class="awaitingSubmitResponse ? 'animate-pulse' : ''" x-cloak x-show="stepsCompleted == 2 && !registeredSuccess" x-transition.opacity class="mt-3 p-3">
             <form method="post" id="f_register">
                 @csrf
                 <div :class="cardData.level == 1 ? 'shadow-green-300' : cardData.level == 2 ? 'shadow-orange-300' : cardData.level == 3 ? 'shadow-indigo-300' : 'shadow-red-300'" class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
@@ -105,7 +105,7 @@
                     </ul>   
                     <div class="border-t mt-auto py-2 text-center text-sm" x-text="cardData.tagline"></div>
                 </div>
-                <div class="flex justify-center gap-x-4">
+                <div class="flex justify-center gap-x-4" :class="awaitingSubmitResponse ? 'hidden' : ''">
                     <button class="app-btn app-btn-secondary" type="button" @click="backPressed">Back</button>
                     <button class="app-btn app-btn-primary" @click.prevent="registerBtnPressed()">Register</button>
                 </div>
@@ -140,6 +140,7 @@
         showUploadIcon: true,
         registeredSuccess: false,
         cropperObj: null,
+        awaitingSubmitResponse: false,
         init() {
             this.formEl = document.getElementById('f_register');
         },
@@ -207,6 +208,7 @@
             this.$refs.avatarUpload.value = null;
             this.showUploadIcon = true
             cropperInstance.destroy();
+            this.cropperObj = null
         },
         createFormDataObj() {
             const formData = new FormData(this.formEl);
@@ -231,6 +233,8 @@
                 formData.append('avatarBlob', avatarBlob);
             }
 
+            this.awaitingSubmitResponse = true;
+
             try {
                 const response = await fetch(registerFormURL, {
                     method: 'post',
@@ -244,6 +248,9 @@
                 this.registeredSuccess = true;
             } catch (err) {
                 this.errorText = err.message.split('. ')[0]
+                this.registeredSuccess = false;
+            } finally {
+                this.awaitingSubmitResponse = false;
             }
         },
     });
