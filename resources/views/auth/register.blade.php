@@ -122,15 +122,15 @@
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
         inputData: {
-            email: "",
-            password: "",
-            confirmPassword: "",
-            firstname: "",
-            surname: "",
+            email: "aretgiun@hotmail.com",
+            password: "Football18**",
+            confirmPassword: "Football18**",
+            firstname: "Alex",
+            surname: "Surname",
         },
         cardData: {
-            tagline: '',
-            tags: '',
+            tagline: 'dfgr',
+            tags: 'gfrgre',
             level: '0'
         },
         formEl: null,
@@ -189,8 +189,12 @@
                 minCropBoxHeight: 105,
                 center: false,
             });
-            imgElement.addEventListener('cropend', () => this.cropperObj = crop.getCroppedCanvas())
-            imgElement.addEventListener('zoom', () => this.cropperObj = crop.getCroppedCanvas())
+            ['cropend', 'zoom'].forEach((evt) => 
+                imgElement.addEventListener(evt, () => this.cropperObj = crop.getCroppedCanvas({
+                    width: 105,
+                    height: 105
+                }))
+            )
         },
         createFormDataObj() {
             const formData = new FormData(this.formEl);
@@ -209,10 +213,11 @@
         async registerBtnPressed() {
             const formData = this.createFormDataObj();
             
-            const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
-            const avatarBlob = await getAvatarBlob();
-            formData.append('avatarBlob', avatarBlob);
-            return;
+            if (this.cropperObj) {
+                const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
+                const avatarBlob = await getAvatarBlob();
+                formData.append('avatarBlob', avatarBlob);
+            }
 
             try {
                 const response = await fetch(registerFormURL, {
