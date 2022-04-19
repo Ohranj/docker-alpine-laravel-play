@@ -58,16 +58,16 @@
             <form class="my-6 border-t-2">
                 <div class="my-4">
                     <label for="tagline">Tagline<sup>*</sup></label>
-                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="50" x-model="cardData.tagline" />
+                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="35" x-model="cardData.tagline" />
                 </div>
                 <div class="my-4">
                     <label for="tags">Tags<sup>*</sup><small class="ml-4">Tags should be comma seperated.</small></label>
-                    <input name="tags" type="text" class="block mt-1 w-full" placeholder="Enter some tags... i.e. sleepy, home workout, in the zone" maxlength="50" x-model="cardData.tags" />
+                    <input name="tags" type="text" class="block mt-1 w-full" placeholder="Enter some tags... i.e. sleepy, home workout, in the zone" maxlength="45" x-model="cardData.tags" />
                 </div>
                 <div class="my-4">
                     <label for="level">Experience Level<sup>*</sup></label>
                     <select name="level" x-model="cardData.level" class="block mt-1 w-full text-black">
-                        <option value="" disabled>Select an option...</option>
+                        <option value="0" disabled>Select an option...</option>
                         <option value="4">more than 3 years</option>
                         <option value="3">1 - 3 years</option>
                         <option value="2">6 - 12 months</option>
@@ -131,7 +131,7 @@
         cardData: {
             tagline: '',
             tags: '',
-            level: '0'
+            level: 0
         },
         formEl: null,
         showUploadIcon: true,
@@ -236,4 +236,4 @@
         },
     });
 </script>
-@endsection //Add level, not savig
+@endsection
