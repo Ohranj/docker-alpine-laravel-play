@@ -64,7 +64,7 @@ class UserFactory extends Factory
                 'level' => rand(1, 4),
                 'avatar' => [
                     'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
-                    'customPath' => 'testing'
+                    'customPath' => null
                 ]
             ]);
         });

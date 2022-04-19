@@ -43,6 +43,6 @@
         @apply text-accent-blue underline underline-offset-4 cursor-pointer
     }
     .inactive-navItem {
-        @apply hover:text-accent-blue hover:underline hover:underline-offset-4 cursor-pointer
+        @apply hover:underline hover:underline-offset-4 cursor-pointer
     }
 }
