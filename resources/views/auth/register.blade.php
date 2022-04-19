@@ -89,6 +89,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" :class="showUploadIcon ? '' : 'hidden'" class="h-8 w-8 absolute top-10 right-9 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$refs.avatarUpload.click()" >
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="showUploadIcon ? 'hidden' : ''" class="h-6 w-6 absolute -right-2 top-0 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" x-ref="destroyCropperIcon">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                          </svg>
                         <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden @change="handleFileSelect" />
                     </div>
                     <div class="mt-7">
@@ -195,6 +198,15 @@
                     height: 105
                 }))
             )
+            this.$refs.destroyCropperIcon.addEventListener('click', () => this.destroyCropperInstance(crop), {
+                once: true
+            })
+        },
+        destroyCropperInstance(cropperInstance) {
+            this.$refs.imageEl.src = '/img/gravatars/iv219dqg2ef71.jpg'
+            this.$refs.avatarUpload.value = null;
+            this.showUploadIcon = true
+            cropperInstance.destroy();
         },
         createFormDataObj() {
             const formData = new FormData(this.formEl);

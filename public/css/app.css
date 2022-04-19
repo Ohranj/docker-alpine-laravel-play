@@ -765,6 +765,15 @@ sup {
 .left-5 {
   left: 1.25rem;
 }
+.-right-2 {
+  right: -0.5rem;
+}
+.-right-4 {
+  right: -1rem;
+}
+.-right-5 {
+  right: -1.25rem;
+}
 .z-0 {
   z-index: 0;
 }
