@@ -51,6 +51,19 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Return a users profile image
+     * @return string;
+     */
+    public function getUserAvatar() {
+        if ($this->profile->avatar['customPath']) {
+            return 'storage/' . $this->profile->avatar['customPath'];
+        } else {
+            return 'img/gravatars/iv219dqg2ef71.jpg';
+        }
+        
+    }
+
+    /**
      * Defines the relationships on the model
      * 
      * 
