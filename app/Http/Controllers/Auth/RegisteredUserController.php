@@ -40,6 +40,7 @@ class RegisteredUserController extends Controller
             'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['bail', 'required', 'confirmed', Rules\Password::defaults()],
             'tagline' => ['bail', 'required', 'max:38'],
+            'tagline' => ['bail', 'required', 'max:35'],
             'tags' => ['bail', 'required', 'max:45'],
             'level' => ['bail', 'required']
         ]);
