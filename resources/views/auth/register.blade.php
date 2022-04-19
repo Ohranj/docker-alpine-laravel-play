@@ -58,16 +58,16 @@
             <form class="my-6 border-t-2">
                 <div class="my-4">
                     <label for="tagline">Tagline<sup>*</sup></label>
-                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="50" x-model="cardData.tagline" />
+                    <input name="tagline" type="text" class="block mt-1 w-full" placeholder="Enter a tagline..." maxlength="35" x-model="cardData.tagline" />
                 </div>
                 <div class="my-4">
                     <label for="tags">Tags<sup>*</sup><small class="ml-4">Tags should be comma seperated.</small></label>
-                    <input name="tags" type="text" class="block mt-1 w-full" placeholder="Enter some tags... i.e. sleepy, home workout, in the zone" maxlength="50" x-model="cardData.tags" />
+                    <input name="tags" type="text" class="block mt-1 w-full" placeholder="Enter some tags... i.e. sleepy, home workout, in the zone" maxlength="45" x-model="cardData.tags" />
                 </div>
                 <div class="my-4">
                     <label for="level">Experience Level<sup>*</sup></label>
                     <select name="level" x-model="cardData.level" class="block mt-1 w-full text-black">
-                        <option value="" disabled>Select an option...</option>
+                        <option value="0" disabled>Select an option...</option>
                         <option value="4">more than 3 years</option>
                         <option value="3">1 - 3 years</option>
                         <option value="2">6 - 12 months</option>
@@ -89,6 +89,9 @@
                         <svg xmlns="http://www.w3.org/2000/svg" :class="showUploadIcon ? '' : 'hidden'" class="h-8 w-8 absolute top-10 right-9 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" @click="$refs.avatarUpload.click()" >
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                         </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" :class="showUploadIcon ? 'hidden' : ''" class="h-6 w-6 absolute -right-2 top-0 cursor-pointer" viewBox="0 0 20 20" fill="currentColor" x-ref="destroyCropperIcon">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                          </svg>
                         <input name="avatar" x-ref="avatarUpload" type="file" accept="image/*" hidden @change="handleFileSelect" />
                     </div>
                     <div class="mt-7">
@@ -117,7 +120,7 @@
 <!-- prettier-ignore -->
 <script>
     const register = ({ registerFormURL }) => ({
-        stepsCompleted: 2,
+        stepsCompleted: 0,
         progressBarText: ["Step 1", "Step 2", "Step 3"],
         errorTextArray: ['Please make sure all fields marked (*) are completed before proceeding', 'Please make sure the password and confirm password fields match.', 'Passwords should contain at least 8 digits and be made up of digits and uppercase / lowercase characters'],
         errorText: null,
@@ -131,7 +134,7 @@
         cardData: {
             tagline: '',
             tags: '',
-            level: '0'
+            level: 0
         },
         formEl: null,
         showUploadIcon: true,
@@ -189,8 +192,21 @@
                 minCropBoxHeight: 105,
                 center: false,
             });
-            imgElement.addEventListener('cropend', () => this.cropperObj = crop.getCroppedCanvas())
-            imgElement.addEventListener('zoom', () => this.cropperObj = crop.getCroppedCanvas())
+            ['cropend', 'zoom'].forEach((evt) => 
+                imgElement.addEventListener(evt, () => this.cropperObj = crop.getCroppedCanvas({
+                    width: 105,
+                    height: 105
+                }))
+            )
+            this.$refs.destroyCropperIcon.addEventListener('click', () => this.destroyCropperInstance(crop), {
+                once: true
+            })
+        },
+        destroyCropperInstance(cropperInstance) {
+            this.$refs.imageEl.src = '/img/gravatars/iv219dqg2ef71.jpg'
+            this.$refs.avatarUpload.value = null;
+            this.showUploadIcon = true
+            cropperInstance.destroy();
         },
         createFormDataObj() {
             const formData = new FormData(this.formEl);
@@ -209,10 +225,11 @@
         async registerBtnPressed() {
             const formData = this.createFormDataObj();
             
-            const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
-            const avatarBlob = await getAvatarBlob();
-            formData.append('avatarBlob', avatarBlob);
-            return;
+            if (this.cropperObj) {
+                const getAvatarBlob = async () => new Promise((res) => this.cropperObj.toBlob((blob) => res(blob)))
+                const avatarBlob = await getAvatarBlob();
+                formData.append('avatarBlob', avatarBlob);
+            }
 
             try {
                 const response = await fetch(registerFormURL, {

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Auth\Events\Registered;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserController extends Controller
 {
@@ -34,13 +35,13 @@ class RegisteredUserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'firstname' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'tagline' => ['required', 'max:40'],
-            'tags' => ['required'],
-            'level' => ['required']
+            'firstname' => ['bail', 'required', 'string', 'max:255'],
+            'surname' => ['bail', 'required', 'string', 'max:255'],
+            'email' => ['bail', 'required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['bail', 'required', 'confirmed', Rules\Password::defaults()],
+            'tagline' => ['bail', 'required', 'max:35'],
+            'tags' => ['bail', 'required', 'max:45'],
+            'level' => ['bail', 'required']
         ]);
 
         [
@@ -54,14 +55,21 @@ class RegisteredUserController extends Controller
             'email' => $email,
             'password' => Hash::make($password)
         ]);
-        
+
+        $file = $request->file('avatarBlob');
+
+        if ($file) {
+            $filePath = "{$user->id}" . ceil(microtime(true)) . '.png';
+            Storage::disk('local')->put("public/{$filePath}", file_get_contents($file));
+        }
+
         $user->profile()->create([
             'tagline' => $tagline,
             'tags' => $tags,
             'level' => $level,
             'avatar' => [
                 'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
-                'customPath' => 'testing'
+                'customPath' => $file ? $filePath : null
             ]
         ]);
 

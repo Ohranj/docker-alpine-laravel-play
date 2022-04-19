@@ -17,7 +17,8 @@
             Leaderboard
         </li>
     </ul>
-    <img src="/img/gravatars/iv219dqg2ef71.jpg" class="rounded-full w-[50px] h-[50px] sm:w-[65px] sm:h-[65px] cursor-pointer"/>
+   
+    <img src="{{Auth::user()->getUserAvatar()}}" class="rounded-full w-[50px] h-[50px] sm:w-[65px] sm:h-[65px] cursor-pointer"/>
 </nav>
 <!-- Show profile on image click - allow settings / change account stuff / view friends follow / current weight / calories and sign
 out 
