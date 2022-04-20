@@ -7,11 +7,20 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+    private static $numNewUsers = 8;
+
+    /**
+     * Returns a list of the last 8 registered users
+     * @return array $newUsers
+     */
     public static function getNewestUsers() {
-        $newUsers = User::latest('id')->take(8)->get();
-        return $newUsers;
+        return User::with('profile')->latest('id')->take(static::$numNewUsers)->get();
     }
 
+    /**
+     * Return the members view
+     * @return \Illuminate\View\View
+     */
     public function index() {
         $newestUSers = $this->getNewestUsers();
         return view('members', [

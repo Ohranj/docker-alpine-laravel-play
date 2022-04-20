@@ -3,6 +3,7 @@
 @import 'tailwindcss/utilities';
 
 @import './cropper.css';
+@import '@splidejs\splide\dist\css\splide.min.css';
 
 
 @layer components {

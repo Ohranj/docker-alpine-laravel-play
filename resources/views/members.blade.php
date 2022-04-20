@@ -1,26 +1,66 @@
 @extends('layouts.app')
 <!-- prettier-ignore -->
+
+<style>
+    button.splide__arrow {
+        top: 20%
+    }
+    .splide__arrow--prev.splide-prev {
+        margin-left: -4em;
+    }
+    .splide__arrow--next.splide-next {
+        margin-right: -4em;
+    }
+    div.splide__slide.is-next, div.splide__slide.is-prev {
+        opacity: 0.1;
+    }
+</style>
 @section('main-content')
 
 <!-- prettier-ignore -->
-<div class="flex flex-wrap justify-evenly">
-    @foreach ($newestUsers as $newUser)
-    <div class="mt-3 p-3">
-        <div class="h-[400px] w-[300px] mx-auto mb-6 flex flex-col shadow-lg rounded">
-            <div class="w-[105px] h-[105px] relative mx-auto mt-5">
-                <img src="{{$newUser->getUserAvatar()}}" class="w-full h-full rounded-full border-2 mx-auto cursor-pointer object-cover block max-w-full hover:scale-105" />
+<div class="px-4 py-10">
+    <h2 class="text-center text-2xl">Latest users</h2>
+    <div x-data="carousel" class="splide mx-auto mt-4" role="group">
+        <div class="splide__arrows"></div>
+        <div class="splide__track">
+            <div class="splide__list">
+                @foreach($newestUsers as $newUser)
+                <div class="splide__slide">
+                    <x-user-card :newUser="$newUser" />
+                </div>
+                @endforeach
             </div>
-            <div class="mt-7">
-                <p class="text-center text-xl" x-text="inputData.firstname"></p>
-                <p class="text-center text-xl" x-text="inputData.surname"></p>
-            </div>
-            <ul class="flex flex-wrap gap-4 text-center justify-center content-center flex-grow"></ul>
-            <div class="border-t mt-auto py-2 text-center text-sm"></div>
-        </div>
-        <div class="flex justify-center gap-x-4">
-            <button class="app-btn app-btn-secondary" type="button">Message</button>
-            <button class="app-btn app-btn-primary" type="button">Follow</button>
         </div>
     </div>
-    @endforeach @endsection
 </div>
+@endsection
+
+<!-- prettier-ignore -->
+@section('scripts')
+<script>
+    const carousel = () => ({
+        init() {
+            const slide = new Splide(".splide", {
+                type: "loop",
+                perPage: 3,
+                width: "60%",
+                autoWidth: true,
+                perMove: 1,
+                focus: "center",
+                pagination: false,
+                snap: true,
+                updateOnMove: true,
+                breakpoints: {
+                    768: { perPage: 1 },
+                    1024: { perPage: 2, width: "90%", arrows: false },
+                    1280: { width: "75%" },
+                },
+                classes: {
+                    prev: "splide__arrow--prev splide-prev",
+                    next: "splide__arrow--next splide-next",
+                },
+            }).mount();
+        },
+    });
+</script>
+@endsection

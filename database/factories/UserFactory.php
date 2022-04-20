@@ -59,7 +59,7 @@ class UserFactory extends Factory
     public function configure() {
         return $this->afterCreating(function(User $user) {
             $user->profile()->create([
-                'tagline' => $this->faker->realText(50),
+                'tagline' => $this->faker->realText(38),
                 'tags' => str_replace(' ', ',', $this->faker->catchPhrase()),
                 'level' => rand(1, 4),
                 'avatar' => [
