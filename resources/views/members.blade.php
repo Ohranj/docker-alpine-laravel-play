@@ -11,8 +11,11 @@
     .splide__arrow--next.splide-next {
         margin-right: -4em;
     }
-    div.splide__slide.is-next, div.splide__slide.is-prev {
+    div.splide__slide, div.splide__slide {
         opacity: 0.1;
+    }
+    div.splide__slide.is-active.is-visible {
+        opacity: 1;
     }
 </style>
 @section('main-content')
@@ -20,7 +23,7 @@
 <!-- prettier-ignore -->
 <div class="px-4 py-10">
     <h2 class="text-center text-2xl">Latest users</h2>
-    <div x-data="carousel" class="splide mx-auto mt-4" role="group">
+    <div x-data="carousel" class="splide mx-auto" role="group">
         <div class="splide__arrows"></div>
         <div class="splide__track">
             <div class="splide__list">

@@ -10,7 +10,8 @@ class MemberController extends Controller
     private static $numNewUsers = 8;
 
     /**
-     * Returns a list of the last 8 registered users
+     * Returns a list of the last x registered users
+     * @param int static::$numNewUsers
      * @return array $newUsers
      */
     public static function getNewestUsers() {
