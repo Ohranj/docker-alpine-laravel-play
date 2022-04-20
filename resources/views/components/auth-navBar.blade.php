@@ -1,6 +1,6 @@
 <!-- prettier-ignore -->
-<nav class="py-1 sm:py-2 flex px-2 border-b-2 flex justify-between items-center text-md md:text-xl lg:px-20">
-    <p class="hidden hover:text-red-500 md:block md:text-3xl">
+<nav class="py-1 sm:py-2 flex px-2 border-b-2 flex justify-between items-center text-md md:text-xl lg:px-12 xl:px-20">
+    <p class="hidden hover:text-red-500 lg:block md:text-3xl">
         {{ env("APP_NAME") }}
     </p>
     <ul class="flex gap-x-4 sm:gap-x-6">
