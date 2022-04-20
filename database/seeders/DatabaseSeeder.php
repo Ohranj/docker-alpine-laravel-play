@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'level' => 1,
             'avatar' => [
                 'defaultPath' => '/img/gravatars/iv219dqg2ef71.jpg',
-                'customPath' => 'testing'
+                'customPath' => null
             ]
         ]);
     }

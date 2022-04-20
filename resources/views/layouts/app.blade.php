@@ -18,5 +18,6 @@
     <body class="bg-stone-800">
         <x-auth-navBar />
         @yield('main-content')
+        @yield('scripts')
     </body>
 </html>
