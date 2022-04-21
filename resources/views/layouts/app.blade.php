@@ -19,5 +19,6 @@
         <x-auth-navBar />
         @yield('main-content')
         @yield('scripts')
+        <script src="{{ asset('js/AlpineStores.js') }}"></script>
     </body>
 </html>

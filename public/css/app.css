@@ -745,6 +745,15 @@ sup {
   bottom: 0px;
   left: 0px;
 }
+.top-8 {
+  top: 2rem;
+}
+.left-8 {
+  left: 2rem;
+}
+.right-8 {
+  right: 2rem;
+}
 .top-0 {
   top: 0px;
 }
@@ -787,6 +796,10 @@ sup {
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .my-auto {
   margin-top: auto;
@@ -962,11 +975,11 @@ sup {
 .w-\[105px\] {
   width: 105px;
 }
-.w-\[125px\] {
-  width: 125px;
-}
 .w-8 {
   width: 2rem;
+}
+.w-\[125px\] {
+  width: 125px;
 }
 .w-auto {
   width: auto;
@@ -1820,10 +1833,6 @@ sup {
 }
 @media (min-width: 768px) {
 
-  .md\:block {
-    display: block;
-  }
-
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
@@ -1843,11 +1852,6 @@ sup {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
-  }
-
-  .lg\:px-20 {
-    padding-left: 5rem;
-    padding-right: 5rem;
   }
 
   .lg\:px-12 {
