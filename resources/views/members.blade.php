@@ -30,7 +30,7 @@
             <div class="splide__list">
                 @foreach($newestUsers as $newUser)
                     <div class="splide__slide">
-                        <x-user-card :newUser="$newUser" />
+                        <x-user-card :cardUser="$newUser" />
                     </div>
                 @endforeach
             </div>

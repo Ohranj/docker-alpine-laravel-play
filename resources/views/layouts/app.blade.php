@@ -19,6 +19,7 @@
         <x-auth-navBar />
         @yield('main-content')
         @yield('scripts')
+        {{-- {{dd(Auth::user()->load('followings', 'followers'))}} --}}
         <script src="{{ asset('js/AlpineStores.js') }}"></script>
     </body>
 </html>

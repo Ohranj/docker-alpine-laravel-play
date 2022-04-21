@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MemberController extends Controller
 {
@@ -15,7 +16,13 @@ class MemberController extends Controller
      * @return array $newUsers
      */
     public static function getNewestUsers() {
-        return User::with('profile')->latest('id')->take(static::$numNewUsers)->get();
+        return User::with([
+            'profile' => fn($q) => $q->select('user_id', 'avatar', 'level', 'tagline', 'tags')
+            ])
+            ->latest('id')
+            ->take(static::$numNewUsers)
+            ->select('id', 'firstname', 'lastname')
+            ->get();
     }
 
     /**

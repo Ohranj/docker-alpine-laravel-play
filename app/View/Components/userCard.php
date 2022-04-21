@@ -10,7 +10,7 @@ class userCard extends Component
      * Holds the user data
      * @var object
      */
-    public $newUser;
+    public $cardUser;
 
 
     /**
@@ -18,9 +18,9 @@ class userCard extends Component
      *
      * @return void
      */
-    public function __construct($newUser)
+    public function __construct($cardUser)
     {
-        $this->newUser = $newUser;
+        $this->cardUser = $cardUser;
     }
 
     /**
