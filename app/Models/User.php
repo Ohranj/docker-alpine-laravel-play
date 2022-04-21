@@ -60,7 +60,14 @@ class User extends Authenticatable implements MustVerifyEmail
         } else {
             return $this->profile->avatar['defaultPath'];
         }
-        
+    }
+
+    /**
+     * Return an array of who the user is following
+     * @return array
+     */
+    public function getUserFollowing() {
+        return $this->followings()->get();
     }
 
     /**
@@ -70,5 +77,13 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function profile() {
         return $this->hasOne(Profile::class, 'user_id');
+    }
+
+    public function followings() {
+        return $this->belongsToMany(User::class, 'following_user', 'user_id', 'following_id');
+    }
+
+    public function followers() {
+        return $this->belongsToMany(User::class, 'following_user', 'following_id', 'user_id');
     }
 }
