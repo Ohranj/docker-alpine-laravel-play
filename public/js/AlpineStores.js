@@ -19,7 +19,6 @@ document.addEventListener("alpine:init", () =>
             }
         },
         async followUserPressed(elem, userObj) {
-            elem.classList.toggle("text-red-500");
             const isFollowing = this.userSelf.followings.findIndex((x) => x.id == userObj.id);
             if (isFollowing < 0) {
                 await fetch('/api/user/follow', {
@@ -30,6 +29,7 @@ document.addEventListener("alpine:init", () =>
                         "X-CSRF-TOKEN": this.csrfToken,
                     }
                 })
+                elem.classList.toggle("text-red-500");
                 this.userSelf.followings.push(userObj);
                 this.toastMessage = "User followed";
                 this.showSuccessToast = true;
@@ -49,9 +49,11 @@ document.addEventListener("alpine:init", () =>
                     this.showErrorToast = true;
                     return;
                 }
+                elem.classList.toggle("text-red-500");
                 this.userSelf.followings.splice(isFollowing, 1);
                 this.toastMessage = "User unfollowed";
                 this.showSuccessToast = true;
+
             }
         },
     })
