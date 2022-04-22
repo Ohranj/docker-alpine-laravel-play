@@ -963,6 +963,9 @@ sup {
 .h-20 {
   height: 5rem;
 }
+.h-\[550px\] {
+  height: 550px;
+}
 .min-h-\[30px\] {
   min-height: 30px;
 }

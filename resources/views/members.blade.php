@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 <style>
     button.splide__arrow {
-        top: 20%
+        top: 40%
     }
     .splide__arrow--prev.splide-prev {
         margin-left: -4em;
@@ -24,7 +24,7 @@
 <div class="px-4 py-10">
     <h2 class="text-center text-2xl">Latest users</h2>
     <p class="text-center my-2">Say <q>Hello</q> to our newest members! <br>Send them a message or follow their progress.</p>
-    <div x-data="carousel" class="splide mx-auto" role="group">
+    <div x-data="carousel" class="splide mx-auto h-[550px]" role="group">
         <div class="splide__arrows"></div>
         <div class="splide__track">
             <div class="splide__list">
