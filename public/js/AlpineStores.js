@@ -4,6 +4,9 @@ document.addEventListener("alpine:init", () =>
         selectedUser: null,
         userSelf: null,
         csrfToken: null,
+        showSuccessToast: false,
+        showErrorToast: false,
+        toastMessage: '',
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
             try {
@@ -28,6 +31,8 @@ document.addEventListener("alpine:init", () =>
                     }
                 })
                 this.userSelf.followings.push(userObj);
+                this.toastMessage = "User followed";
+                this.showSuccessToast = true;
                 return;
             } else {
                 const response = await fetch("/api/user/unfollow", {
@@ -40,11 +45,13 @@ document.addEventListener("alpine:init", () =>
                 });
                 const jsonReponse = await response.json();
                 if (!jsonReponse.success) {
-                    console.log("error occured");
-                    returned;
+                    this.toastMessage = "Error. Please try again";
+                    this.showErrorToast = true;
+                    return;
                 }
                 this.userSelf.followings.splice(isFollowing, 1);
-                console.log("user unfollowed");
+                this.toastMessage = "User unfollowed";
+                this.showSuccessToast = true;
             }
         },
     })
