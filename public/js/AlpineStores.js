@@ -7,6 +7,7 @@ document.addEventListener("alpine:init", () =>
         showSuccessToast: false,
         showErrorToast: false,
         toastMessage: '',
+        followIconClasses: ['text-red-500'],
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
             try {
@@ -29,7 +30,7 @@ document.addEventListener("alpine:init", () =>
                         "X-CSRF-TOKEN": this.csrfToken,
                     }
                 })
-                elem.classList.toggle("text-red-500");
+                elem.classList.toggle(...this.followIconClasses);
                 this.userSelf.followings.push(userObj);
                 this.toastMessage = "User followed";
                 this.showSuccessToast = true;
@@ -49,7 +50,7 @@ document.addEventListener("alpine:init", () =>
                     this.showErrorToast = true;
                     return;
                 }
-                elem.classList.toggle("text-red-500");
+                elem.classList.toggle(...this.followIconClasses);
                 this.userSelf.followings.splice(isFollowing, 1);
                 this.toastMessage = "User unfollowed";
                 this.showSuccessToast = true;
