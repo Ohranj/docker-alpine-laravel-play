@@ -23,7 +23,7 @@
         @apply text-red-500 font-bold text-base
     }
     [x-cloak] {
-        @apply hidden;
+        @apply hidden !important;
     }
     .app-btn {
         @apply rounded px-2 py-1 min-w-[100px];
