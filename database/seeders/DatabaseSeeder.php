@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
             'password' =>  Hash::make(env('APP_MASTER_PASSWORD')),
             'state' => 1,
             'agenda' => 3
-        ])->profile()->create([
+        ]);
+        
+        $user->profile()->create([
             'tagline' => 'This is some sample text',
             'tags' => 'Admin, Account, Card, Text',
             'level' => 1,
@@ -34,5 +36,7 @@ class DatabaseSeeder extends Seeder
                 'customPath' => null
             ]
         ]);
+        
+        $user->followings()->attach(['following_id' => 11]);
     }
 }

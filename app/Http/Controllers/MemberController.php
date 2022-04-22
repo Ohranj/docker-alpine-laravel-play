@@ -26,6 +26,42 @@ class MemberController extends Controller
     }
 
     /**
+     * Follow a user
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function followUser(Request $request) {
+        $followUser = $request->all();
+
+        $followID = $followUser['id'];
+
+        $AuthUser = User::where('id', Auth::id())->first();
+
+        $AuthUser->followings()->attach($followID);
+
+        return response()->json(['success' => true, 'message' => 'User followed']);
+    }
+
+    /**
+     * Unfollow a user
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function unfollowUser(Request $request) {
+        $unfollowUser = $request->all();
+
+        $unfollowID = $unfollowUser['id'];
+
+        $AuthUser = User::where('id', Auth::id())->first();
+
+        $result = $AuthUser->followings()->detach($unfollowID);
+
+        if ($result == 0) return response()->json(['success' => false, 'message' => 'Unable to verify request']);
+
+        return response()->json(['success' => true, 'message' => 'User unfollowed']);
+    }
+
+    /**
      * Return the members view
      * @return \Illuminate\View\View
      */
