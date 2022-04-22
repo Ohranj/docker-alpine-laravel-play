@@ -17,7 +17,11 @@
     </head>
     <body class="bg-stone-800">
         <x-auth-navBar />
+        <x-toast-success />
+        <x-toast-error />
         @yield('main-content')
         @yield('scripts')
+        {{-- {{dd(Auth::user()->load('followings', 'followers'))}} --}}
+        <script src="{{ asset('js/AlpineStores.js') }}"></script>
     </body>
 </html>

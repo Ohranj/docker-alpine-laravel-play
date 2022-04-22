@@ -5,13 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     ContactUsController,
-    MemberController
+    MemberController,
+    UserController
 };
 
-
-/**
- * GET ROUTES
- */
 /**
  * Guest
  */
@@ -28,16 +25,18 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     Route::get('/leaderboard', fn() => view('dashboard'))->name('leaderboard');
     Route::get('/inbox', fn() => view('dashboard'))->name('inbox');
     Route::get('/settings', fn() => view('dashboard'))->name('settings');
+
+    Route::prefix('/api')->group(function() {
+        Route::get('/user/json', [UserController::class, 'getUserJSON'])->name('user_json');
+        Route::post('/user/unfollow', [MemberController::class, 'unfollowUser'])->name('unfollow_user');
+        Route::post('/user/follow', [MemberController::class, 'followUser'])->name('follow_user');
+    });
+
+    Route::middleware(['throttle:form-submit'])->group(function () {
+        Route::post('/contact-us', [ContactUsController::class, 'storeContactUsForm'])->name('storeContactUsForm');
+    });
 });
 
-
-
-/**
- * POST ROUTES
- */
-Route::middleware(['throttle:form-submit'])->group(function () {
-    Route::post('/contact-us', [ContactUsController::class, 'storeContactUsForm'])->name('storeContactUsForm');
-});
 
 
 

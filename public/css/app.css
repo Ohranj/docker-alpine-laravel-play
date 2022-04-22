@@ -657,7 +657,7 @@ sup {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 [x-cloak] {
-  display: none;
+  display: none !important;
 }
 .app-btn {
   min-width: 100px;
@@ -742,17 +742,6 @@ sup {
 .inset-0 {
   top: 0px;
   right: 0px;
-  bottom: 0px;
-  left: 0px;
-}
-.top-8 {
-  top: 2rem;
-}
-.left-8 {
-  left: 2rem;
-}
-.right-8 {
-  right: 2rem;
 }
 .top-0 {
   top: 0px;
@@ -793,6 +782,15 @@ sup {
 .left-5 {
   left: 1.25rem;
 }
+.top-8 {
+  top: 2rem;
+}
+.left-8 {
+  left: 2rem;
+}
+.right-8 {
+  right: 2rem;
+}
 .z-0 {
   z-index: 0;
 }
@@ -809,10 +807,6 @@ sup {
   margin-left: auto;
   margin-right: auto;
 }
-.my-2 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
 .my-auto {
   margin-top: auto;
   margin-bottom: auto;
@@ -824,6 +818,10 @@ sup {
 .my-6 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+}
+.my-2 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .ml-3 {
   margin-left: 0.75rem;
@@ -987,11 +985,11 @@ sup {
 .w-\[105px\] {
   width: 105px;
 }
-.w-8 {
-  width: 2rem;
-}
 .w-\[125px\] {
   width: 125px;
+}
+.w-8 {
+  width: 2rem;
 }
 .w-auto {
   width: auto;
@@ -1895,14 +1893,14 @@ sup {
     padding-right: 2rem;
   }
 
-  .lg\:px-12 {
-    padding-left: 3rem;
-    padding-right: 3rem;
-  }
-
   .lg\:px-20 {
     padding-left: 5rem;
     padding-right: 5rem;
+  }
+
+  .lg\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 
   .lg\:text-2xl {

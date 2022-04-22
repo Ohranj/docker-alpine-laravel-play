@@ -1,6 +1,6 @@
 @extends('layouts.app')
-<!-- prettier-ignore -->
 
+<!-- prettier-ignore -->
 <style>
     button.splide__arrow {
         top: 20%
@@ -11,8 +11,11 @@
     .splide__arrow--next.splide-next {
         margin-right: -4em;
     }
-    div.splide__slide.is-next, div.splide__slide.is-prev {
+    div.splide__slide, div.splide__slide {
         opacity: 0.1;
+    }
+    div.splide__slide.is-active.is-visible {
+        opacity: 1;
     }
 </style>
 @section('main-content')
@@ -20,14 +23,15 @@
 <!-- prettier-ignore -->
 <div class="px-4 py-10">
     <h2 class="text-center text-2xl">Latest users</h2>
-    <div x-data="carousel" class="splide mx-auto mt-4" role="group">
+    <p class="text-center my-2">Say <q>Hello</q> to our newest members! <br>Send them a message or follow their progress.</p>
+    <div x-data="carousel" class="splide mx-auto" role="group">
         <div class="splide__arrows"></div>
         <div class="splide__track">
             <div class="splide__list">
                 @foreach($newestUsers as $newUser)
-                <div class="splide__slide">
-                    <x-user-card :newUser="$newUser" />
-                </div>
+                    <div class="splide__slide">
+                        <x-user-card :cardUser="$newUser" />
+                    </div>
                 @endforeach
             </div>
         </div>
@@ -37,6 +41,7 @@
 
 <!-- prettier-ignore -->
 @section('scripts')
+
 <script>
     const carousel = () => ({
         init() {
