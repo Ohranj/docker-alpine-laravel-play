@@ -99,6 +99,10 @@ document.addEventListener("alpine:init", () =>
                 }
                 store.showMemberMessageFormError = true;
             }
+            elem.classList.toggle(...this.followIconClasses);
+            this.userSelf.followings.splice(isFollowing, 1);
+            this.toastMessage = "User unfollowed";
+            this.showSuccessToast = true;
         },
         closeMessageFormModal() {
             const store = Alpine.store('userCard')

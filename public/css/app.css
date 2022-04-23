@@ -897,6 +897,9 @@ sup {
 .mb-4 {
   margin-bottom: 1rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
 .block {
   display: block;
 }
@@ -972,6 +975,9 @@ sup {
 .h-20 {
   height: 5rem;
 }
+.h-\[65px\] {
+  height: 65px;
+}
 .min-h-\[30px\] {
   min-height: 30px;
 }
@@ -1031,6 +1037,9 @@ sup {
 }
 .w-20 {
   width: 5rem;
+}
+.w-\[65px\] {
+  width: 65px;
 }
 .max-w-full {
   max-width: 100%;
@@ -1890,11 +1899,9 @@ sup {
   }
 }
 @media (min-width: 768px) {
-
   .md\:w-2\/3 {
     width: 66.666667%;
   }
-
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
