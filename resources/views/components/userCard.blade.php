@@ -8,7 +8,7 @@
         <div class="w-[105px] h-[105px] relative mx-auto mt-5">
             <img src="{{$cardUser->getUserAvatar()}}" class="h-full rounded-full border-2 mx-auto cursor-pointer object-cover block max-w-full hover:scale-105" />
         </div>
-        <svg @click="$store.userCard.messageUser = {{$cardUser}}; $store.userCard.showMessageModal = true; console.log({{$cardUser}})" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 absolute top-8 left-8 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
+        <svg @click="$store.userCard.messageUser = {{$cardUser}}; $store.userCard.showMessageModal = true" xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 absolute top-8 left-8 cursor-pointer" viewBox="0 0 20 20" fill="currentColor">
             <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
             <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
         </svg>
