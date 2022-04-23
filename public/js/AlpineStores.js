@@ -105,6 +105,7 @@ document.addEventListener("alpine:init", () =>
             store.showMessageModal = false;
             store.messageUser = {};
             store.memberMessagedSuccess = false
+            store.showMemberMessageFormError = false;
         }
     })
 );
