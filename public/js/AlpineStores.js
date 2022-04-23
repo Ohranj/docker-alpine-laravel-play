@@ -10,13 +10,18 @@ document.addEventListener("alpine:init", () =>
         followIconClasses: ['text-red-500'],
         showMessageModal: false,
         messageUser: {},
+        messageMemberFormEl: null,
         memberMessagedSuccess: false,
         showMemberMessageFormError: false,
+        memberMessageFormErrorsArray: [
+            'Please make sure to provide both a subject and message.', 
+            'We are unable to verify your request, please confirm that the intended recipient exists.',
+            'Too many requests. Please wait 1 minute before trying again.'
+        ],
         errorText: '',
-        memberMessageFormEl: null,
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
-            this.memberMessageFormEl = document.getElementById('f_messageMemberForm');
+            this.messageMemberFormEl = document.getElementById('f_messageMemberForm');
             try {
                 const response = await fetch("/api/user/json");
                 const json = await response.json();
@@ -62,5 +67,37 @@ document.addEventListener("alpine:init", () =>
             this.toastMessage = "User unfollowed";
             this.showSuccessToast = true;
         },
+        async submitMessageForm() {
+            const form = Alpine.store('userCard').messageMemberFormEl;
+            const formData = new FormData(form);
+            try {
+                const response = await fetch('api/user/message', {
+                    method: 'post',
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    }
+                })
+                if (response.status == 422) throw Error(0)
+                if (response.status == 420) throw Error()
+                const json = await response.json();
+                if (!json.success) throw new Error(1)
+                //Handle success
+            } catch (errCode) {
+                const store = Alpine.store('userCard')
+                switch (errCode.message) {
+                    case '0':
+                        store.errorText = store.memberMessageFormErrorsArray[0];
+                        break;
+                    case '1':
+                        store.errorText = store.memberMessageFormErrorsArray[1];
+                        break;
+                    default:
+                        store.errorText = store.memberMessageFormErrorsArray[2];
+                        break;
+                }
+                store.showMemberMessageFormError = true;
+            }
+        }
     })
 );

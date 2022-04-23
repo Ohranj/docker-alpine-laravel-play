@@ -30,6 +30,10 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::get('/user/json', [UserController::class, 'getUserJSON'])->name('user_json');
         Route::post('/user/unfollow', [MemberController::class, 'unfollowUser'])->name('unfollow_user');
         Route::post('/user/follow', [MemberController::class, 'followUser'])->name('follow_user');
+        
+        Route::middleware(['throttle:form-submit'])->group(function () {
+            Route::post('/user/message', [MemberController::class, 'storeMessage'])->name('message_user');
+        });
     });
 
     Route::middleware(['throttle:form-submit'])->group(function () {

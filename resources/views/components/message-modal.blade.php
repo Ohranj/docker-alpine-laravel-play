@@ -11,15 +11,16 @@
                 </button>
             </div>
             <div class="p-6">
-                <div x-cloak x-show="$store.userCard.showMemberMessageFormError" class="text-red-500 text-center sm:w-3/4 mx-auto">
+                <div x-cloak x-show="$store.userCard.showMemberMessageFormError" class="text-red-500 text-center sm:w-3/4 mx-auto mb-2">
                     <p class="m-0" x-text="$store.userCard.errorText"></p>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <p x-cloak x-show="!$store.userCard.memberMessagedSuccess" class="text-slate-700 mb-8 italic text-sm">Messages you send and receive will only be visible between yourself and the other member. However, please be careful with the information you share.</p>
-                <form method="post" class="text-slate-700 pt-1" id="f_messageMemberForm" x-show="!$store.userCard.memberMessagedSuccess" x-ref="messageMemberForm">
+                <form method="post" class="text-slate-700 pt-1" x-show="!$store.userCard.memberMessagedSuccess" x-ref="messageMemberForm" id="f_messageMemberForm">
                    @csrf
+                    <input name="recipient" type="hidden" :value="$store.userCard.messageUser.id"  />
                     <template x-if="$store.userCard.showMessageModal">
                         <div class="flex items-center">
                             <img 
@@ -33,8 +34,11 @@
                             </div>
                         </div>
                     </template>
+                    <div class="border rounded mt-4 md:w-2/3">
+                        <input name="subject" class="w-full rounded pl-4" placeholder="Subject..." maxlength="100" />
+                    </div>
                     <div class="border mt-4">
-                        <textarea class="w-full rounded" rows="7" placeholder="Write your message..."></textarea>
+                        <textarea name="message" class="w-full rounded" rows="7" placeholder="Write your message..."></textarea>
                     </div>
                 </form>
                 <div x-show="$store.userCard.memberMessagedSuccess" class="text-slate-700 text-center sm:w-2/3 mx-auto">
@@ -49,7 +53,7 @@
                 <button @click="$store.userCard.showMessageModal = false; $store.userCard.messageUser = {}; $refs.messageMemberForm.reset()" type="button" class="app-btn app-btn-secondary ml-auto">
                     Close
                 </button>
-                <button type="button" class="app-btn app-btn-primary" @click.prevent="submitForm" :disabled="$store.userCard.memberMessagedSuccess">Submit</button>
+                <button type="button" class="app-btn app-btn-primary" @click.prevent="$store.userCard.submitMessageForm">Submit</button>
             </div>
         </div>
     </div>
