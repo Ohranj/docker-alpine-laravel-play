@@ -83,9 +83,9 @@ class MemberController extends Controller
         } catch (\Throwable $e) {
             switch($e->getMessage()) {
                 case '0':
-                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request. invalid recipient']);
                 default:
-                    break;
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
             }
         }
 

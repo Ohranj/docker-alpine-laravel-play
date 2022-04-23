@@ -83,6 +83,7 @@ document.addEventListener("alpine:init", () =>
                 const json = await response.json();
                 if (!json.success) throw new Error(1)
                 //Handle success
+                Alpine.store('userCard').memberMessagedSuccess = true
             } catch (errCode) {
                 const store = Alpine.store('userCard')
                 switch (errCode.message) {
@@ -98,6 +99,12 @@ document.addEventListener("alpine:init", () =>
                 }
                 store.showMemberMessageFormError = true;
             }
+        },
+        closeMessageFormModal() {
+            const store = Alpine.store('userCard')
+            store.showMessageModal = false;
+            store.messageUser = {};
+            store.memberMessagedSuccess = false
         }
     })
 );
