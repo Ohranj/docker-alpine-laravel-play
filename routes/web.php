@@ -24,7 +24,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     Route::get('/nutrition', fn() => view('dashboard'))->name('nutrition');
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::get('/leaderboard', fn() => view('dashboard'))->name('leaderboard');
-    Route::get('/inbox', fn() => view('dashboard'))->name('inbox');
+    Route::get('/inbox', [MessageController::class, 'index'])->name('inbox');
     Route::get('/settings', fn() => view('dashboard'))->name('settings');
 
     Route::prefix('/api')->group(function() {

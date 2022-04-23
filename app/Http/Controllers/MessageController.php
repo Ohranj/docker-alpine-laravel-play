@@ -45,4 +45,12 @@ class MessageController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Message sent']);
     }
+
+    /**
+     * Return the inbox view
+     * @return \Illuminate\View\View
+     */
+    public function index() {
+        return view('inbox');
+    }
 }
