@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     ContactUsController,
     MemberController,
-    UserController
+    UserController,
+    MessageController
 };
 
 /**
@@ -32,7 +33,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::post('/user/follow', [MemberController::class, 'followUser'])->name('follow_user');
         
         Route::middleware(['throttle:form-submit'])->group(function () {
-            Route::post('/user/message', [MemberController::class, 'storeMessage'])->name('message_user');
+            Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');
         });
     });
 
