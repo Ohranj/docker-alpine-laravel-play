@@ -37,6 +37,7 @@
         </div>
     </div>
 </div>
+<x-message-modal />
 @endsection
 
 <!-- prettier-ignore -->

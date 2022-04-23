@@ -8,8 +8,15 @@ document.addEventListener("alpine:init", () =>
         showErrorToast: false,
         toastMessage: '',
         followIconClasses: ['text-red-500'],
+        showMessageModal: false,
+        messageUser: {},
+        memberMessagedSuccess: false,
+        showMemberMessageFormError: false,
+        errorText: '',
+        memberMessageFormEl: null,
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+            this.memberMessageFormEl = document.getElementById('f_messageMemberForm');
             try {
                 const response = await fetch("/api/user/json");
                 const json = await response.json();
@@ -35,27 +42,25 @@ document.addEventListener("alpine:init", () =>
                 this.toastMessage = "User followed";
                 this.showSuccessToast = true;
                 return;
-            } else {
-                const response = await fetch("/api/user/unfollow", {
-                    method: "post",
-                    body: JSON.stringify(userObj),
-                    headers: {
-                        "Content-Type": "application/json",
-                        "X-CSRF-TOKEN": this.csrfToken,
-                    },
-                });
-                const jsonReponse = await response.json();
-                if (!jsonReponse.success) {
-                    this.toastMessage = "Error. Please try again";
-                    this.showErrorToast = true;
-                    return;
-                }
-                elem.classList.toggle(...this.followIconClasses);
-                this.userSelf.followings.splice(isFollowing, 1);
-                this.toastMessage = "User unfollowed";
-                this.showSuccessToast = true;
-
+            } 
+            const response = await fetch("/api/user/unfollow", {
+                method: "post",
+                body: JSON.stringify(userObj),
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": this.csrfToken,
+                },
+            });
+            const jsonReponse = await response.json();
+            if (!jsonReponse.success) {
+                this.toastMessage = "Error. Please try again";
+                this.showErrorToast = true;
+                return;
             }
+            elem.classList.toggle(...this.followIconClasses);
+            this.userSelf.followings.splice(isFollowing, 1);
+            this.toastMessage = "User unfollowed";
+            this.showSuccessToast = true;
         },
     })
 );
