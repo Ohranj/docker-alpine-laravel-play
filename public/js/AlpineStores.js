@@ -82,7 +82,6 @@ document.addEventListener("alpine:init", () =>
                 if (response.status == 420) throw Error()
                 const json = await response.json();
                 if (!json.success) throw new Error(1)
-                //Handle success
                 Alpine.store('userCard').memberMessagedSuccess = true
             } catch (errCode) {
                 const store = Alpine.store('userCard')

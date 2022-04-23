@@ -972,9 +972,6 @@ sup {
 .h-20 {
   height: 5rem;
 }
-.h-\[65px\] {
-  height: 65px;
-}
 .min-h-\[30px\] {
   min-height: 30px;
 }
@@ -1852,6 +1849,9 @@ sup {
     .sm\:mt-0 {
     margin-top: 0px;
   }
+    .sm\:inline-block {
+    display: inline-block;
+  }
     .sm\:flex {
     display: flex;
   }
@@ -1922,6 +1922,10 @@ sup {
     .sm\:text-3xl {
     font-size: 1.875rem;
     line-height: 2.25rem;
+  }
+    .sm\:text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
   }
 }
 @media (min-width: 768px) {
