@@ -18,8 +18,9 @@ return new class extends Migration
             $table->unsignedInteger('sender_id');
             $table->unsignedInteger('recipient_id');
             $table->text('message');
-            $table->boolean('sender_remove_outbox');
-            $table->boolean('recipient_remove_inbox');
+            $table->string('subject')->nullable();
+            $table->boolean('sender_remove_outbox')->default(false);
+            $table->boolean('recipient_remove_inbox')->default(false);
             $table->timestamps();
         });
     }
