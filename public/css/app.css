@@ -891,6 +891,9 @@ sup {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+.mb-8 {
+  margin-bottom: 2rem;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -963,6 +966,9 @@ sup {
 .h-\[20px\] {
   height: 20px;
 }
+.h-\[65px\] {
+  height: 65px;
+}
 .h-screen {
   height: 100vh;
 }
@@ -1022,6 +1028,9 @@ sup {
 }
 .w-\[200px\] {
   width: 200px;
+}
+.w-\[65px\] {
+  width: 65px;
 }
 .w-\[95\%\] {
   width: 95%;
@@ -1375,6 +1384,9 @@ sup {
 }
 .pl-2 {
   padding-left: 0.5rem;
+}
+.pl-4 {
+  padding-left: 1rem;
 }
 .text-left {
   text-align: left;
@@ -1887,7 +1899,9 @@ sup {
   }
 }
 @media (min-width: 768px) {
-
+  .md\:w-2\/3 {
+    width: 66.666667%;
+  }
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
