@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Message;
 use App\Models\Profile;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -85,5 +86,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function followers() {
         return $this->belongsToMany(User::class, 'following_user', 'following_id', 'user_id');
+    }
+
+    public function sent_messages() {
+        return $this->hasMany(Message::class, 'messages', 'user_id', 'sender_id');
+    }
+
+    public function received_messages() {
+        return $this->hasMany(Message::class, 'messages', 'user_id', 'recipient_id');
     }
 }
