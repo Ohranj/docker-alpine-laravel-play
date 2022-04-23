@@ -34,10 +34,10 @@
                             </div>
                         </div>
                     </template>
-                    <div class="border rounded mt-4 md:w-2/3">
-                        <input name="subject" class="w-full rounded pl-4" placeholder="Subject..." maxlength="100" />
+                    <div class="border border-slate-500 rounded mt-4 md:w-2/3">
+                        <input name="subject" class="w-full rounded pl-4 outline-blue-700" placeholder="Subject..." maxlength="100" />
                     </div>
-                    <div class="border mt-4">
+                    <div class="border mt-1 rounded">
                         <textarea name="message" class="w-full rounded" rows="7" placeholder="Write your message..."></textarea>
                     </div>
                 </form>
