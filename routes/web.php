@@ -26,6 +26,10 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     Route::get('/leaderboard', fn() => view('dashboard'))->name('leaderboard');
     Route::get('/inbox', [MessageController::class, 'index'])->name('inbox');
     Route::get('/settings', fn() => view('dashboard'))->name('settings');
+    
+    //JSON data
+    Route::get('/messages/received', [MessageController::class, 'receivedMessagesJSON'])->name('messages_received');
+    Route::get('/messages/sent', [MessageController::class, 'sentMessagesJSON'])->name('messages_sent');
 
     Route::prefix('/api')->group(function() {
         Route::get('/user/json', [UserController::class, 'getUserJSON'])->name('user_json');

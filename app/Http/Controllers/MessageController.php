@@ -47,6 +47,43 @@ class MessageController extends Controller
     }
 
     /**
+     * Retrieve a users received messages that haven't been deleted
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function receivedMessagesJSON(Request $request) {
+
+        // $received = User::where('id', Auth::id())
+        //     ->whereHas('received_messages', fn($q) => $q->where('recipient_remove_inbox', '=', '0'))
+        //     ->with([
+        //         'received_messages' => fn($q) => $q->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox')
+        //         ])
+        //     ->select('id')
+        //     ->get();
+
+        $received = Message::where([
+            ['recipient_id', Auth::id()],
+            ['recipient_remove_inbox', '0']
+        ])
+        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'created_at')
+        ->get();
+
+        
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Received messaged successfully returned',
+            'data' => $received
+        ]);
+    }
+
+    /**
+     * Retrieve a users sent messages that haven't been deleted
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+
+    /**
      * Return the inbox view
      * @return \Illuminate\View\View
      */
