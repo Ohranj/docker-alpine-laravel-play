@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessageController extends Controller
 {
@@ -88,20 +89,22 @@ class MessageController extends Controller
         
         try {
             $message = Message::withoutEvents((function() use ($id) {
-                return Message::where('id', $id)->first();
+                return Message::where([
+                    ['id', $id],
+                    ['recipient_id', Auth::id()]
+                ])->first();
             }));
             if (!$message) throw new Exception(0);
-            if ($message->recipient_id != Auth::id()) throw new Exception(0);
             $message->recipient_remove_inbox = 1;
             $message->save();
-            return response()->json(['success' => true, 'message' => 'Message deleted']);
         } catch (\Throwable $e) {
+            Log::info("{$e->getMessage()} - Error deleting inbox message");
             switch ($e->getMessage()) {
                 default:
-                    return response()->json(['success' => false, 'message' => 'Unable to verify request', 'd' => $e->getMessage()]);
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
             }
         }
-        
+        return response()->json(['success' => true, 'message' => 'Message deleted']);
       }
 
     /**

@@ -17,7 +17,7 @@
             </div>
             <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
                 <div class="rounded min-h-[150px]">
-                    <p x-text="message.message"></p>
+                    <p><q x-text="message.message"></q></p>
                 </div>
                 <div class="flex justify-end gap-x-2">
                     <button @click="hasClickedDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedDeleteBtn" >Delete</button>
