@@ -3,16 +3,23 @@
 @section('main-content')
 <!-- prettier-ignore -->
 <div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}'})" class="mt-10">
-    <div class="mx-auto border rounded w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 flex items-center shadow-md shadow-gray-500 transform ease-in-out cursor-pointer hover:scale-[1.005]">
-        <img src="" class="w-[65px] h-[65px] rounded-full" />
-        <div class="flex flex-grow pl-4">
-            <ul class="w-1/3">
-                <li>Name surname</li>
-                <li>Subject</li>
-            </ul>
-            <span class="ml-auto">Sent</span>
+    <template x-for="message in receivedMessages">
+        <div @click="selectedMessage = selectedMessage.id == message.id ? {} : message" :class="selectedMessage.id == message.id ? 'border-blue-500 border-2 shadow-blue-500' : 'shadow-gray-500 hover:scale-[1.005]'" class="mx-auto border rounded w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 shadow-md transform ease-in-out cursor-pointer">
+            <div class="flex items-center">
+                <img :src="message.sender_user.profile.avatar.customPath ? message.sender_user.profile.avatar.customPath : message.sender_user.profile.avatar.defaultPath" class="w-[65px] h-[65px] rounded-full" />
+                <div class="flex flex-grow pl-4">
+                    <ul class="w-1/3">
+                        <li x-text="message.sender_user.firstname + ' ' + message.sender_user.lastname"></li>
+                        <li x-text="message.subject"></li>
+                    </ul>
+                    <span class="ml-auto" x-text="message.human_created_at"></span>
+                </div>
+            </div>
+            <div x-cloak x-show="selectedMessage.id == message.id" x-collapse class="mt-6 px-12 py-6">
+                <p x-text="message.message"></p>
+            </div>
         </div>
-    </div>
+    </template>
 </div>
 
 @endsection
@@ -22,6 +29,7 @@
 <script>
     const messages = ({ fetchReceivedURL }) => ({
         receivedMessages: [],
+        selectedMessage: {},
         async init() {
             try {
                 const response = await fetch(fetchReceivedURL);
