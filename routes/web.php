@@ -38,6 +38,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');
+            Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
         });
     });
 
