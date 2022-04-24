@@ -891,6 +891,9 @@ sup {
 .mb-2 {
   margin-bottom: 0.5rem;
 }
+.mt-10 {
+  margin-top: 2.5rem;
+}
 .mb-8 {
   margin-bottom: 2rem;
 }
@@ -972,9 +975,6 @@ sup {
 .h-20 {
   height: 5rem;
 }
-.h-\[65px\] {
-  height: 65px;
-}
 .min-h-\[30px\] {
   min-height: 30px;
 }
@@ -1023,11 +1023,11 @@ sup {
 .w-2\/3 {
   width: 66.666667%;
 }
-.w-\[200px\] {
-  width: 200px;
-}
 .w-\[65px\] {
   width: 65px;
+}
+.w-\[200px\] {
+  width: 200px;
 }
 .w-\[95\%\] {
   width: 95%;
@@ -1243,9 +1243,6 @@ sup {
 .border-t-2 {
   border-top-width: 2px;
 }
-.border-dashed {
-  border-style: dashed;
-}
 .border-gray-300 {
   --tw-border-opacity: 1;
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
@@ -1265,25 +1262,13 @@ sup {
   --tw-border-opacity: 1;
   border-color: rgb(156 163 175 / var(--tw-border-opacity));
 }
-.border-gray-700 {
-  --tw-border-opacity: 1;
-  border-color: rgb(55 65 81 / var(--tw-border-opacity));
-}
-.border-gray-600 {
-  --tw-border-opacity: 1;
-  border-color: rgb(75 85 99 / var(--tw-border-opacity));
-}
-.border-gray-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(107 114 128 / var(--tw-border-opacity));
-}
-.border-stone-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(120 113 108 / var(--tw-border-opacity));
-}
 .border-slate-500 {
   --tw-border-opacity: 1;
   border-color: rgb(100 116 139 / var(--tw-border-opacity));
+}
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -1390,6 +1375,14 @@ sup {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.px-12 {
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
 .pt-8 {
   padding-top: 2rem;
 }
@@ -1399,11 +1392,11 @@ sup {
 .pt-1 {
   padding-top: 0.25rem;
 }
-.pl-2 {
-  padding-left: 0.5rem;
-}
 .pl-4 {
   padding-left: 1rem;
+}
+.pl-2 {
+  padding-left: 0.5rem;
 }
 .text-left {
   text-align: left;
@@ -1596,15 +1589,17 @@ sup {
   --tw-shadow-color: #ca8a04;
   --tw-shadow: var(--tw-shadow-colored);
 }
+.shadow-gray-500 {
+  --tw-shadow-color: #6b7280;
+  --tw-shadow: var(--tw-shadow-colored);
+}
 .shadow-green-600 {
   --tw-shadow-color: #16a34a;
   --tw-shadow: var(--tw-shadow-colored);
 }
-.outline-blue-500 {
-  outline-color: #3b82f6;
-}
-.outline-blue-900 {
-  outline-color: #1e3a8a;
+.shadow-blue-500 {
+  --tw-shadow-color: #3b82f6;
+  --tw-shadow: var(--tw-shadow-colored);
 }
 .outline-blue-700 {
   outline-color: #1d4ed8;
@@ -1734,6 +1729,21 @@ sup {
 .splide__arrows--ttb .splide__arrow--next svg{transform:rotate(90deg)}
 .splide__pagination--ttb{bottom:0;display:flex;flex-direction:column;left:auto;padding:1em 0;right:.5em;top:0}
 .hover\:scale-105:hover {
+  --tw-scale-x: 1.05;
+  --tw-scale-y: 1.05;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.hover\:scale-\[1\.01\]:hover {
+  --tw-scale-x: 1.01;
+  --tw-scale-y: 1.01;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.hover\:scale-\[1\.005\]:hover {
+  --tw-scale-x: 1.005;
+  --tw-scale-y: 1.005;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+.hover\:scale-\[1\.05\]:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1933,6 +1943,10 @@ sup {
 }
 @media (min-width: 768px) {
 
+  .md\:w-4\/5 {
+    width: 80%;
+  }
+
   .md\:w-2\/3 {
     width: 66.666667%;
   }
@@ -1953,6 +1967,10 @@ sup {
     display: block;
   }
 
+  .lg\:w-2\/3 {
+    width: 66.666667%;
+  }
+
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
@@ -1969,6 +1987,10 @@ sup {
   }
 }
 @media (min-width: 1280px) {
+
+  .xl\:w-1\/2 {
+    width: 50%;
+  }
 
   .xl\:px-20 {
     padding-left: 5rem;
