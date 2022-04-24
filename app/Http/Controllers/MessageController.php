@@ -57,10 +57,13 @@ class MessageController extends Controller
             ['recipient_id', Auth::id()],
             ['recipient_remove_inbox', '0']
         ])
+        ->with([
+            'senderUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
+            'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar')
+        ])
         ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'created_at')
+        ->orderBy('created_at')
         ->get();
-
-        
 
         return response()->json([
             'success' => true,

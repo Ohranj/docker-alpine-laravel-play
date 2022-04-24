@@ -23,4 +23,13 @@ class Message extends Model
     public function setEncrypt($column, $value) {
         return $this->attributes[$column] = Crypt::encryptString($value);
     }
+
+    /**
+     * Defines the relationships on the model
+     * 
+     * 
+     */
+    public function senderUser() {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
+    }
 }
