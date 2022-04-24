@@ -3,13 +3,14 @@
 namespace App\Providers;
 
 use App\Events\ContactUsEmailSent;
+use App\Events\MessageRetrievedEvent;
 use App\Listeners\LogSentContactUsClientEmail;
+use App\Listeners\MessageRetrievedEventListener;
 use App\Models\User;
 use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         ContactUsEmailSent::class => [
             LogSentContactUsClientEmail::class,
         ],
+        MessageRetrievedEvent::class => [
+            MessageRetrievedEventListener::class
+        ]
     ];
 
     /**
