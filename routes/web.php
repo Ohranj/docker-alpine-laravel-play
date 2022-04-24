@@ -30,6 +30,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     //JSON data
     Route::get('/messages/received', [MessageController::class, 'receivedMessagesJSON'])->name('messages_received');
     Route::get('/messages/sent', [MessageController::class, 'sentMessagesJSON'])->name('messages_sent');
+    //
 
     Route::prefix('/api')->group(function() {
         Route::get('/user/json', [UserController::class, 'getUserJSON'])->name('user_json');
@@ -38,6 +39,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');
+            Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
         });
     });
 
