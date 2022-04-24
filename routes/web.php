@@ -36,10 +36,10 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::get('/user/json', [UserController::class, 'getUserJSON'])->name('user_json');
         Route::post('/user/unfollow', [MemberController::class, 'unfollowUser'])->name('unfollow_user');
         Route::post('/user/follow', [MemberController::class, 'followUser'])->name('follow_user');
+        Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');
-            Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
         });
     });
 

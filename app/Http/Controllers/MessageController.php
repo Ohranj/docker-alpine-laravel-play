@@ -63,7 +63,7 @@ class MessageController extends Controller
             'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar')
         ])
         ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'created_at')
-        ->orderBy('created_at')
+        ->orderBy('created_at', 'desc')
         ->get();
 
         return response()->json([
