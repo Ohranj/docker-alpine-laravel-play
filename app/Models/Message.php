@@ -32,4 +32,8 @@ class Message extends Model
     public function senderUser() {
         return $this->belongsTo(User::class, 'sender_id', 'id');
     }
+
+    public function recipientUser() {
+        return $this->belongsTo(User::class, 'recipient_id', 'id');
+    }
 }

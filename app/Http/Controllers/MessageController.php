@@ -78,6 +78,26 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
+    public static function sentMessagesJSON(Request $request) {
+
+        $sentMessages = Message::where([
+            ['sender_id', Auth::id()],
+            ['sender_remove_outbox', '0']
+        ])
+        ->with([
+            'recipientUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
+            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar')
+        ])
+        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Sent messages successfully returned',
+            'data' => $sentMessages
+        ]);
+    }
 
      /**
       * Delete a message from a users inbox
