@@ -106,7 +106,7 @@ class MessageController extends Controller
         }
         return response()->json(['success' => true, 'message' => 'Message deleted']);
       }
-
+  
     /**
      * Return the inbox view
      * @return \Illuminate\View\View
