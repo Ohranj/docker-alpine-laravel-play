@@ -4,9 +4,6 @@ document.addEventListener("alpine:init", () =>
         selectedUser: null,
         userSelf: null,
         csrfToken: null,
-        showSuccessToast: false,
-        showErrorToast: false,
-        toastMessage: '',
         followIconClasses: ['text-red-500'],
         showMessageModal: false,
         messageUser: {},
@@ -44,8 +41,8 @@ document.addEventListener("alpine:init", () =>
                 })
                 elem.classList.toggle(...this.followIconClasses);
                 this.userSelf.followings.push(userObj);
-                this.toastMessage = "User followed";
-                this.showSuccessToast = true;
+                Alpine.store('toast').toastMessage = "User followed";
+                Alpine.store('toast').showSuccessToast = true;
                 return;
             } 
             const response = await fetch("/api/user/unfollow", {
@@ -58,14 +55,15 @@ document.addEventListener("alpine:init", () =>
             });
             const jsonReponse = await response.json();
             if (!jsonReponse.success) {
-                this.toastMessage = "Error. Please try again";
-                this.showErrorToast = true;
+                Alpine.store('toast').toastMessage = "Error. Please try again";
+                Alpine.store('toast').showErrorToast = true;
                 return;
             }
             elem.classList.toggle(...this.followIconClasses);
             this.userSelf.followings.splice(isFollowing, 1);
-            this.toastMessage = "User unfollowed";
-            this.showSuccessToast = true;
+            Alpine.store('toast').toastMessage = "User unfollowed";
+            Alpine.store('toast').showSuccessToast = true;
+            
         },
         async submitMessageForm() {
             const form = Alpine.store('userCard').messageMemberFormEl;
@@ -106,5 +104,13 @@ document.addEventListener("alpine:init", () =>
             store.memberMessagedSuccess = false
             store.showMemberMessageFormError = false;
         }
+    })
+);
+
+document.addEventListener("alpine:init", () =>
+    Alpine.store("toast", {
+        showSuccessToast: false,
+        showErrorToast: false,
+        toastMessage: "",
     })
 );
