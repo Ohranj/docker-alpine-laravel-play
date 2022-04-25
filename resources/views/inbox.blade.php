@@ -119,10 +119,11 @@
                 if (!sentMessagesJSON.success) throw new Error(1);
                 this.sentMessages = sentMessagesJSON.data;
             } catch (errCode) {
-                console.log(errCode);
+                this.showErrorToast()
             }
         },
         resetMessageClickedState(message) {
+            this.replyText = null
             if (this.selectedMessage.id != message.id) {
                 this.selectedMessage = message
             } else {
