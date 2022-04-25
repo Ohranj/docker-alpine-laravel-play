@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('subject')->nullable();
             $table->boolean('sender_remove_outbox')->default(false);
             $table->boolean('recipient_remove_inbox')->default(false);
+            $table->boolean('recipient_has_read')->default(false);
             $table->timestamps();
         });
     }
