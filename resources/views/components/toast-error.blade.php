@@ -1,5 +1,5 @@
 <!-- prettier-ignore -->
-<div x-data x-transition x-cloak x-show="$store.toast.showErrorToast" class="cursor-pointer absolute bottom-2 right-2 flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm shadow-yellow-600 w-[250px]">
+<div x-data x-transition x-cloak x-show="$store.toast.showErrorToast" class="fixed cursor-pointer bottom-2 right-2 flex items-center justify-between max-w-xs p-4 bg-white border rounded-md shadow-sm shadow-yellow-600 w-[250px]">
   <div class="flex items-center">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-yellow-600" viewBox="0 0 20 20" fill="currentColor">
       <path fill-rule="evenodd"

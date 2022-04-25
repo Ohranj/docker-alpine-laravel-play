@@ -62,7 +62,7 @@ class MessageController extends Controller
             'senderUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
             'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar')
         ])
-        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'created_at')
+        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'recipient_has_read', 'created_at')
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -97,6 +97,33 @@ class MessageController extends Controller
             'message' => 'Sent messages successfully returned',
             'data' => $sentMessages
         ]);
+    }
+
+    /**
+     * Set an inbox message to has read
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function setMessageRead(Request $request) {
+        ['id' => $id] = $request->all();
+
+        try {
+            $message = Message::withoutEvents((function() use ($id) {
+                return Message::where([
+                    ['id', $id],
+                    ['recipient_id', Auth::id()]
+                ])->first();
+            }));
+            if (!$message) throw new Exception(0);
+            $message->recipient_has_read = 1;
+            $message->save();
+        } catch (\Throwable $e) {
+            switch ($e->getMessage()) {
+                default:
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Message acknowledged as read']);
     }
 
      /**

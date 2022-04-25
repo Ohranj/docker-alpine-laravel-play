@@ -739,6 +739,10 @@ sup {
 .relative {
   position: relative;
 }
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+}
 .inset-0 {
   top: 0px;
   right: 0px;
@@ -980,6 +984,9 @@ sup {
 }
 .h-20 {
   height: 5rem;
+}
+.h-\[2000px\] {
+  height: 2000px;
 }
 .min-h-\[30px\] {
   min-height: 30px;
