@@ -126,6 +126,34 @@ class MessageController extends Controller
         }
         return response()->json(['success' => true, 'message' => 'Message deleted']);
       }
+
+      /**
+       * Delete a message from a users outbox
+       * @param \Illuminate\Http\Request $request
+       * @return string
+       */
+      public static function deleteMessageOutbox(Request $request) {
+        ['id' => $id] = $request->all();
+
+        try {
+            $message = Message::withoutEvents((function() use ($id) {
+                return Message::where([
+                    ['id', $id],
+                    ['sender_id', Auth::id()]
+                ])->first();
+            }));
+            if (!$message) throw new Exception(0);
+            $message->sender_remove_outbox = 1;
+            $message->save();
+        } catch (\Throwable $e) {
+            Log::info("{$e->getMessage()} - Error deleting inbox message");
+            switch ($e->getMessage()) {
+                default:
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Message deleted']);
+      }
   
     /**
      * Return the inbox view

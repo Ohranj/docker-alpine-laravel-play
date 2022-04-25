@@ -37,6 +37,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::post('/user/unfollow', [MemberController::class, 'unfollowUser'])->name('unfollow_user');
         Route::post('/user/follow', [MemberController::class, 'followUser'])->name('follow_user');
         Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
+        Route::delete('/message/outbox/delete', [MessageController::class, 'deleteMessageOutbox'])->name('delete_message_outbox');
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');
