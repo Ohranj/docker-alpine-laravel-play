@@ -2,7 +2,7 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}'})" class="mt-10">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}'})" class="mt-10">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
             <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
@@ -54,8 +54,8 @@
     </template>
     <template x-if="!showInbox">
         <template x-for="message in sentMessages">
-            <div class="mx-auto mb-3 border rounded w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 shadow-md transform ease-in-out">
-                <div class="flex items-center cursor-pointer">
+            <div :class="selectedMessage.id == message.id ? 'border-blue-500 border-2 shadow-blue-500' : 'shadow-gray-500 hover:scale-[1.005]'" class="mx-auto mb-3 border rounded w-full md:w-4/5 lg:w-2/3 xl:w-1/2 p-4 shadow-md transform ease-in-out">
+                <div class="flex items-center cursor-pointer" :class="selectedMessage.id == message.id ? 'border-b border-dashed pb-4' : ''" @click="resetMessageClickedState(message)">
                     <img :src="message.recipient_user.profile.avatar.customPath ? message.recipient_user.profile.avatar.customPath : message.recipient_user.profile.avatar.defaultPath" class="w-[65px] h-[65px] rounded-full" />
                     <div class="flex flex-grow pl-4">
                         <ul class="w-1/3">
@@ -65,16 +65,23 @@
                         <span class="ml-auto" x-text="message.human_created_at"></span>
                     </div>
                 </div>
-                {{-- <div x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
+                <div x-collapse x-show="selectedMessage.id == message.id" x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
                     <div class="rounded min-h-[150px]">
                         <p>
                             <q x-text="message.message"></q>
                         </p>
                     </div>
                     <div class="flex justify-end gap-x-2">
-                        <button class="app-btn app-btn-secondary">Delete</button>
+                        <button @click="hasClickedOutboxDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedOutboxDeleteBtn">Delete</button>
                     </div>
-                </div> --}}
+                    <div x-cloak x-show="hasClickedOutboxDeleteBtn">
+                        <p>Are you sure? You won't be able to recover it once it's deleted.</p>
+                        <div class="flex gap-x-2 mt-2">
+                            <button class="app-btn app-btn-secondary" @click="hasClickedOutboxDeleteBtn = false">Return</button>
+                            <button class="app-btn app-btn-primary" @click="confirmOutboxDeletePressed">Yes, I'm sure</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </template>
     </template>
@@ -86,7 +93,7 @@
 @section('scripts')
 <!-- prettier-ignore -->
 <script>
-    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL }) => ({
+    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL }) => ({
         receivedMessages: [],
         sentMessages: [],
         selectedMessage: {},
@@ -95,6 +102,7 @@
         csrfToken: null,
         replyText: null,
         showInbox: true,
+        hasClickedOutboxDeleteBtn: false,
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]')['content']
             try {
@@ -109,7 +117,6 @@
                 if (!receivedMessagesJSON.success) throw new Error(0);
                 this.receivedMessages = receivedMessagesJSON.data;
                 if (!sentMessagesJSON.success) throw new Error(1);
-                console.log(sentMessagesJSON.data)
                 this.sentMessages = sentMessagesJSON.data;
             } catch (errCode) {
                 console.log(errCode);
@@ -123,6 +130,7 @@
             }
             this.hasClickedDeleteBtn = false
             this.hasClickedReplyBtn = false;
+            this.hasClickedOutboxDeleteBtn = false;
         },
         async confirmDeletePressed() {
             try {
@@ -138,25 +146,52 @@
                 const json = await response.json();
                 if (!json.success) throw Error(0);
             } catch (errCode) {
-                console.log(errCode)
+                this.showErrorToast()
                 return;
             }
             const index = this.receivedMessages.findIndex((x) => x.id == this.selectedMessage.id);
             this.receivedMessages.splice(index, 1);
+            this.showToast()
+        },
+        async confirmReplyPressed() {
+            //Store in seperate table for chained messages
+            this.showToast()
+            this.replyText = null;
+            this.hasClickedReplyBtn = false;
+        },
+        async confirmOutboxDeletePressed() {
+            try {
+                const response = await fetch(deleteMessageOutboxURL, {
+                    method: 'delete',
+                    body: JSON.stringify(this.selectedMessage),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-Requested-With": "XMLHttpRequest",
+                        'X-CSRF-TOKEN': this.csrfToken
+                    }
+                })
+                const json = await response.json();
+                if (!json.success) throw Error(0); 
+            } catch (errCode) {
+                this.showErrorToast()
+                return;
+            }
+            const index = this.sentMessages.findIndex((x) => x.id == this.selectedMessage.id);
+            this.sentMessages.splice(index, 1);
+            this.showToast()
+        },
+        showToast() {
             this.$nextTick(() => {
                 Alpine.store("toast").showSuccessToast = true
                 Alpine.store("toast").toastMessage = 'Message deleted'
             });
         },
-        async confirmReplyPressed() {
-            //Store in seperate table for chained messages
+        showErrorToast() {
             this.$nextTick(() => {
-                Alpine.store("toast").showSuccessToast = true
-                Alpine.store("toast").toastMessage = 'Message Sent'
+                Alpine.store("toast").showErrorToast = true
+                Alpine.store("toast").toastMessage = 'Error. Please try again.'
             });
-            this.replyText = null;
-            this.hasClickedReplyBtn = false;
-        },
+        }
     });
 </script>
 @endsection
