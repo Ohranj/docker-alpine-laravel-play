@@ -2,7 +2,7 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}'})" class="mt-10">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}'})" class="mt-10">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
             <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
@@ -21,7 +21,17 @@
                             <li x-text="message.sender_user.firstname + ' ' + message.sender_user.lastname"></li>
                             <li x-text="message.subject"></li>
                         </ul>
-                        <span class="ml-auto" x-text="message.human_created_at"></span>
+                        <div class="ml-auto">
+                            <span x-text="message.human_created_at"></span>
+                            <svg x-show="message.recipient_has_read == 0" xmlns="http://www.w3.org/2000/svg" class="ml-auto h-5 w-5 text-accent-blue" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                            <svg x-show="message.recipient_has_read == 1" xmlns="http://www.w3.org/2000/svg" class="ml-auto h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M2.94 6.412A2 2 0 002 8.108V16a2 2 0 002 2h12a2 2 0 002-2V8.108a2 2 0 00-.94-1.696l-6-3.75a2 2 0 00-2.12 0l-6 3.75zm2.615 2.423a1 1 0 10-1.11 1.664l5 3.333a1 1 0 001.11 0l5-3.333a1 1 0 00-1.11-1.664L10 11.798 5.555 8.835z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        
                     </div>
                 </div>
                 <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
@@ -93,7 +103,7 @@
 @section('scripts')
 <!-- prettier-ignore -->
 <script>
-    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL }) => ({
+    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL, setMessageReadURL }) => ({
         receivedMessages: [],
         sentMessages: [],
         selectedMessage: {},
@@ -122,16 +132,37 @@
                 this.showErrorToast()
             }
         },
-        resetMessageClickedState(message) {
+        async resetMessageClickedState(message) {
             this.replyText = null
             if (this.selectedMessage.id != message.id) {
                 this.selectedMessage = message
+                if (this.showInbox) this.setMessageAsRead()
             } else {
                 this.selectedMessage = {}
             }
             this.hasClickedDeleteBtn = false
             this.hasClickedReplyBtn = false;
             this.hasClickedOutboxDeleteBtn = false;
+        },
+        async setMessageAsRead() {
+            try {
+                const response = await fetch(setMessageReadURL, {
+                    method: 'post',
+                    body: JSON.stringify(this.selectedMessage),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-Requested-With": "XMLHttpRequest",
+                        'X-CSRF-TOKEN': this.csrfToken
+                    }
+                })
+                const json = await response.json();
+                if (!json.success) throw Error(0)
+            } catch (errCode) {
+                this.showErrorToast();
+                return;
+            }
+            const thisMessage = this.receivedMessages.find((x) => x.id == this.selectedMessage.id);
+            thisMessage.recipient_has_read = 1;
         },
         async confirmDeletePressed() {
             try {
