@@ -2,7 +2,7 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}'})" class="mt-10 h-[2000px]">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}'})" class="mt-10">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
             <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
