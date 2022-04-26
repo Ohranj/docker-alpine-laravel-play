@@ -838,6 +838,10 @@ sup {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
+.mx-2 {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -2008,6 +2012,11 @@ sup {
 
   .md\:w-3\/4 {
     width: 75%;
+  }
+
+  .md\:px-12 {
+    padding-left: 3rem;
+    padding-right: 3rem;
   }
 
   .md\:text-xl {

@@ -2,7 +2,7 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}'})" class="mt-10">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}'})" class="mt-10 px-2">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
             <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
+                <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-2 md:px-12 py-6 cursor-default">
                     <div class="rounded min-h-[150px]">
                         <p>
                             <q x-text="message.message"></q>
@@ -48,7 +48,6 @@
                                 </div>
                             </template>
                         </template>
-                        
                     </div>
                     <div class="flex justify-end gap-x-2">
                         <button x-show="!hasClickedReplyBtn" @click="hasClickedDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedDeleteBtn" >Delete</button>
@@ -143,7 +142,6 @@
                 this.receivedMessages = receivedMessagesJSON.data;
                 if (!sentMessagesJSON.success) throw new Error(1);
                 this.sentMessages = sentMessagesJSON.data;
-                console.log(this.receivedMessages)
             } catch (errCode) {
                 this.showErrorToast()
             }
