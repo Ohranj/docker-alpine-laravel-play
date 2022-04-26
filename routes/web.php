@@ -39,6 +39,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::delete('/message/inbox/delete', [MessageController::class, 'deleteMessageInbox'])->name('delete_message_inbox');
         Route::delete('/message/outbox/delete', [MessageController::class, 'deleteMessageOutbox'])->name('delete_message_outbox');
         Route::post('/message/confirm/read', [MessageController::class, 'setMessageRead'])->name('set_message_read');
+        Route::post('/message/reply', [MessageController::class, 'storeMessageReply'])->name('message_reply');
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MessageReply;
 use App\Events\MessageRetrievedEvent;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
@@ -35,5 +36,9 @@ class Message extends Model
 
     public function recipientUser() {
         return $this->belongsTo(User::class, 'recipient_id', 'id');
+    }
+
+    public function replies() {
+        return $this->hasOne(MessageReply::class, 'message_id', 'id');
     }
 }
