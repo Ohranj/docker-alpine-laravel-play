@@ -2,7 +2,7 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}'})" class="mt-10">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}'})" class="mt-10 px-2">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
             <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
@@ -33,11 +33,21 @@
                         </div>
                     </div>
                 </div>
-                <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-12 py-6 cursor-default">
+                <div x-cloak x-show="selectedMessage.id == message.id" x-collapse x-transition x-transition:leave.delay="0" class="mt-6 px-2 md:px-12 py-6 cursor-default">
                     <div class="rounded min-h-[150px]">
                         <p>
                             <q x-text="message.message"></q>
                         </p>
+                    </div>
+                    <div class="flex flex-col">
+                        <template x-if="message.replies">
+                            <template x-for="reply in message.replies.reply_trail">
+                                <div :class="message.sender_id == reply.sender_id ? 'self-start text-left' : 'self-end text-right'" class="rounded border w-full md:w-3/4 my-2 p-2">
+                                    <small class="block" x-text="reply.created_at"></small>
+                                    <q x-text="reply.message" class="block mt-4"></q>
+                                </div>
+                            </template>
+                        </template>
                     </div>
                     <div class="flex justify-end gap-x-2">
                         <button x-show="!hasClickedReplyBtn" @click="hasClickedDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedDeleteBtn" >Delete</button>
@@ -107,7 +117,7 @@
 @section('scripts')
 <!-- prettier-ignore -->
 <script>
-    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL, setMessageReadURL }) => ({
+    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL, setMessageReadURL, postMessageReplyURL }) => ({
         receivedMessages: [],
         sentMessages: [],
         selectedMessage: {},
@@ -190,7 +200,40 @@
             this.showToast()
         },
         async confirmReplyPressed() {
-            //Store in seperate table for chained messages
+            try {
+                const response = await fetch(postMessageReplyURL, {
+                    method: 'post',
+                    body: JSON.stringify({
+                        messageContent: this.replyText,
+                        messageParent: this.selectedMessage
+                    }),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-Requested-With": "XMLHttpRequest",
+                        'X-CSRF-TOKEN': this.csrfToken
+                    }
+                });
+                if (response.status == 422) throw Error(0);
+                const json = await response.json()
+                if (this.selectedMessage.replies) {
+                    this.selectedMessage.replies.reply_trail.push(json.reply)
+                } else {
+                    this.selectedMessage.replies = {
+                        'message_id': this.selectedMessage.id,
+                        'reply_trail': [json.reply]
+                    }
+                }
+            } catch (errCode) {
+                this.showErrorToast()
+                switch (errCode.message) {
+                    case '0':
+                        console.log(errCode);
+                        return;
+                    default:
+                        console.log(errCode);
+                        return;
+                }
+            }
             this.showToast('Reply sent')
             this.replyText = null;
             this.hasClickedReplyBtn = false;
