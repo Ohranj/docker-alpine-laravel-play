@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\User;
 use App\Models\Message;
+use App\Models\MessageReply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -60,7 +61,8 @@ class MessageController extends Controller
         ])
         ->with([
             'senderUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
-            'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar')
+            'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar'),
+            'replies' => fn($q) => $q->select('reply_trail', 'message_id')
         ])
         ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'recipient_has_read', 'created_at')
         ->orderBy('created_at', 'desc')
@@ -131,9 +133,9 @@ class MessageController extends Controller
       * @param \Illuminate\Http\Request $request
       * @return string
       */
-      public static function deleteMessageInbox(Request $request) {
+    public static function deleteMessageInbox(Request $request) {
         ['id' => $id] = $request->all();
-        
+    
         try {
             $message = Message::withoutEvents((function() use ($id) {
                 return Message::where([
@@ -152,14 +154,14 @@ class MessageController extends Controller
             }
         }
         return response()->json(['success' => true, 'message' => 'Message deleted']);
-      }
+    }
 
-      /**
-       * Delete a message from a users outbox
-       * @param \Illuminate\Http\Request $request
-       * @return string
-       */
-      public static function deleteMessageOutbox(Request $request) {
+    /**
+     * Delete a message from a users outbox
+     * @param \Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function deleteMessageOutbox(Request $request) {
         ['id' => $id] = $request->all();
 
         try {
@@ -180,7 +182,47 @@ class MessageController extends Controller
             }
         }
         return response()->json(['success' => true, 'message' => 'Message deleted']);
-      }
+    }
+
+    /**
+     * Store a reply to a message
+     * @param \Illuminate\Htpp\Request $request
+     * @return string
+     */
+    public static function storeMessageReply(Request $request) {
+        $request->validate([
+            'messageContent' => ['required'],
+            'messageParent' => ['required', function($attribute, $value, $fail) {
+                $messageParent = Message::where('id', $value['id'])->first();
+                if (!$messageParent) $fail("The {$attribute} is not valid");
+            }]
+        ]);
+
+        ['messageContent' => $message, 'messageParent' => $parent] = $request->all();
+
+        $appendMessage = MessageReply::where('message_id', $parent['id'])->first();
+
+        $jsonInsert = [
+            'message' => $message,
+            'sender_id' => Auth::id(),
+            'recipient_id' => $parent['sender_id'],
+            'created_at' => date('Y-m-d H:i:s')
+        ];
+
+        if ($appendMessage) {
+            $trail = $appendMessage->reply_trail; 
+            array_push($trail, $jsonInsert);
+            $appendMessage->reply_trail = $trail;
+        } else {
+            $appendMessage = new MessageReply();
+            $appendMessage->message_id = $parent['id'];
+            $appendMessage->reply_trail = [$jsonInsert];
+            $appendMessage->save();
+        }
+        $appendMessage->save();
+
+        return response()->json(['success' => true, 'message' => 'Reply sent', 'reply' => $jsonInsert]);
+    }
   
     /**
      * Return the inbox view
