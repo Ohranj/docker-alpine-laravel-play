@@ -52,7 +52,7 @@ class DatabaseSeeder extends Seeder
         $messageInsert = new Message();
             $messageInsert->sender_id = $user->id;
             $messageInsert->recipient_id = 11;
-            $messageInsert->subject = $messageInsert->setEncrypt('subject', 'This is in your outbox!');
+            $messageInsert->subject = $messageInsert->setEncrypt('subject', 'Just saying Hello and testing my subject length');
             $messageInsert->message = $messageInsert->setEncrypt('message', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed at leo non augue tempus pulvinar at vitae enim. Donec ullamcorper varius orci, ut accumsan libero pretium et. Donec ultrices mollis massa nec volutpat. Nunc in nulla in nunc facilisis egestas. Sed dignissim ipsum dolor, at maximus nisl tincidunt at. Sed quis fermentum nulla. Morbi hendrerit lectus quis massa viverra aliquam.');
         $messageInsert->save();
     }

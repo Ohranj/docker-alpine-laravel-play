@@ -2,13 +2,13 @@
 <!-- prettier-ignore -->
 @section('main-content')
 <!-- prettier-ignore -->
-<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}'})" class="mt-10 px-2">
+<div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}', 'setOutboxMessageReadURL': '{{route('set_outbox_message_read')}}'})" class="mt-10 px-2">
     <div class="text-center mb-10">
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
-            <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">Inbox</h2>
+            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">My Received</h2>
         </a>
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = false; selectedMessage = {}">
-            <h2 class="inline-block text-lg border-2 p-1 rounded w-[125px] hover:border-accent-blue hover:text-white" :class="!showInbox ? 'border-accent-blue' : ''">Outbox</h2>
+            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="!showInbox ? 'border-accent-blue' : ''">My Started</h2>
         </a>
     </div>
     <template x-if="showInbox">
@@ -49,7 +49,7 @@
                             </template>
                         </template>
                     </div>
-                    <div class="flex justify-end gap-x-2">
+                    <div class="flex justify-end gap-x-2 mt-4">
                         <button x-show="!hasClickedReplyBtn" @click="hasClickedDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedDeleteBtn" >Delete</button>
                         <button x-show="!hasClickedDeleteBtn" @click="hasClickedReplyBtn = true" class="app-btn app-btn-primary" :disabled="hasClickedReplyBtn">Reply</button>
                     </div>
@@ -83,7 +83,10 @@
                         </ul>
                         <div class="ml-auto">
                             <span class="ml-auto" x-text="message.human_created_at"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto" viewBox="0 0 20 20" fill="currentColor">
+                            <svg x-show="message.sender_has_read == 0" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto text-accent-blue" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            <svg x-show="message.sender_has_read == 1" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-auto" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </div>
@@ -95,14 +98,32 @@
                             <q x-text="message.message"></q>
                         </p>
                     </div>
-                    <div class="flex justify-end gap-x-2">
-                        <button @click="hasClickedOutboxDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedOutboxDeleteBtn">Delete</button>
+                    <div class="flex flex-col">
+                        <template x-if="message.replies">
+                            <template x-for="reply in message.replies.reply_trail">
+                                <div :class="message.sender_id == reply.sender_id ? 'self-start text-left' : 'self-end text-right'" class="rounded border w-full md:w-3/4 my-2 p-2">
+                                    <small class="block" x-text="reply.created_at"></small>
+                                    <q x-text="reply.message" class="block mt-4"></q>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                    <div class="flex justify-end gap-x-2 mt-4">
+                        <button x-show="!hasClickedOutboxReplyBtn" @click="hasClickedOutboxDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedOutboxDeleteBtn">Delete</button>
+                        <button x-show="!hasClickedOutboxDeleteBtn" @click="hasClickedOutboxReplyBtn = true" class="app-btn app-btn-primary" :disabled="hasClickedOutboxReplyBtn">Reply</button>
                     </div>
                     <div x-cloak x-show="hasClickedOutboxDeleteBtn">
-                        <p>Are you sure? You won't be able to recover it once it's deleted.</p>
+                        <p>Are you sure? This chain will be removed and you won't be able to retrieve it.</p>
                         <div class="flex gap-x-2 mt-2">
                             <button class="app-btn app-btn-secondary" @click="hasClickedOutboxDeleteBtn = false">Return</button>
                             <button class="app-btn app-btn-primary" @click="confirmOutboxDeletePressed">Yes, I'm sure</button>
+                        </div>
+                    </div>
+                    <div x-cloak x-show="hasClickedOutboxReplyBtn" class="mt-4">
+                        <textarea rows="5" class="w-full rounded text-slate-700" placeholder="Enter your reply..." x-model="replyText"></textarea>
+                        <div class="flex gap-x-2 mt-2">
+                            <button class="app-btn app-btn-secondary" @click="hasClickedOutboxReplyBtn = false" >Return</button>
+                            <button class="app-btn app-btn-primary" @click="confirmReplyPressed">Send</button>
                         </div>
                     </div>
                 </div>
@@ -117,7 +138,7 @@
 @section('scripts')
 <!-- prettier-ignore -->
 <script>
-    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL, setMessageReadURL, postMessageReplyURL }) => ({
+    const messages = ({ fetchReceivedURL, fetchSentURL, deleteMessageInboxURL, deleteMessageOutboxURL, setMessageReadURL, postMessageReplyURL, setOutboxMessageReadURL }) => ({
         receivedMessages: [],
         sentMessages: [],
         selectedMessage: {},
@@ -127,6 +148,7 @@
         replyText: null,
         showInbox: true,
         hasClickedOutboxDeleteBtn: false,
+        hasClickedOutboxReplyBtn: false,
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]')['content']
             try {
@@ -151,12 +173,14 @@
             if (this.selectedMessage.id != message.id) {
                 this.selectedMessage = message
                 if (this.showInbox) this.setMessageAsRead()
+                if (!this.showInbox) this.setOutboxAsRead()
             } else {
                 this.selectedMessage = {}
             }
             this.hasClickedDeleteBtn = false
             this.hasClickedReplyBtn = false;
             this.hasClickedOutboxDeleteBtn = false;
+            this.hasClickedOutboxReplyBtn = false;
         },
         async setMessageAsRead() {
             try {
@@ -177,6 +201,26 @@
             }
             const thisMessage = this.receivedMessages.find((x) => x.id == this.selectedMessage.id);
             thisMessage.recipient_has_read = 1;
+        },
+        async setOutboxAsRead() {
+            try {
+                const response = await fetch(setOutboxMessageReadURL, {
+                    method: 'post',
+                    body: JSON.stringify(this.selectedMessage),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "X-Requested-With": "XMLHttpRequest",
+                        'X-CSRF-TOKEN': this.csrfToken
+                    }
+                })
+                const json = await response.json();
+                if (!json.success) throw Error(0)
+            } catch (errCode) {
+                this.showErrorToast();
+                return;
+            }
+            const thisMessage = this.sentMessages.find((x) => x.id == this.selectedMessage.id);
+            thisMessage.sender_has_read = 1;
         },
         async confirmDeletePressed() {
             try {
@@ -205,7 +249,8 @@
                     method: 'post',
                     body: JSON.stringify({
                         messageContent: this.replyText,
-                        messageParent: this.selectedMessage
+                        messageParent: this.selectedMessage,
+                        setSenderUnread: this.showInbox
                     }),
                     headers: {
                         'Content-Type': 'application/json',
@@ -237,6 +282,7 @@
             this.showToast('Reply sent')
             this.replyText = null;
             this.hasClickedReplyBtn = false;
+            this.hasClickedOutboxReplyBtn = false;
         },
         async confirmOutboxDeletePressed() {
             try {

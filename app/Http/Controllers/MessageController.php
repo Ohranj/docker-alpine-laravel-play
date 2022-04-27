@@ -88,9 +88,10 @@ class MessageController extends Controller
         ])
         ->with([
             'recipientUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
-            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar')
+            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar'),
+            'replies' => fn($q) => $q->select('reply_trail', 'message_id')
         ])
-        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'created_at')
+        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'sender_has_read', 'created_at')
         ->orderBy('created_at', 'desc')
         ->get();
 
@@ -118,6 +119,33 @@ class MessageController extends Controller
             }));
             if (!$message) throw new Exception(0);
             $message->recipient_has_read = 1;
+            $message->save();
+        } catch (\Throwable $e) {
+            switch ($e->getMessage()) {
+                default:
+                    return response()->json(['success' => false, 'message' => 'Unable to verify request']);
+            }
+        }
+        return response()->json(['success' => true, 'message' => 'Message acknowledged as read']);
+    }
+
+    /**
+     * Set an outbox message to has read
+     * @param Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function setOutboxMessageRead(Request $request) {
+        ['id' => $id] = $request->all();
+
+        try {
+            $message = Message::withoutEvents((function() use ($id) {
+                return Message::where([
+                    ['id', $id],
+                    ['sender_id', Auth::id()]
+                ])->first();
+            }));
+            if (!$message) throw new Exception(0);
+            $message->sender_has_read = 1;
             $message->save();
         } catch (\Throwable $e) {
             switch ($e->getMessage()) {
@@ -191,6 +219,7 @@ class MessageController extends Controller
      */
     public static function storeMessageReply(Request $request) {
         $request->validate([
+            'setSenderUnread' => ['required'],
             'messageContent' => ['required'],
             'messageParent' => ['required', function($attribute, $value, $fail) {
                 $messageParent = Message::where('id', $value['id'])->first();
@@ -198,7 +227,7 @@ class MessageController extends Controller
             }]
         ]);
 
-        ['messageContent' => $message, 'messageParent' => $parent] = $request->all();
+        ['messageContent' => $message, 'messageParent' => $parent, 'setSenderUnread' => $setSenderUnreadBool] = $request->all();
 
         $appendMessage = MessageReply::where('message_id', $parent['id'])->first();
 
@@ -221,7 +250,29 @@ class MessageController extends Controller
         }
         $appendMessage->save();
 
+        self::resetMessageRead($parent, $setSenderUnreadBool);
+
         return response()->json(['success' => true, 'message' => 'Reply sent', 'reply' => $jsonInsert]);
+    }
+
+    /**
+     * Resetting of the message unread property for the inital chain message - Used when a reply is submitted. Validation done on current initial storeMessageReply function
+     * @param object opening message in chain
+     * @return void;
+     */
+    public static function resetMessageRead($openingMessage, $setSenderUnreadBool) {
+        if ($setSenderUnreadBool) {
+            Message::where([
+                ['id', $openingMessage['id']],
+                ['recipient_id', $openingMessage['recipient_id']]
+            ])->update(['sender_has_read' => 0]);
+            return;
+        }
+
+        Message::where([
+            ['id', $openingMessage['id']],
+            ['sender_id', Auth::id()]
+        ])->update(['recipient_has_read' => 0]); 
     }
   
     /**
