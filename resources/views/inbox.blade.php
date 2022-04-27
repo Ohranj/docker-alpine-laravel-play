@@ -49,7 +49,7 @@
                             </template>
                         </template>
                     </div>
-                    <div class="flex justify-end gap-x-2">
+                    <div class="flex justify-end gap-x-2 mt-4">
                         <button x-show="!hasClickedReplyBtn" @click="hasClickedDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedDeleteBtn" >Delete</button>
                         <button x-show="!hasClickedDeleteBtn" @click="hasClickedReplyBtn = true" class="app-btn app-btn-primary" :disabled="hasClickedReplyBtn">Reply</button>
                     </div>
@@ -95,14 +95,32 @@
                             <q x-text="message.message"></q>
                         </p>
                     </div>
-                    <div class="flex justify-end gap-x-2">
-                        <button @click="hasClickedOutboxDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedOutboxDeleteBtn">Delete</button>
+                    <div class="flex flex-col">
+                        <template x-if="message.replies">
+                            <template x-for="reply in message.replies.reply_trail">
+                                <div :class="message.sender_id == reply.sender_id ? 'self-start text-left' : 'self-end text-right'" class="rounded border w-full md:w-3/4 my-2 p-2">
+                                    <small class="block" x-text="reply.created_at"></small>
+                                    <q x-text="reply.message" class="block mt-4"></q>
+                                </div>
+                            </template>
+                        </template>
+                    </div>
+                    <div class="flex justify-end gap-x-2 mt-4">
+                        <button x-show="!hasClickedOutboxReplyBtn" @click="hasClickedOutboxDeleteBtn = true" class="app-btn app-btn-secondary" :disabled="hasClickedOutboxDeleteBtn">Delete</button>
+                        <button x-show="!hasClickedOutboxDeleteBtn" @click="hasClickedOutboxReplyBtn = true" class="app-btn app-btn-primary" :disabled="hasClickedOutboxReplyBtn">Reply</button>
                     </div>
                     <div x-cloak x-show="hasClickedOutboxDeleteBtn">
-                        <p>Are you sure? You won't be able to recover it once it's deleted.</p>
+                        <p>Are you sure? This chain will be removed and you won't be able to retrieve it.</p>
                         <div class="flex gap-x-2 mt-2">
                             <button class="app-btn app-btn-secondary" @click="hasClickedOutboxDeleteBtn = false">Return</button>
                             <button class="app-btn app-btn-primary" @click="confirmOutboxDeletePressed">Yes, I'm sure</button>
+                        </div>
+                    </div>
+                    <div x-cloak x-show="hasClickedOutboxReplyBtn" class="mt-4">
+                        <textarea rows="5" class="w-full rounded text-slate-700" placeholder="Enter your reply..." x-model="replyText"></textarea>
+                        <div class="flex gap-x-2 mt-2">
+                            <button class="app-btn app-btn-secondary" @click="hasClickedOutboxReplyBtn = false" >Return</button>
+                            <button class="app-btn app-btn-primary" @click="confirmReplyPressed">Send</button>
                         </div>
                     </div>
                 </div>
@@ -127,6 +145,7 @@
         replyText: null,
         showInbox: true,
         hasClickedOutboxDeleteBtn: false,
+        hasClickedOutboxReplyBtn: false,
         async init() {
             this.csrfToken = document.querySelector('meta[name="csrf-token"]')['content']
             try {
@@ -157,6 +176,7 @@
             this.hasClickedDeleteBtn = false
             this.hasClickedReplyBtn = false;
             this.hasClickedOutboxDeleteBtn = false;
+            this.hasClickedOutboxReplyBtn = false;
         },
         async setMessageAsRead() {
             try {
@@ -237,6 +257,7 @@
             this.showToast('Reply sent')
             this.replyText = null;
             this.hasClickedReplyBtn = false;
+            this.hasClickedOutboxReplyBtn = false;
         },
         async confirmOutboxDeletePressed() {
             try {

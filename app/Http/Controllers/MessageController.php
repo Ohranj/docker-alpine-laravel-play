@@ -88,7 +88,8 @@ class MessageController extends Controller
         ])
         ->with([
             'recipientUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
-            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar')
+            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar'),
+            'replies' => fn($q) => $q->select('reply_trail', 'message_id')
         ])
         ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'created_at')
         ->orderBy('created_at', 'desc')
@@ -223,6 +224,7 @@ class MessageController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Reply sent', 'reply' => $jsonInsert]);
     }
+
   
     /**
      * Return the inbox view
