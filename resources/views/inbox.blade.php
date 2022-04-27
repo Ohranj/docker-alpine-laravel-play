@@ -4,11 +4,12 @@
 <!-- prettier-ignore -->
 <div x-data="messages({'fetchReceivedURL': '{{route('messages_received')}}', 'fetchSentURL': '{{route('messages_sent')}}', 'deleteMessageInboxURL': '{{route('delete_message_inbox')}}', 'deleteMessageOutboxURL': '{{route('delete_message_outbox')}}', 'setMessageReadURL': '{{route('set_message_read')}}', 'postMessageReplyURL': '{{route('message_reply')}}', 'setOutboxMessageReadURL': '{{route('set_outbox_message_read')}}'})" class="mt-10 px-2">
     <div class="text-center mb-10">
+        <h2 class="mb-2 text-2xl">Message chains</h2>
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = true; selectedMessage = {}">
-            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">My Received</h2>
+            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="showInbox ? 'border-accent-blue' : ''">I Received</h2>
         </a>
         <a class="no-underline cursor-pointer" @click.prevent="showInbox = false; selectedMessage = {}">
-            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="!showInbox ? 'border-accent-blue' : ''">My Started</h2>
+            <h2 class="inline-block text-lg border-2 p-1 rounded w-[175px] hover:border-accent-blue hover:text-white" :class="!showInbox ? 'border-accent-blue' : ''">I Started</h2>
         </a>
     </div>
     <template x-if="showInbox">
@@ -17,7 +18,7 @@
                 <div @click="resetMessageClickedState(message)" :class="selectedMessage.id == message.id ? 'border-b border-dashed pb-4' : ''" class="flex items-center cursor-pointer">
                     <img :src="message.sender_user.profile.avatar.customPath ? message.sender_user.profile.avatar.customPath : message.sender_user.profile.avatar.defaultPath" class="w-[65px] h-[65px] rounded-full" />
                     <div class="flex flex-grow pl-4">
-                        <ul class="w-1/3">
+                        <ul class="w-2/3">
                             <li x-text="message.sender_user.firstname + ' ' + message.sender_user.lastname"></li>
                             <li x-text="message.subject"></li>
                         </ul>
@@ -77,7 +78,7 @@
                 <div class="flex items-center cursor-pointer" :class="selectedMessage.id == message.id ? 'border-b border-dashed pb-4' : ''" @click="resetMessageClickedState(message)">
                     <img :src="message.recipient_user.profile.avatar.customPath ? message.recipient_user.profile.avatar.customPath : message.recipient_user.profile.avatar.defaultPath" class="w-[65px] h-[65px] rounded-full" />
                     <div class="flex flex-grow pl-4">
-                        <ul class="w-1/3">
+                        <ul class="w-2/3">
                             <li x-text="message.recipient_user.firstname + ' ' + message.recipient_user.lastname"></li>
                             <li x-text="message.subject"></li>
                         </ul>
