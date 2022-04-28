@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Message;
 use App\Models\MessageReply;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -235,8 +236,11 @@ class MessageController extends Controller
             'message' => $message,
             'sender_id' => Auth::id(),
             'recipient_id' => $parent['sender_id'],
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
+            'human_created_at' => Carbon::parse(date('Y-m-d H:i:s'))->toFormattedDateString(),
+            'human_created_at_time' => Carbon::parse(date('Y-m-d H:i:s'))->format('H:i')
         ];
+
 
         if ($appendMessage) {
             $trail = $appendMessage->reply_trail; 

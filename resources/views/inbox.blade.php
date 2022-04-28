@@ -44,7 +44,8 @@
                         <template x-if="message.replies">
                             <template x-for="reply in message.replies.reply_trail">
                                 <div :class="message.sender_id == reply.sender_id ? 'self-start text-left' : 'self-end text-right'" class="rounded border w-full md:w-3/4 my-2 p-2">
-                                    <small class="block" x-text="reply.created_at"></small>
+                                    <small class="block" x-text="reply.human_created_at"></small>
+                                    <small class="block" x-text="reply.human_created_at_time"></small>
                                     <q x-text="reply.message" class="block mt-4"></q>
                                 </div>
                             </template>
@@ -103,7 +104,8 @@
                         <template x-if="message.replies">
                             <template x-for="reply in message.replies.reply_trail">
                                 <div :class="message.sender_id == reply.sender_id ? 'self-start text-left' : 'self-end text-right'" class="rounded border w-full md:w-3/4 my-2 p-2">
-                                    <small class="block" x-text="reply.created_at"></small>
+                                    <small class="block" x-text="reply.human_created_at"></small>
+                                    <small class="block" x-text="reply.human_created_at_time"></small>
                                     <q x-text="reply.message" class="block mt-4"></q>
                                 </div>
                             </template>
@@ -165,6 +167,7 @@
                 this.receivedMessages = receivedMessagesJSON.data;
                 if (!sentMessagesJSON.success) throw new Error(1);
                 this.sentMessages = sentMessagesJSON.data;
+                console.log(this.sentMessages)
             } catch (errCode) {
                 this.showErrorToast()
             }
