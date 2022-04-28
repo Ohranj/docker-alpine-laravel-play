@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\{
     ContactUsController,
+    DiaryEntryController,
     MemberController,
     UserController,
     MessageController
@@ -20,7 +21,7 @@ Route::get('/', fn () => view('auth/login'));
  */
 Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
     Route::get('/home', fn() => view('dashboard'))->name('dashboard');
-    Route::get('/diary', fn() => view('dashboard'))->name('diary');
+    Route::get('/diary', [DiaryEntryController::class, 'index'])->name('diary');
     Route::get('/nutrition', fn() => view('dashboard'))->name('nutrition');
     Route::get('/members', [MemberController::class, 'index'])->name('members');
     Route::get('/leaderboard', fn() => view('dashboard'))->name('leaderboard');
