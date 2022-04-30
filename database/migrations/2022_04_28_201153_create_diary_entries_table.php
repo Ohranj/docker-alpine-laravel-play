@@ -16,8 +16,7 @@ return new class extends Migration
         Schema::create('diary_entries', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('user_id');
-            $table->integer('year');
-            $table->integer('month');
+            $table->string('month_year');
             $table->integer('day');
             $table->json('entry');
             $table->timestamps();
