@@ -9,16 +9,18 @@ class DiaryItem extends Component
 
     public $day;
     public $month;
+    public $currentMonthDay;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($day, $month)
+    public function __construct($day, $month, $currentMonthDay)
     {
         $this->day = $day;
         $this->month = $month;
+        $this->currentMonthDay = $currentMonthDay;
     }
 
     /**
