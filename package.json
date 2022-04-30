@@ -23,6 +23,7 @@
         "tailwindcss": "^3.0.18"
     },
     "dependencies": {
+        "@alpinejs/collapse": "^3.10.2",
         "@splidejs/splide": "^4.0.1",
         "alpinejs": "^3.9.5",
         "cropperjs": "^1.5.12"
