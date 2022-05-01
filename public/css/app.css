@@ -780,6 +780,12 @@ sup {
 .right-1 {
   right: 0.25rem;
 }
+.top-3 {
+  top: 0.75rem;
+}
+.right-4 {
+  right: 1rem;
+}
 .-right-1 {
   right: -0.25rem;
 }
@@ -897,6 +903,9 @@ sup {
 .-mt-px {
   margin-top: -1px;
 }
+.mb-4 {
+  margin-bottom: 1rem;
+}
 .mt-6 {
   margin-top: 1.5rem;
 }
@@ -923,9 +932,6 @@ sup {
 }
 .mb-8 {
   margin-bottom: 2rem;
-}
-.mb-4 {
-  margin-bottom: 1rem;
 }
 .block {
   display: block;

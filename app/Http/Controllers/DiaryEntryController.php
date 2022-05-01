@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use DateTime;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,10 +17,10 @@ class DiaryEntryController extends Controller
         $currentMonthDay = $dateObj->format('d');
 
         if (count($request->query)) $dateObj = $request->query()['date'];
+
+        $dateTimeObj = Carbon::parse($dateObj);
         
-        if (Carbon::parse($dateObj)->format('Y-m') != Carbon::parse(now())->format('Y-m')) $currentMonthDay = NULL;
-    
-        $dateTimeObj = new DateTime($dateObj);
+        if ($dateTimeObj->format('Y-m') != Carbon::parse(now())->format('Y-m')) $currentMonthDay = NULL;
 
         return view('diary', [
             'days' => cal_days_in_month(CAL_GREGORIAN, $dateTimeObj->format('m'), $dateTimeObj->format('Y')),
