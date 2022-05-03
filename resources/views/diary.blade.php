@@ -4,7 +4,7 @@
 @section('main-content')
 
 <h2 class="mb-2 text-2xl mt-10 text-center">Diary</h2>
-<p class="mx-auto text-center w-full lg:w-3/4 xl:w-1/2 px-2">Your diary allows you to track your workouts. You can write what you like here, using it as a reference point to look back on. How you rate your date, what you acheived and where you've found room for improvement are some of the ideas available to touch on. Use the input below to view past entries or to look ahead and set notes for your future self.</p>
+<p class="mx-auto text-center w-full lg:w-3/4 xl:w-1/2 px-2">Your diary allows you to track your workouts. You can write what you like here, using it as a reference point to look on. How you rate your day, what you achieved and where you've found room for improvement are some of the ideas available to touch on. Use the input below to view past entries or to look ahead and set notes for your future self.</p>
 <div x-data="calendar" class="text-center my-8">
     <form x-ref="setDateForm" method="GET" action="{{route('diary')}}" >
         <input name="date" type="month" class="rounded" @change="$refs.setDateForm.submit()" x-ref="dateInput" value="{{$inputValue}}" />
@@ -30,13 +30,7 @@
         selectedDay: null,
         currentMonthAndYear: null,
         humanDateString: null,
-        stars: {
-            0: false,
-            1: false,
-            2: false,
-            3: false,
-            4: false
-        },
+        stars: 3,
         init() {
             this.currentMonthAndYear = this.$refs.dateInput.value;
             this.bodyEl = document.querySelector('body');
