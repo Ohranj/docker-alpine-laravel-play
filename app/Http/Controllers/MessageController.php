@@ -280,7 +280,7 @@ class MessageController extends Controller
     }
 
     /**
-     * Returns the number of unread messages for the user
+     * Returns the number of unread messages for the user for both recieved and sent started chains
      * @param void
      * @return integer Count of a users total unread messages
      */
