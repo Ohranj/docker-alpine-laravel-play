@@ -278,6 +278,26 @@ class MessageController extends Controller
             ['sender_id', Auth::id()]
         ])->update(['recipient_has_read' => 0]); 
     }
+
+    /**
+     * Returns the number of unread messages for the user
+     * @param void
+     * @return integer Count of a users total unread messages
+     */
+    public static function count_unread_messages() {
+        return Message::where([
+            ['recipient_id', Auth::id()],
+            ['recipient_has_read', 0],
+            ['recipient_remove_inbox', 0]
+        ])
+        ->orWhere(fn($q) => $q->where([
+                ['sender_id', Auth::id()],
+                ['sender_has_read', 0],
+                ['sender_remove_outbox', 0]
+            ])
+        )
+        ->count();
+    }
   
     /**
      * Return the inbox view

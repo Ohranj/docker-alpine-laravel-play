@@ -26,7 +26,7 @@
         </li>
         <li class="{{Request::path() == 'inbox' ? 'active-navItem' : 'inactive-navItem'}} relative">
             <a class="no-underline hover:text-accent-blue text-sm sm:text-lg" href="{{route('inbox')}}">Inbox</a>
-            <span class="absolute top-0 -right-1 inline-flex items-center justify-center px-1 py-1 text-xs font-bold leading-none transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full {{Request::path() == 'inbox' ? 'text-white' : ''}}">99</span>
+            <span class="{{$count_unread_messages >= 1 ? 'inline-flex' : 'hidden'}} absolute top-0 -right-1 items-center justify-center px-1 py-1 text-xs font-bold leading-none transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full {{Request::path() == 'inbox' ? 'text-white' : ''}}">{{$count_unread_messages}}</span>
         </li>
     </ul>
     <a href="{{route('settings')}}">
