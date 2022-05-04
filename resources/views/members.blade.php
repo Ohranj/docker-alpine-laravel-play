@@ -24,8 +24,8 @@
 <div class="px-4 py-10">
     <h2 class="text-center text-2xl">Latest users</h2>
     <p class="text-center my-2">Say <q>Hello</q> to our newest members! <br>Send them a message or follow their progress.</p>
-    <div x-data="carousel" class="splide mx-auto" role="group">
-        <div class="splide__arrows"></div>
+    <div x-data="carousel" class="splide mx-auto h-[475px]" role="group">
+        <div x-show="!$store.userCard.showMessageModal" class="splide__arrows"></div>
         <div class="splide__track">
             <div class="splide__list">
                 @foreach($newestUsers as $newUser)
@@ -35,13 +35,27 @@
                 @endforeach
             </div>
         </div>
+    </div> 
+</div>
+<div class="w-3/4 mx-auto">
+    <h2 class="text-center text-2xl">Search For Users</h2>
+    <div class="flex items-center gap-x-2">
+        <input type="text" class="rounded" placeholder="Search..." />
+        <select class="rounded text-black">
+            <option>Show 5 per page</option>
+            <option selected>Show 10 per page</option>
+            <option>Show 15 per page</option>
+            <option>Show 25 per page</option>
+        </select>
+        <button class="app-btn app-btn-primary ml-auto">Advanced Search</button>
     </div>
 </div>
+<x-message-modal />
+
 @endsection
 
 <!-- prettier-ignore -->
 @section('scripts')
-
 <script>
     const carousel = () => ({
         init() {
