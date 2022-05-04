@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 <style>
     button.splide__arrow {
-        top: 20%
+        top: 40%
     }
     .splide__arrow--prev.splide-prev {
         margin-left: -4em;
@@ -21,10 +21,10 @@
 @section('main-content')
 
 <!-- prettier-ignore -->
-<div class="px-4 py-10">
+<div x-data class="px-4 py-10">
     <h2 class="text-center text-2xl">Latest users</h2>
     <p class="text-center my-2">Say <q>Hello</q> to our newest members! <br>Send them a message or follow their progress.</p>
-    <div x-data="carousel" class="splide mx-auto h-[475px]" role="group">
+    <div x-data="carousel" class="splide mx-auto h-[550px]" role="group">
         <div x-show="!$store.userCard.showMessageModal" class="splide__arrows"></div>
         <div class="splide__track">
             <div class="splide__list">
@@ -37,7 +37,7 @@
         </div>
     </div> 
 </div>
-<div class="w-3/4 mx-auto">
+<div x-data="search" class="w-3/4 mx-auto">
     <h2 class="text-center text-2xl">Search For Users</h2>
     <div class="flex items-center gap-x-2">
         <input type="text" class="rounded" placeholder="Search..." />
@@ -51,7 +51,6 @@
     </div>
 </div>
 <x-message-modal />
-
 @endsection
 
 <!-- prettier-ignore -->
@@ -81,5 +80,12 @@
             }).mount();
         },
     });
+
+    const search = () => ({
+        init() {
+            console.log('ok')
+        }
+    })
+    
 </script>
 @endsection

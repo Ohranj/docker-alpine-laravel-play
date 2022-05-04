@@ -1,5 +1,5 @@
 @extends('layouts.app')
 <!-- prettier-ignore -->
 @section('main-content')
-<p>You're logged in</p>
+<h1>Hello and welcome</h1>
 @endsection
