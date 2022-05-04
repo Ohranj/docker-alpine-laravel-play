@@ -42,6 +42,7 @@ Route::middleware(['auth', 'EnsureEmailVerified'])->group(function () {
         Route::post('/message/confirm/read', [MessageController::class, 'setMessageRead'])->name('set_message_read');
         Route::post('/message/confirm/outbox/read', [MessageController::class, 'setOutboxMessageRead'])->name('set_outbox_message_read');
         Route::post('/message/reply', [MessageController::class, 'storeMessageReply'])->name('message_reply');
+        Route::get('/users/search', [MemberController::class, 'simpleSearchUsers'])->name('users_search');
         
         Route::middleware(['throttle:form-submit'])->group(function () {
             Route::post('/user/message', [MessageController::class, 'storeMessage'])->name('message_user');

@@ -63,6 +63,30 @@ class MemberController extends Controller
     }
 
     /**
+     * Search for users and paginate the response data
+     * @param Illuminate\Http\Request $request
+     * @return string json
+     * @var searchTerm search term taken from the query string 
+     * @var currentPage current page takwn from the query string regards to pagination
+     * @var paginateBy Returns the number of users per page
+     */
+    public static function simpleSearchUsers(Request $response) {
+        $searchTerm = $response->query('search');
+        $paginateBy = $response->query('paginateBy');
+
+        $matchingUsers = User::where('firstname', 'like', '%'.$searchTerm.'%')
+            ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+            ->paginate($paginateBy);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Matching users fetched',
+            'data' => $matchingUsers,
+        ]);
+    }
+    
+
+    /**
      * Return the members view
      * @return \Illuminate\View\View
      */
