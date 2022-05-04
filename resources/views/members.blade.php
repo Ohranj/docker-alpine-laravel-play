@@ -35,6 +35,24 @@
                 @endforeach
             </div>
         </div>
+    </div> 
+</div>
+<div x-data="search({'fetchUsersURL': '{{route('users_search')}}'})" class="w-3/4 mx-auto">
+    <h2 class="text-center text-2xl">Search For Users</h2>
+    <div class="flex items-center gap-x-2">
+        <input type="text" class="rounded" placeholder="Search..." @input.debounce.400ms="fetchUsers()" x-model="searchTerm" />
+        <select class="rounded text-black">
+            <option>Show 5 per page</option>
+            <option selected>Show 10 per page</option>
+            <option>Show 15 per page</option>
+            <option>Show 25 per page</option>
+        </select>
+        <button class="app-btn app-btn-primary ml-auto">Advanced Search</button>
+    </div>
+    <div>
+        <template x-for="page in totalPages">
+            <button @click="currentPage = page.label" x-text="page.label"></button>
+        </template>
     </div>
 </div>
 <x-message-modal />
@@ -42,7 +60,6 @@
 
 <!-- prettier-ignore -->
 @section('scripts')
-
 <script>
     const carousel = () => ({
         init() {
@@ -68,5 +85,37 @@
             }).mount();
         },
     });
+
+    const search = ({fetchUsersURL}) => ({
+        users: [],
+        currentPage: 1,
+        paginateBy: 2,
+        totalPages: 1,
+        searchTerm: null,
+        init() {
+            this.applyWatchers()
+        },
+        applyWatchers() {
+            this.$watch('currentPage', () => this.fetchUsers());
+        },
+        async fetchUsers() {
+            try {
+                const response = await fetch(`${fetchUsersURL}?` + new URLSearchParams({
+                    "search": this.searchTerm, 
+                    "page": this.currentPage, 
+                    "paginateBy": this.paginateBy
+                }));
+                const json = await response.json()
+                if (!json.success) throw Error(0);
+                const {data, links, ...rest} = json.data;
+                this.users = data;
+                this.totalPages = links.slice(1, links.length - 1);
+            } catch (errCode) {
+                console.log(errCode);
+                return;
+            }
+        }
+    })
+    
 </script>
 @endsection
