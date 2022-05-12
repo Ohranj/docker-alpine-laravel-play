@@ -1,6 +1,55 @@
-version: "3"
+version: "3.8"
+
 services:
-    web:
-        build: .
+    nginx:
+        build:
+            context: .
+            dockerfile: nginx.dockerfile
         ports:
-            - "8000:8000"
+            - 80:80
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - mysql
+            - php
+    mysql:
+        image: mysql:latest
+        ports:
+            - 3306:3306
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_USER: fitness
+            MYSQL_PASSWORD: fitness
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_ROOT_USER: ${DB_USERNAME}
+        volumes:
+            - ./mysql:/var/lib/mysql
+    php:
+        build:
+            context: .
+            dockerfile: php.dockerfile
+        volumes:
+            - .:/var/www/html
+    composer:
+        build:
+            context: .
+            dockerfile: composer.dockerfile
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+    npm:
+        image: node:current-alpine
+        volumes:
+            - .:/var/www/html
+        entrypoint: ["npm"]
+        working_dir: /var/www/html
+    artisan:
+        build:
+            context: .
+            dockerfile: php.dockerfile
+        volumes:
+            - .:/var/www/html
+        working_dir: /var/www/html
+        depends_on:
+            - mysql
+        entrypoint: ["php", "/var/www/html/artisan"]
