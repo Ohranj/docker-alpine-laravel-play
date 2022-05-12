@@ -44,8 +44,12 @@ php artisan dusk --group=login
 ## Docker - TBC
 
 ```
-docker build -t fitness-tracker .
-docker run -it -p 8000:8000 fitness-tracker
+docker compose run --rm composer install
+docker compose run --rm npm install - needed for browsersync
+docker compose run --rm artisan run:refreshDB
+docker compose run nginx OR docker compose up
+
+You can run npm or artisan commands via docker compose run --rm [artisan || npm] [make:model POST --migration || i package]
 ```
 
 ## Tech used
