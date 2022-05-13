@@ -44,6 +44,7 @@ php artisan dusk --group=login
 ## Docker - TBC
 
 ```
+Create a mysql folder in the root of the project
 docker compose run --rm composer install
 docker compose run --rm npm install - needed for browsersync
 docker compose run --rm artisan run:refreshDB
