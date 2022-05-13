@@ -41,16 +41,23 @@ Tests are split into the following groups
 php artisan dusk --group=login
 ```
 
-## Docker - TBC
+## Docker
 
 ```
-Create a mysql folder in the root of the project
+  --Create an empty mysql folder in the root of the project
+docker compose up --build
+  --Open a new terminal
 docker compose run --rm composer install
 docker compose run --rm npm install - needed for browsersync
 docker compose run --rm artisan run:refreshDB
-docker compose run nginx OR docker compose up
+ -- You can now point your browser to localhost
 
-You can run npm or artisan commands via docker compose run --rm [artisan || npm] [make:model POST --migration || i package]
+  -- To run Laravel mix
+docker compose run --rm --service-ports npm run watch
+  -- You can now point your browser to localhost:3000
+
+
+  --You can run npm or artisan commands via docker compose run --rm [artisan || npm] [make:model POST --migration || i package]
 ```
 
 ## Tech used
@@ -58,3 +65,4 @@ You can run npm or artisan commands via docker compose run --rm [artisan || npm]
 -   Laravel
 -   AlpineJS
 -   Tailwind
+-   Eloquent ORM

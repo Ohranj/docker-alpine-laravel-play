@@ -7,6 +7,7 @@ services:
             dockerfile: nginx.dockerfile
         ports:
             - 80:80
+        container_name: fitness-app
         volumes:
             - .:/var/www/html
         depends_on:
@@ -43,6 +44,9 @@ services:
             - .:/var/www/html
         entrypoint: ["npm"]
         working_dir: /var/www/html
+        ports:
+            - 3000:3000
+            - 3001:3001
     artisan:
         build:
             context: .

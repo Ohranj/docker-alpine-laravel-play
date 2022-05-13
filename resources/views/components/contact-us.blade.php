@@ -20,11 +20,11 @@
                 <form method="post" class="text-slate-700 pt-1" id="f_contactUsForm" x-show="!submitSuccess">
                    @csrf
                     <div class="flex gap-x-5">
-                        <div class="flex-1 sm:flex-none">
+                        <div class="flex-1">
                             <label for="name" class="block">Name <sup>*</sup></label>
                             <input name="name" class="w-full border-2 rounded border-slate-700" />
                         </div>
-                        <div class="flex-1 sm:flex-none">
+                        <div class="flex-1">
                             <label for="surname" class="block">Surname <sup>*</sup></label>
                             <input name="surname" class="w-full border-2 rounded border-slate-700" />
                         </div>
