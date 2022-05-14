@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'email', 'email_verified_at', 'updated_at',
     ];
 
     /**
@@ -55,7 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * Return a users profile image
      * @return string;
      */
-    public function getUserAvatar() {
+    public function getUserAvatar()
+    {
         if ($this->profile->avatar['customPath']) {
             return 'storage/' . $this->profile->avatar['customPath'];
         } else {
@@ -67,7 +68,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * Return an array of who the user is following
      * @return array
      */
-    public function getUserFollowing() {
+    public function getUserFollowing()
+    {
         return $this->followings()->get();
     }
 
@@ -76,23 +78,28 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * 
      */
-    public function profile() {
+    public function profile()
+    {
         return $this->hasOne(Profile::class, 'user_id');
     }
 
-    public function followings() {
+    public function followings()
+    {
         return $this->belongsToMany(User::class, 'following_user', 'user_id', 'following_id');
     }
 
-    public function followers() {
+    public function followers()
+    {
         return $this->belongsToMany(User::class, 'following_user', 'following_id', 'user_id');
     }
 
-    public function sent_messages() {
+    public function sent_messages()
+    {
         return $this->hasMany(Message::class, 'sender_id', 'id');
     }
 
-    public function received_messages() {
+    public function received_messages()
+    {
         return $this->hasMany(Message::class, 'recipient_id', 'id');
     }
 }
