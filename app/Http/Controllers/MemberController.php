@@ -16,10 +16,11 @@ class MemberController extends Controller
      * @param int static::$numNewUsers
      * @return array $newUsers
      */
-    public static function getNewestUsers() {
+    public static function getNewestUsers()
+    {
         return User::with([
-            'profile' => fn($q) => $q->select('user_id', 'avatar', 'level', 'tagline', 'tags')
-            ])
+            'profile' => fn ($q) => $q->select('user_id', 'avatar', 'level', 'tagline', 'tags')
+        ])
             ->latest('id')
             ->take(static::$numNewUsers)
             ->select('id', 'firstname', 'lastname')
@@ -31,7 +32,8 @@ class MemberController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function followUser(Request $request) {
+    public static function followUser(Request $request)
+    {
         $followUser = $request->all();
 
         $followID = $followUser['id'];
@@ -48,7 +50,8 @@ class MemberController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function unfollowUser(Request $request) {
+    public static function unfollowUser(Request $request)
+    {
         $unfollowUser = $request->all();
 
         $unfollowID = $unfollowUser['id'];
@@ -70,12 +73,14 @@ class MemberController extends Controller
      * @var currentPage current page takwn from the query string regards to pagination
      * @var paginateBy Returns the number of users per page
      */
-    public static function simpleSearchUsers(Request $response) {
+    public static function simpleSearchUsers(Request $response)
+    {
         $searchTerm = $response->query('search');
         $paginateBy = $response->query('paginateBy');
 
-        $matchingUsers = User::where('firstname', 'like', '%'.$searchTerm.'%')
-            ->orWhere('lastname', 'like', '%'.$searchTerm.'%')
+        $matchingUsers = User::with('profile')
+            ->where('firstname', 'like', '%' . $searchTerm . '%')
+            ->orWhere('lastname', 'like', '%' . $searchTerm . '%')
             ->paginate($paginateBy);
 
         return response()->json([
@@ -84,13 +89,14 @@ class MemberController extends Controller
             'data' => $matchingUsers,
         ]);
     }
-    
+
 
     /**
      * Return the members view
      * @return \Illuminate\View\View
      */
-    public function index() {
+    public function index()
+    {
         $newestUSers = $this->getNewestUsers();
         return view('members', [
             'newestUsers' => $newestUSers

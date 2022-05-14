@@ -37,22 +37,35 @@
         </div>
     </div> 
 </div>
-<div x-data="search({'fetchUsersURL': '{{route('users_search')}}'})" class="w-3/4 mx-auto">
+<div x-data="search({'fetchUsersURL': '{{route('users_search')}}'})" class="w-3/4 mx-auto mb-4">
     <h2 class="text-center text-2xl">Search For Users</h2>
     <div class="flex items-center gap-x-2">
         <input type="text" class="rounded" placeholder="Search..." @input.debounce.400ms="fetchUsers()" x-model="searchTerm" />
-        <select class="rounded text-black">
-            <option>Show 5 per page</option>
-            <option selected>Show 10 per page</option>
-            <option>Show 15 per page</option>
-            <option>Show 25 per page</option>
+        <select class="rounded text-black" x-model="paginateBy">
+            <option value="5">Show 5 per page</option>
+            <option value="10" selected>Show 10 per page</option>
+            <option value="15">Show 15 per page</option>
+            <option value="25">Show 25 per page</option>
         </select>
         <button class="app-btn app-btn-primary ml-auto">Advanced Search</button>
     </div>
-    <div>
-        <template x-for="page in totalPages">
-            <button @click="currentPage = page.label" x-text="page.label"></button>
+    <div class="text-center mt-12 w-1/2 mx-auto border border-dashed p-2 rounded" x-show="!searchTerm">
+        <h3 class="text-xl">Member Search</h3>
+        <p>Use this area to search for members. You can perform a simple search by name and location in the input above. Alternatively, use the "Advanced Search" to perform a more precise search.</p>
+    </div>
+    <div x-show="searchTerm.length">
+        <template x-for="user in users">
+            <p x-text="user.firstname + user.lastname"></p>
         </template>
+        <div class="text-center mt-12 w-1/2 mx-auto border border-dashed p-2 rounded" x-show="!users.length && usersLoaded">
+            <h3 class="text-xl">No members found</h3>
+            No members found. Please amend your search or try again later.
+        </div>
+        <div class="text-right" x-show="users.length">
+            <template x-for="page in totalPages">
+                <button class="border bg-accent-blue w-[30px] h-[30px] rounded ml-1" @click="currentPage = page.label" x-text="page.label"></button>
+            </template>
+        </div>
     </div>
 </div>
 <x-message-modal />
@@ -89,16 +102,18 @@
     const search = ({fetchUsersURL}) => ({
         users: [],
         currentPage: 1,
-        paginateBy: 2,
+        paginateBy: 10,
         totalPages: 1,
+        usersLoaded: false,
         searchTerm: null,
         init() {
             this.applyWatchers()
         },
         applyWatchers() {
-            this.$watch('currentPage', () => this.fetchUsers());
+            this.$watch('currentPage, paginateBy', () => this.fetchUsers());
         },
         async fetchUsers() {
+            this.usersLoaded = false;
             try {
                 const response = await fetch(`${fetchUsersURL}?` + new URLSearchParams({
                     "search": this.searchTerm, 
@@ -110,6 +125,8 @@
                 const {data, links, ...rest} = json.data;
                 this.users = data;
                 this.totalPages = links.slice(1, links.length - 1);
+                this.usersLoaded = true;
+                console.log(this.users);
             } catch (errCode) {
                 console.log(errCode);
                 return;

@@ -15,6 +15,15 @@ class Profile extends Model
     ];
 
     /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at', 'updated_at', 'user_id',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
@@ -28,7 +37,8 @@ class Profile extends Model
      * 
      * 
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'id');
     }
 }
