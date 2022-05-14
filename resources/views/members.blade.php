@@ -54,9 +54,18 @@
         <p>Use this area to search for members. You can perform a simple search by name and location in the input above. Alternatively, use the "Advanced Search" to perform a more precise search.</p>
     </div>
     <div x-show="searchTerm.length">
-        <template x-for="user in users">
-            <p x-text="user.firstname + user.lastname"></p>
-        </template>
+        <div class="flex flex-wrap gap-2 justify-center py-4">
+            <template x-for="user in users">
+                <div class="border rounded w-5/12 cursor-pointer">
+                    <ul>
+                        <li x-text="user.firstname"></li>
+                        <li x-text="user.lastname"></li>
+                        <li><a class="no-underline" href="#">View their wall</a></li>
+                    </ul>
+                </div>
+            </template>
+        </div>
+     
         <div class="text-center mt-12 w-1/2 mx-auto border border-dashed p-2 rounded" x-show="!users.length && usersLoaded">
             <h3 class="text-xl">No members found</h3>
             No members found. Please amend your search or try again later.

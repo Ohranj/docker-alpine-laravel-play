@@ -107,7 +107,7 @@
                 >
                     <div class="rounded min-h-[150px]">
                         <p>
-                            <q x-text="message.message"></q>
+                            <q class="whitespace-pre-wrap" x-text="message.message"></q>
                         </p>
                     </div>
                     <div class="flex flex-col">
@@ -129,7 +129,7 @@
                                     ></small>
                                     <q
                                         x-text="reply.message"
-                                        class="block mt-4"
+                                        class="block mt-4 whitespace-pre-wrap"
                                     ></q>
                                 </div>
                             </template>
@@ -264,7 +264,7 @@
                 >
                     <div class="rounded min-h-[150px]">
                         <p>
-                            <q x-text="message.message"></q>
+                            <q class="whitespace-pre-wrap" x-text="message.message"></q>
                         </p>
                     </div>
                     <div class="flex flex-col">
@@ -286,7 +286,7 @@
                                     ></small>
                                     <q
                                         x-text="reply.message"
-                                        class="block mt-4"
+                                        class="block mt-4 whitespace-pre-wrap"
                                     ></q>
                                 </div>
                             </template>
