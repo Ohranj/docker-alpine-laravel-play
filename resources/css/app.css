@@ -6,7 +6,6 @@
 @import '@splidejs/splide/dist/css/splide.min.css';
 
 
-
 @layer components {
     body {
         @apply text-slate-100 font-Poppins;
