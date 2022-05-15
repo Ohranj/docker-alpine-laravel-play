@@ -20,6 +20,6 @@ class EnsureCorrectAgenda
         $user = Auth::user();
         $userHasAllowedAgenda = in_array($user->agenda, explode('|', $agendaParams));
         if ($userHasAllowedAgenda) return $next($request);
-        return back();
+        return redirect()->back();
     }
 }
