@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\{
+    AdminController
+};
+
 Route::prefix('admin')->group(function () {
-    Route::get('/', function () {
-        return 'Here';
-    })->name('admin');
+    Route::get('/', [AdminController::class, 'index'])->name('admin');
 });
