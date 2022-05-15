@@ -18,7 +18,8 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function storeMessage(Request $request) {
+    public static function storeMessage(Request $request)
+    {
         $request->validateWithBag('storeMessage', [
             'message' => ['bail', 'required'],
             'subject' => ['bail', 'required', 'max:100'],
@@ -31,7 +32,7 @@ class MessageController extends Controller
             $recipientExists = User::where('id', $recipient)->first();
             if (!$recipientExists) throw new Exception('0');
         } catch (\Throwable $e) {
-            switch($e->getMessage()) {
+            switch ($e->getMessage()) {
                 case '0':
                     return response()->json(['success' => false, 'message' => 'Unable to verify request. invalid recipient']);
                 default:
@@ -40,10 +41,10 @@ class MessageController extends Controller
         }
 
         $newMessage = new Message();
-            $newMessage->sender_id = Auth::id();
-            $newMessage->recipient_id = $recipient;
-            $newMessage->subject = $newMessage->setEncrypt('subject', $subject);
-            $newMessage->message = $newMessage->setEncrypt('message', $message);
+        $newMessage->sender_id = Auth::id();
+        $newMessage->recipient_id = $recipient;
+        $newMessage->subject = $newMessage->setEncrypt('subject', $subject);
+        $newMessage->message = $newMessage->setEncrypt('message', $message);
         $newMessage->save();
 
         return response()->json(['success' => true, 'message' => 'Message sent']);
@@ -54,20 +55,21 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function receivedMessagesJSON(Request $request) {
+    public static function receivedMessagesJSON(Request $request)
+    {
 
         $received = Message::where([
             ['recipient_id', Auth::id()],
             ['recipient_remove_inbox', '0']
         ])
-        ->with([
-            'senderUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
-            'senderUser.profile' => fn($q) => $q->select('user_id', 'avatar'),
-            'replies' => fn($q) => $q->select('reply_trail', 'message_id')
-        ])
-        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'recipient_has_read', 'created_at')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->with([
+                'senderUser' => fn ($q) => $q->select('id', 'firstname', 'lastname'),
+                'senderUser.profile' => fn ($q) => $q->select('user_id', 'avatar'),
+                'replies' => fn ($q) => $q->select('reply_trail', 'message_id')
+            ])
+            ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'recipient_remove_inbox', 'recipient_has_read', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -81,20 +83,21 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function sentMessagesJSON(Request $request) {
+    public static function sentMessagesJSON(Request $request)
+    {
 
         $sentMessages = Message::where([
             ['sender_id', Auth::id()],
             ['sender_remove_outbox', '0']
         ])
-        ->with([
-            'recipientUser' => fn($q) => $q->select('id', 'firstname', 'lastname'),
-            'recipientUser.profile' => fn($q) => $q->select('user_id', 'avatar'),
-            'replies' => fn($q) => $q->select('reply_trail', 'message_id')
-        ])
-        ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'sender_has_read', 'created_at')
-        ->orderBy('created_at', 'desc')
-        ->get();
+            ->with([
+                'recipientUser' => fn ($q) => $q->select('id', 'firstname', 'lastname'),
+                'recipientUser.profile' => fn ($q) => $q->select('user_id', 'avatar'),
+                'replies' => fn ($q) => $q->select('reply_trail', 'message_id')
+            ])
+            ->select('id', 'message', 'subject', 'recipient_id', 'sender_id', 'sender_remove_outbox', 'sender_has_read', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return response()->json([
             'success' => true,
@@ -108,11 +111,12 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function setMessageRead(Request $request) {
+    public static function setMessageRead(Request $request)
+    {
         ['id' => $id] = $request->all();
 
         try {
-            $message = Message::withoutEvents((function() use ($id) {
+            $message = Message::withoutEvents((function () use ($id) {
                 return Message::where([
                     ['id', $id],
                     ['recipient_id', Auth::id()]
@@ -135,11 +139,12 @@ class MessageController extends Controller
      * @param Illuminate\Http\Request $request
      * @return string
      */
-    public static function setOutboxMessageRead(Request $request) {
+    public static function setOutboxMessageRead(Request $request)
+    {
         ['id' => $id] = $request->all();
 
         try {
-            $message = Message::withoutEvents((function() use ($id) {
+            $message = Message::withoutEvents((function () use ($id) {
                 return Message::where([
                     ['id', $id],
                     ['sender_id', Auth::id()]
@@ -157,16 +162,17 @@ class MessageController extends Controller
         return response()->json(['success' => true, 'message' => 'Message acknowledged as read']);
     }
 
-     /**
-      * Delete a message from a users inbox
-      * @param \Illuminate\Http\Request $request
-      * @return string
-      */
-    public static function deleteMessageInbox(Request $request) {
+    /**
+     * Delete a message from a users inbox
+     * @param \Illuminate\Http\Request $request
+     * @return string
+     */
+    public static function deleteMessageInbox(Request $request)
+    {
         ['id' => $id] = $request->all();
-    
+
         try {
-            $message = Message::withoutEvents((function() use ($id) {
+            $message = Message::withoutEvents((function () use ($id) {
                 return Message::where([
                     ['id', $id],
                     ['recipient_id', Auth::id()]
@@ -190,11 +196,12 @@ class MessageController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return string
      */
-    public static function deleteMessageOutbox(Request $request) {
+    public static function deleteMessageOutbox(Request $request)
+    {
         ['id' => $id] = $request->all();
 
         try {
-            $message = Message::withoutEvents((function() use ($id) {
+            $message = Message::withoutEvents((function () use ($id) {
                 return Message::where([
                     ['id', $id],
                     ['sender_id', Auth::id()]
@@ -218,11 +225,12 @@ class MessageController extends Controller
      * @param \Illuminate\Htpp\Request $request
      * @return string
      */
-    public static function storeMessageReply(Request $request) {
+    public static function storeMessageReply(Request $request)
+    {
         $request->validate([
             'setSenderUnread' => ['required'],
             'messageContent' => ['required'],
-            'messageParent' => ['required', function($attribute, $value, $fail) {
+            'messageParent' => ['required', function ($attribute, $value, $fail) {
                 $messageParent = Message::where('id', $value['id'])->first();
                 if (!$messageParent) $fail("The {$attribute} is not valid");
             }]
@@ -241,9 +249,8 @@ class MessageController extends Controller
             'human_created_at_time' => Carbon::parse(date('Y-m-d H:i:s'))->format('H:i')
         ];
 
-
         if ($appendMessage) {
-            $trail = $appendMessage->reply_trail; 
+            $trail = $appendMessage->reply_trail;
             array_push($trail, $jsonInsert);
             $appendMessage->reply_trail = $trail;
         } else {
@@ -264,7 +271,8 @@ class MessageController extends Controller
      * @param object opening message in chain
      * @return void;
      */
-    public static function resetMessageRead($openingMessage, $setSenderUnreadBool) {
+    public static function resetMessageRead($openingMessage, $setSenderUnreadBool)
+    {
         if ($setSenderUnreadBool) {
             Message::where([
                 ['id', $openingMessage['id']],
@@ -276,7 +284,7 @@ class MessageController extends Controller
         Message::where([
             ['id', $openingMessage['id']],
             ['sender_id', Auth::id()]
-        ])->update(['recipient_has_read' => 0]); 
+        ])->update(['recipient_has_read' => 0]);
     }
 
     /**
@@ -284,26 +292,29 @@ class MessageController extends Controller
      * @param void
      * @return integer Count of a users total unread messages
      */
-    public static function count_unread_messages() {
+    public static function count_unread_messages()
+    {
         return Message::where([
             ['recipient_id', Auth::id()],
             ['recipient_has_read', 0],
             ['recipient_remove_inbox', 0]
         ])
-        ->orWhere(fn($q) => $q->where([
-                ['sender_id', Auth::id()],
-                ['sender_has_read', 0],
-                ['sender_remove_outbox', 0]
-            ])
-        )
-        ->count();
+            ->orWhere(
+                fn ($q) => $q->where([
+                    ['sender_id', Auth::id()],
+                    ['sender_has_read', 0],
+                    ['sender_remove_outbox', 0]
+                ])
+            )
+            ->count();
     }
-  
+
     /**
      * Return the inbox view
      * @return \Illuminate\View\View
      */
-    public function index() {
+    public function index()
+    {
         return view('inbox');
     }
 }
