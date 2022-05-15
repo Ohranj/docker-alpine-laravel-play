@@ -1,5 +1,7 @@
 ## Getting started
 
+This is currently being developed, so expect additional changes to the README and codebase in the coming weeks.
+
 ### Key env Variables
 
 ```
