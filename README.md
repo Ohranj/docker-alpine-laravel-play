@@ -1,6 +1,6 @@
 ## Getting started
 
-This started out as a little project to play around with Docker and ALpineJS. I do continue to add to it however, so expect additional changes to the README and codebase going forward.
+This started out as a little project to play around with Docker and AlpineJS. I do continue to add to it however, so expect additional changes to the README and codebase going forward.
 
 ### Key env Variables
 
