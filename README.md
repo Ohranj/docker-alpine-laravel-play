@@ -1,6 +1,6 @@
 ## Getting started
 
-This is currently being developed, so expect additional changes to the README and codebase in the coming weeks.
+This started out as a little project to play around with Docker and ALpineJS. I do continue to add to it however, so expect additional changes to the README and codebase going forward.
 
 ### Key env Variables
 
