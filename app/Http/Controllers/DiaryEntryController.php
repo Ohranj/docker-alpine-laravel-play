@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DiaryEntryController extends Controller
 {
@@ -12,14 +13,15 @@ class DiaryEntryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
         $dateObj = now();
         $currentMonthDay = $dateObj->format('d');
 
         if (count($request->query)) $dateObj = $request->query()['date'];
 
         $dateTimeObj = Carbon::parse($dateObj);
-        
+
         if ($dateTimeObj->format('Y-m') != Carbon::parse(now())->format('Y-m')) $currentMonthDay = NULL;
 
         return view('diary', [
